@@ -1,6 +1,6 @@
 import type { Localized } from '../i18n/types';
 
-export type ProjectStatus = 'live' | 'inProgress' | 'concept';
+export type ProjectStatus = 'live' | 'inProgress' | 'concept' | 'offline';
 
 export interface Project {
   slug: string;
@@ -19,6 +19,7 @@ export const statusLabel: Record<ProjectStatus, Localized<string>> = {
   live: { de: 'Online', en: 'Live' },
   inProgress: { de: 'In Arbeit', en: 'In progress' },
   concept: { de: 'Konzept', en: 'Concept' },
+  offline: { de: 'Offline', en: 'Offline' },
 };
 
 export const projectsIntro: Localized<{
@@ -59,7 +60,7 @@ export const projects: Project[] = [
     },
     year: '2026',
     status: 'inProgress',
-    image: '/projects/denison-silva.jpg',
+    image: '/projects/denison-silva.webp',
     url: 'https://denisonsilva.com',
     summary: {
       de: 'Eine Portfolioseite für einen Tänzer, dessen Arbeit sich schlecht in Standbildern erzählen lässt. Der Hero setzt den Namen als Schablone vor ein laufendes Bewegtbild — die Schrift wird zum Fenster auf die Choreografie. Der Rest der Seite bleibt bewusst ruhig, damit die Videos die Aufmerksamkeit bekommen.',
@@ -93,7 +94,7 @@ export const projects: Project[] = [
     year: '2026',
     status: 'live',
     url: 'https://studiovonboros.com',
-    image: '/projects/studio-von-boros.jpg',
+    image: '/projects/studio-von-boros.webp',
     summary: {
       de: 'Das Premium-Pendant zu raumideenwerk: eine eigene Marke für maßgefertigte Innenausbauten und Möbel. Die Seite ist Referenzportfolio und Angebot in einem — Renderings und Fotos realisierter Projekte in großem Format, wenig Text, klare Preislage. Bewusst in Vue gebaut, um den Stack außerhalb von React sauber zu beherrschen.',
       en: 'The premium counterpart to raumideenwerk: a separate brand for bespoke interiors and furniture. The site is reference portfolio and pitch in one — renderings and photographs of finished projects at large scale, little text, a clear price bracket. Deliberately built in Vue to keep a second stack sharp.',
@@ -123,7 +124,7 @@ export const projects: Project[] = [
     },
     year: '2026',
     status: 'concept',
-    image: '/projects/cana-hallenbau.jpg',
+    image: '/projects/cana-hallenbau.webp',
     // url: 'https://cana-hallenbau.de',
     summary: {
       de: 'Ein gewachsener WordPress-Auftritt, verteilt auf mehrere Domains, mit doppelten Inhalten und ohne lokales SEO. Ich habe den Bestand geprüft, die Probleme benannt und zwei Umbauwege gegenübergestellt: React beziehungsweise Next.js mit Headless CMS oder eine konsolidierte WordPress-Lösung. Die Zusammenarbeit lief gemeinsam mit einer SEO-Agentur.',
@@ -146,19 +147,19 @@ export const projects: Project[] = [
     stack: ['SEO-Audit', 'WordPress', 'Next.js', 'Headless CMS'],
   },
   {
-    slug: 'raumideenwerk',
-    title: 'raumideenwerk',
+    slug: 'raumideenwerk_v2',
+    title: 'raumideenwerk_v2',
     client: {
       de: 'Eigenes Gewerbe — Innenarchitektur und Raumplanung, Berlin',
       en: 'Own business — interior design and space planning, Berlin',
     },
-    year: '2025',
-    status: 'live',
-    image: '/projects/raumideenwerk.jpg',
-    url: 'https://raumideenwerk.com',
+    year: '2026',
+    status: 'inProgress',
+    image: '/projects/raumideenwerk_v2.webp',
+    url: 'https://v2.raumideenwerk.com',
     summary: {
-      de: 'Mein eigenes Innenarchitekturbüro, seit 2025 selbstständig. Die Website richtet sich an private Auftraggeber mit kompakten Wohnungen und erklärt vor allem eines: was bei einer Raumplanung eigentlich passiert. Nebenbei mein Testfeld für alles, was ich bei Kundenprojekten nicht ausprobieren will.',
-      en: 'My own interior design practice, self-employed since 2025. The site speaks to private clients with compact flats and explains one thing above all: what actually happens during a space planning project. It doubles as my testing ground for anything I would not try out on a client project.',
+      de: 'Version 2 zum eigenen Innenarchitekturbüro. Die Website hat eine klarere Struktur und ist nun Teil einer ganzen CI-Kette: Logo, Website, Social Media, Visitenkarten und Briefpapier. Eine umfangreiche Neuauflage der bestehenden Website, mit komplett neuer Struktur, neuen Inhalten und einem modernen Design.',
+      en: 'Version 2 of my own interior design practice. The site has a clearer structure and is now part of a whole CI chain: logo, website, social media, business cards and letterhead. A comprehensive new edition of the existing website, with a completely new structure, new content and a modern design.',
     },
     contribution: {
       de: [
@@ -172,8 +173,70 @@ export const projects: Project[] = [
         'Supporting content for Instagram',
       ],
     },
+    stack: ['HTML', 'CSS', 'JavaScript', 'SEO', 'Backend', 'Hosting'],
+  },
+  {
+    slug: 'raumideenwerk',
+    title: 'raumideenwerk',
+    client: {
+      de: 'Eigenes Gewerbe — Innenarchitektur und Raumplanung, Berlin',
+      en: 'Own business — interior design and space planning, Berlin',
+    },
+    year: '2025',
+    status: 'live',
+    image: '/projects/raumideenwerk.webp',
+    url: 'https://raumideenwerk.com',
+    summary: {
+      de: 'Mein eigenes Innenarchitekturbüro, seit 2025 selbstständig. Eine Website mit einem modernen Design, einer Auflistung von Modellentwürfen und fertigen Projekten, Kontakt zum Unternehmen und ein Google Booking-Kalender. Die Website war auf Vercel gehostet und wurde nach einem Jahr durch die Website v2 ersetzt.',
+      en: 'My own interior design practice, self-employed since 2025. Website with a modern design, model studies and finished projects, contact to the business and a Google Booking calendar . The site was hosted on Vercel and replaced by the v2 website after a year.',
+    },
+    contribution: {
+      de: [
+        'Marke, Website und Inhalte in Eigenregie',
+        'Zielgruppenschärfung und Textarbeit',
+        'Begleitende Inhalte für Instagram',
+        "Gmail und Google Booking-Kalender für Kundenkontakt",
+        'Hosting auf Vercel, Domain bei checkdomain',
+      ],
+      en: [
+        'Brand, website and content built in-house',
+        'Sharpening the audience and rewriting the copy',
+        'Supporting content for Instagram',
+        'Gmail and Google Booking calendar for client contact',
+        'Hosting on Vercel, domain at checkdomain',
+      ],
+    },
     stack: ['HTML', 'CSS', 'JavaScript', 'SEO'],
   },
+  // {
+  //   slug: 'danielvonboros_v1',
+  //   title: 'danielvonboros_v1',
+  //   client: {
+  //     de: 'Coding Website für Frontend Development, Berlin',
+  //     en: 'Coding Website for Frontend Development, Berlin',
+  //   },
+  //   year: '2021-2024',
+  //   status: 'offline',
+  //   image: '/projects/danielvonboros_v1.jpg',
+  //   url: 'https://danielvonboros.com',
+  //   summary: {
+  //     de: 'Meine eigene Coding-Website für Frontend Development, Berlin. Website mit static HTML und CSS, Darstellung des Lebenslauf und eigene Projekte in JavaScript, TypeScript und React. Die Website wurde nach drei Jahren Nutzung als Online Portfolio ersetzt.',
+  //     en: 'My own coding website for frontend development, Berlin. Website with static HTML and CSS, presentation of the resume and own projects in JavaScript, TypeScript and React. The site was replaced by the v2 website after three years.',
+  //   },
+  //   contribution: {
+  //     de: [
+  //       'Marke, Website und Inhalte in Eigenregie',
+  //       'Modellprojekte in JavaScript, TypeScript und React',
+  //       'Hosting auf gh-pages, Domain bei netcup',
+  //     ],
+  //     en: [
+  //       'Brand, website and content built in-house',
+  //       'Model projects in JavaScript, TypeScript and React',
+  //       'Hosting on gh-pages, domain at netcup',
+  //     ],
+  //   },
+  //   stack: ['HTML', 'CSS', 'JavaScript', 'Bootstrap'],
+  // },
 ];
 
 export interface ArchiveProject {

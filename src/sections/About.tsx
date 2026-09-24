@@ -51,7 +51,7 @@ function AboutBody() {
           >
             <Box
               component="img"
-              src="/portrait.jpg"
+              src="/portrait.webp"
               alt={t.portraitAlt}
               loading="lazy"
               onError={(e: SyntheticEvent<HTMLImageElement>) => {
