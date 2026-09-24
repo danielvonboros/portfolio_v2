@@ -215,18 +215,26 @@ function ResumeBody({ collapsible, defaultExpanded }: Required<ResumeProps>) {
   const s = useSurface();
   const t = pick(resumeIntro);
 
-  const keys = useMemo(
+  const entries = useMemo(
     () =>
       stations.flatMap((station, si) =>
-        station.positions.map((_, pi) => `cv-${si}-${pi}`),
+        station.positions.map((position, pi) => ({
+          key: `cv-${si}-${pi}`,
+          expanded: position.expanded ?? false,
+        })),
       ),
     [],
   );
 
+  const keys = entries.map((entry) => entry.key);
+
   const [open, setOpen] = useState<Set<string>>(() => {
     if (defaultExpanded === "all") return new Set(keys);
+    if (defaultExpanded === "none") return new Set<string>();
     if (defaultExpanded === "first") return new Set(keys.slice(0, 1));
-    return new Set<string>();
+    return new Set(
+      entries.filter((entry) => entry.expanded).map((entry) => entry.key),
+    );
   });
 
   const toggle = (key: string) =>

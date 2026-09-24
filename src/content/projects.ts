@@ -91,7 +91,8 @@ export const projects: Project[] = [
       en: 'Own brand — interior design, Berlin',
     },
     year: '2026',
-    status: 'inProgress',
+    status: 'live',
+    url: 'https://studiovonboros.com',
     image: '/projects/studio-von-boros.jpg',
     summary: {
       de: 'Das Premium-Pendant zu raumideenwerk: eine eigene Marke für maßgefertigte Innenausbauten und Möbel. Die Seite ist Referenzportfolio und Angebot in einem — Renderings und Fotos realisierter Projekte in großem Format, wenig Text, klare Preislage. Bewusst in Vue gebaut, um den Stack außerhalb von React sauber zu beherrschen.',
@@ -123,7 +124,7 @@ export const projects: Project[] = [
     year: '2026',
     status: 'concept',
     image: '/projects/cana-hallenbau.jpg',
-    url: 'https://cana-hallenbau.de',
+    // url: 'https://cana-hallenbau.de',
     summary: {
       de: 'Ein gewachsener WordPress-Auftritt, verteilt auf mehrere Domains, mit doppelten Inhalten und ohne lokales SEO. Ich habe den Bestand geprüft, die Probleme benannt und zwei Umbauwege gegenübergestellt: React beziehungsweise Next.js mit Headless CMS oder eine konsolidierte WordPress-Lösung. Die Zusammenarbeit lief gemeinsam mit einer SEO-Agentur.',
       en: 'A WordPress presence that had grown across several domains, with duplicate content and no local SEO. I audited what was there, named the problems, and put two rebuild paths side by side: React or Next.js with a headless CMS, or a consolidated WordPress setup. The work ran alongside an SEO agency.',

@@ -7,6 +7,7 @@ export interface Position {
   employment?: Localized<string>;
   bullets: Localized<string[]>;
   note?: Localized<string>;
+  expanded?: boolean;
 }
 
 export interface Station {
@@ -55,6 +56,7 @@ export const stations: Station[] = [
           en: 'Architect, interior designer, designer',
         },
         period: { de: 'März 2025 — heute', en: 'March 2025 — present' },
+        expanded: true,
         span: '2025—',
         employment: { de: 'Selbstständig', en: 'Self-employed' },
         bullets: {
@@ -83,6 +85,7 @@ export const stations: Station[] = [
       {
         role: { de: 'Frontend Developer', en: 'Frontend developer' },
         period: { de: 'Nov. 2021 — Dez. 2024', en: 'Nov 2021 — Dec 2024' },
+        expanded: true,
         span: '2021—24',
         employment: { de: 'Vollzeit', en: 'Full-time' },
         bullets: {
