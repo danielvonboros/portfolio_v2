@@ -51,7 +51,7 @@ export function Masthead({
             gridTemplateColumns: {
               xs: "1fr auto",
 
-              md: "minmax(0, 1fr) minmax(0, 2fr) minmax(0, 7fr) auto",
+              md: "minmax(0, 2fr) minmax(0, 2fr) minmax(0, 7fr) auto",
             },
             columnGap: { md: 4, lg: 6 },
             rowGap: { xs: 4, md: 0 },

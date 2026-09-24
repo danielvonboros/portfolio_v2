@@ -13,7 +13,7 @@ import { SECTION_IDS } from "../content/site";
 import { useSurface } from "../theme/surface";
 import { motion } from "../theme/tokens";
 
-export type ResumeExpansion = "none" | "first" | "all";
+export type ResumeExpansion = "none" | "first" | "all" | "fromData";
 
 export interface ResumeProps {
   collapsible?: boolean;
@@ -360,7 +360,7 @@ function ResumeBody({ collapsible, defaultExpanded }: Required<ResumeProps>) {
 
 export function Resume({
   collapsible = true,
-  defaultExpanded = "none",
+  defaultExpanded = "fromData",
 }: ResumeProps = {}) {
   return (
     <Section id={SECTION_IDS.resume}>
