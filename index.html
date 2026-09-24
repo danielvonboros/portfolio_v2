@@ -39,8 +39,10 @@
           var dark =
             stored === "dark" ||
             (!stored && matchMedia("(prefers-color-scheme: dark)").matches);
-          document.documentElement.style.colorScheme = dark ? "dark" : "light";
-          document.body.style.backgroundColor = dark ? "#0D0D0D" : "#DCDBD7";
+          var root = document.documentElement;
+          root.dataset.mode = dark ? "dark" : "light";
+          root.style.colorScheme = dark ? "dark" : "light";
+          root.style.backgroundColor = dark ? "#0D0D0D" : "#DCDBD7";
         } catch (e) {}
       })();
     </script>

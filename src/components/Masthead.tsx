@@ -43,7 +43,16 @@ export function Masthead({
   const href = (id: string) => (anchorsActive ? `#${id}` : `/#${id}`);
 
   return (
-    <Box component="header" sx={{ position: "relative", zIndex: 10 }}>
+    <Box
+      component="header"
+      sx={{
+        position: "relative",
+        zIndex: 10,
+        backgroundColor: surface.bg,
+        color: surface.ink,
+        transition: `background-color ${motion.base}, color ${motion.base}`,
+      }}
+    >
       <Container sx={{ pt: { xs: 4, md: 6 }, pb: { xs: 4, md: 5 } }}>
         <Box
           sx={{
