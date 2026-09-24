@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daniel von Boros — Fullstack Developer, Berlin</title>
+    <meta
+      name="description"
+      content="Fullstack-Entwickler in Berlin. React, TypeScript und Node.js — mit zehn Jahren Architektur und Bauleitung im Rücken."
+    />
+    <meta name="theme-color" content="#DCDBD7" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://danielvonboros.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://danielvonboros.com/" />
+    <meta
+      property="og:title"
+      content="Daniel von Boros — Fullstack Developer, Berlin"
+    />
+    <meta
+      property="og:description"
+      content="Fullstack-Entwickler in Berlin. React, TypeScript und Node.js — mit zehn Jahren Architektur und Bauleitung im Rücken."
+    />
+    <meta property="og:image" content="https://danielvonboros.com/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("dvb.mode");
+          var dark =
+            stored === "dark" ||
+            (!stored && matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.style.colorScheme = dark ? "dark" : "light";
+          document.body.style.backgroundColor = dark ? "#0D0D0D" : "#DCDBD7";
+        } catch (e) {}
+      })();
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

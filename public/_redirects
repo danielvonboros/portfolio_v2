@@ -1,0 +1,2 @@
+# Netlify: SPA-Routing. Ohne diese Regel liefert /impressum bei Direktaufruf 404.
+/*  /index.html  200
