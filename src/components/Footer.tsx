@@ -1,14 +1,14 @@
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { Link as RouterLink } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
-import { useI18n } from '../i18n/useI18n';
-import { footer, identity } from '../content/site';
-import { SurfaceProvider } from '../theme/surface';
-import { motion } from '../theme/tokens';
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import { Link as RouterLink } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+import { useI18n } from "../i18n/useI18n";
+import { footer, identity } from "../content/site";
+import { SurfaceProvider } from "../theme/surface";
+import { motion } from "../theme/tokens";
 
 export function Footer() {
   const { pick } = useI18n();
@@ -18,11 +18,11 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   const linkSx = {
-    fontSize: '0.8125rem',
+    fontSize: "0.8125rem",
     fontWeight: 500,
     color: s.muted,
     transition: `color ${motion.fast}`,
-    '&:hover': { color: s.ink },
+    "&:hover": { color: s.ink },
   } as const;
 
   return (
@@ -38,9 +38,9 @@ export function Footer() {
       >
         <Container sx={{ py: 4 }}>
           <Stack
-            direction={{ xs: 'column', sm: 'row' }}
+            direction={{ xs: "column", sm: "row" }}
             justifyContent="space-between"
-            alignItems={{ xs: 'flex-start', sm: 'center' }}
+            alignItems={{ xs: "flex-start", sm: "center" }}
             spacing={2}
           >
             <Typography variant="caption">
@@ -50,8 +50,17 @@ export function Footer() {
               <Link component={RouterLink} to="/impressum" sx={linkSx}>
                 {t.imprint}
               </Link>
+              <Link component={RouterLink} to="/datenschutz" sx={linkSx}>
+                {t.privacy}
+              </Link>
               {identity.links.map((l) => (
-                <Link key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" sx={linkSx}>
+                <Link
+                  key={l.label}
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={linkSx}
+                >
                   {l.label}
                 </Link>
               ))}

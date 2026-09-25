@@ -83,15 +83,17 @@ export const contact: Localized<{
   },
 };
 
-export const footer: Localized<{ rights: string; imprint: string; toTop: string }> = {
+export const footer: Localized<{ rights: string; imprint: string; privacy: string; toTop: string }> = {
   de: {
     rights: 'Alle Rechte vorbehalten.',
     imprint: 'Impressum',
+    privacy: 'Datenschutz',
     toTop: 'Nach oben',
   },
   en: {
     rights: 'All rights reserved.',
     imprint: 'Legal notice',
+    privacy: 'Privacy',
     toTop: 'Back to top',
   },
 };
