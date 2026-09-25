@@ -6,7 +6,7 @@ import { useI18n } from "../i18n/useI18n";
 import { hero, identity, SECTION_IDS } from "../content/site";
 import { ArrowLink } from "../components/ArrowLink";
 import { useSurface } from "../theme/surface";
-import { layout } from "../theme/tokens";
+import { layout, motion } from "../theme/tokens";
 
 export function Hero() {
   const { pick } = useI18n();
@@ -14,7 +14,15 @@ export function Hero() {
   const t = pick(hero);
 
   return (
-    <Box component="section" id="top">
+    <Box
+      component="section"
+      id="top"
+      sx={{
+        backgroundcolor: s.bg,
+        color: s.ink,
+        transition: `background-color ${motion.base}, color ${motion.base}`,
+      }}
+    >
       <Container
         sx={{
           display: "flex",

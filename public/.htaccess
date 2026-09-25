@@ -1,0 +1,62 @@
+# ---------------------------------------------------------------------------
+# all-inkl / Apache — Auslieferung einer Vite-SPA
+# Diese Datei liegt in public/ und wird von Vite nach dist/ kopiert.
+# ---------------------------------------------------------------------------
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # HTTPS erzwingen. Muss vor dem SPA-Rewrite stehen.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Vorhandene Dateien und Verzeichnisse direkt ausliefern.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Alles andere an die SPA. Ohne diese Zeile liefert /impressum einen 404.
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# Der Zustandsbericht der Deploy-Action listet die komplette Dateistruktur.
+# Er muss auf dem Server liegen, aber niemand von außen muss ihn lesen können.
+<Files ".ftp-deploy-sync-state.json">
+  Require all denied
+</Files>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml font/woff2
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Vite hängt einen Hash an jeden Asset-Dateinamen. Ändert sich der Inhalt,
+  # ändert sich der Name — deshalb ist ein Jahr Cache hier sicher.
+  <FilesMatch "\.(js|css|woff2|woff|ttf|otf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  <FilesMatch "\.(jpg|jpeg|png|webp|avif|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  # index.html niemals cachen, sonst sehen Besucher nach einem Deploy
+  # weiterhin die alte Seite mit Verweisen auf gelöschte Assets.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+ErrorDocument 404 /index.html
