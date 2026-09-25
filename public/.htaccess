@@ -1,16 +1,13 @@
-# ---------------------------------------------------------------------------
-# all-inkl / Apache — Auslieferung einer Vite-SPA
-# Diese Datei liegt in public/ und wird von Vite nach dist/ kopiert.
-# ---------------------------------------------------------------------------
+
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
   # HTTPS erzwingen. Muss vor dem SPA-Rewrite stehen.
-  RewriteCond %{HTTPS} !=on
-  RewriteCond %{HTTP:X-Forwarded-Proto} !https
-  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  # RewriteCond %{HTTPS} !=on
+  # RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
   # Vorhandene Dateien und Verzeichnisse direkt ausliefern.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
