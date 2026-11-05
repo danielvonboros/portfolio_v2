@@ -113,7 +113,7 @@ An inline script in `index.html` paints the background before React mounts. It s
     |   |_  Resume
     |   |_  Contact
     |
-    |_  Landing (webdesign, fullstack)
+    |_  Landing (webdesign, frontend, fullstack)
     |_  Legal (imprint, privacy)
     |_  NotFound
     |_  Footer
@@ -213,6 +213,7 @@ Route paths live in `src/i18n/routes.ts`, one per page and language:
 | ----------- | ------------------------------ | -------------------------------- |
 | Home        | `/`                            | `/en/`                           |
 | Web design  | `/webdesign-berlin`            | `/en/web-design-berlin`          |
+| Frontend    | `/frontend-entwickler-berlin`  | `/en/frontend-developer-berlin`  |
 | Fullstack   | `/fullstack-entwickler-berlin` | `/en/fullstack-developer-berlin` |
 | Imprint     | `/impressum`                   | `/en/legal-notice`               |
 | Privacy     | `/datenschutz`                 | `/en/privacy`                    |

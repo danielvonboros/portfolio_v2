@@ -1,10 +1,10 @@
 import type { Lang } from '../i18n/types';
 import { SITE_URL, absoluteUrl, pathFor, type RouteKey } from '../i18n/routes';
-import { identity } from '../content/site';
+import { identity, occupations } from '../content/site';
 import { stack } from '../content/about';
 import { education } from '../content/cv';
 import { imprintData } from '../content/legal';
-import { landingPages } from '../content/landing';
+import { landingPages, type LandingKey } from '../content/landing';
 
 /**
  * Strukturierte Daten (schema.org, JSON-LD). Person und Unternehmen stehen auf
@@ -17,6 +17,12 @@ const BUSINESS_ID = `${SITE_URL}/#business`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 
 type Node = Record<string, unknown>;
+
+const LANDING_KEYS: LandingKey[] = ['webdesign', 'frontend', 'fullstack'];
+
+function isLanding(page: RouteKey): page is LandingKey {
+  return (LANDING_KEYS as RouteKey[]).includes(page);
+}
 
 const [postalCode, ...locality] = imprintData.city.split(' ');
 
@@ -35,7 +41,13 @@ function person(lang: Lang): Node {
     name: identity.name,
     url: `${SITE_URL}/`,
     image: absoluteUrl('/portrait.webp'),
-    jobTitle: lang === 'de' ? 'Fullstack-Entwickler und Webdesigner' : 'Fullstack developer and web designer',
+    jobTitle: occupations.map((occupation) => occupation.name[lang]),
+    hasOccupation: occupations.map((occupation) => ({
+      '@type': 'Occupation',
+      name: occupation.name[lang],
+      alternateName: occupation.alternateNames,
+      occupationLocation: { '@type': 'City', name: 'Berlin' },
+    })),
     email: `mailto:${identity.email}`,
     address: { '@type': 'PostalAddress', addressLocality: 'Berlin', addressCountry: 'DE' },
     sameAs: identity.links.map((link) => link.href),
@@ -64,6 +76,14 @@ function business(lang: Lang): Node {
     ],
     founder: { '@id': PERSON_ID },
     knowsLanguage: ['de', 'en'],
+    makesOffer: LANDING_KEYS.map((key) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: landingPages[key][lang].serviceType,
+        url: absoluteUrl(pathFor(key, lang)),
+      },
+    })),
   };
 }
 
@@ -95,7 +115,7 @@ function webPage(page: RouteKey, lang: Lang, title: string, description: string)
 export function schemaFor(page: RouteKey, lang: Lang, title: string, description: string): Node {
   const graph: Node[] = [person(lang), business(lang), website(), webPage(page, lang, title, description)];
 
-  if (page === 'webdesign' || page === 'fullstack') {
+  if (isLanding(page)) {
     const t = landingPages[page][lang];
     const url = absoluteUrl(pathFor(page, lang));
     graph.push(

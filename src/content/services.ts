@@ -26,8 +26,8 @@ export const servicesIntro: Localized<{ label: string; heading: string }> = {
 export const services: Service[] = [
   {
     id: 'frontend',
-    page: 'fullstack',
-    more: { de: 'Mehr zur Frontend-Entwicklung mit React', en: 'More on frontend work with React' },
+    page: 'frontend',
+    more: { de: 'Mehr zur Frontend-Entwicklung in Berlin', en: 'More on frontend development in Berlin' },
     title: { de: 'Frontend-Entwicklung', en: 'Frontend engineering' },
     navTitle: { de: 'Frontend-Entwicklung', en: 'Frontend Engineering' },
     body: {

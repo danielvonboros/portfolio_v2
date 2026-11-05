@@ -3,10 +3,13 @@ import type { RouteKey } from '../i18n/routes';
 
 /**
  * Leistungsseiten — je eine pro Suchabsicht. `webdesign` richtet sich an
- * Selbstständige, Privatleute und kleine Unternehmen, `fullstack` an Firmen,
- * Agenturen und Produktteams. Die Startseite bleibt Portfolio.
+ * Selbstständige, Privatleute und kleine Unternehmen, `frontend` und
+ * `fullstack` an Firmen, Agenturen und Produktteams. Die Startseite bleibt
+ * Portfolio. Synonyme der Berufsbezeichnung (Frontend Engineer, Full Stack
+ * Engineer, Webentwickler …) stehen im Fließtext und in den FAQ, nicht als
+ * Begriffsliste — Keyword-Listen wertet Google als Spam.
  */
-export type LandingKey = Extract<RouteKey, 'webdesign' | 'fullstack'>;
+export type LandingKey = Extract<RouteKey, 'webdesign' | 'frontend' | 'fullstack'>;
 
 export type LandingBlock =
   | { kind: 'text'; heading: string; paragraphs: string[] }
@@ -38,6 +41,7 @@ export interface LandingPage {
 /** Projekte aus `projects.ts`, die auf der jeweiligen Seite als Referenz erscheinen. */
 export const landingReferences: Record<LandingKey, string[]> = {
   webdesign: ['raumideenwerk_v2', 'studio-von-boros', 'denison-silva'],
+  frontend: ['denison-silva', 'studio-von-boros', 'raumideenwerk_v2'],
   fullstack: ['denison-silva', 'studio-von-boros', 'cana-hallenbau'],
 };
 
@@ -51,14 +55,14 @@ export const landingPages: Record<LandingKey, Localized<LandingPage>> = {
       },
       label: 'Webdesign Berlin',
       heading: 'Webdesign in Berlin für Selbstständige und kleine Unternehmen',
-      lead: 'Du brauchst eine neue Website, oder die alte passt nicht mehr zu dem, was du heute machst? Ich plane, gestalte und baue sie — mit einer Person als Ansprechpartner, ohne Agenturkette und ohne Baukasten. Am Ende steht eine schnelle Website, die bei Google gefunden wird und die du selbst verstehst.',
+      lead: 'Du brauchst eine neue Website, oder die alte passt nicht mehr zu dem, was du heute machst? Als Webdesigner und Webentwickler plane, gestalte und baue ich sie — mit einer Person als Ansprechpartner, ohne Agenturkette und ohne Baukasten. Am Ende steht eine schnelle Website, die bei Google gefunden wird und die du selbst verstehst.',
       blocks: [
         {
           kind: 'text',
           heading: 'Für wen ich Websites baue',
           paragraphs: [
             'Für alle, die mit ihrer Arbeit sichtbar werden wollen: Selbstständige und Freiberufler, Handwerksbetriebe, Praxen und Studios, Kreative, kleine Marken und Unternehmen in Berlin und Umgebung. Oft gibt es schon eine Website, die über Jahre gewachsen ist. Oder es gibt noch keine, und die Visitenkarte verweist ins Leere.',
-            'Technisches Vorwissen brauchst du nicht. Wir sprechen darüber, wen du erreichen willst und was diese Menschen auf deiner Seite finden sollen. Den Rest übersetze ich in Struktur, Gestaltung und Code.',
+            'Ob du es Website, Homepage oder Internetauftritt nennst: Technisches Vorwissen brauchst du nicht. Wir sprechen darüber, wen du erreichen willst und was diese Menschen auf deiner Seite finden sollen. Den Rest übersetze ich in Struktur, Gestaltung und Code.',
           ],
         },
         {
@@ -135,6 +139,11 @@ export const landingPages: Record<LandingKey, Localized<LandingPage>> = {
             'Ich baue Websites individuell mit modernen Web-Technologien statt mit einem Baukasten. Das Ergebnis lädt schneller, bietet weniger Angriffsfläche und braucht keine ständigen Plugin-Updates. Ob ein Redaktionssystem sinnvoll ist, besprechen wir im Erstgespräch.',
         },
         {
+          question: 'Webdesigner oder Webentwickler: Wen brauche ich?',
+          answer:
+            'Für eine gute Website meistens beides. Ein Webdesigner gestaltet, wie die Seite aussieht und wie sich Besucher durch sie bewegen. Ein Webentwickler setzt das technisch um, damit sie schnell lädt, auf allen Geräten funktioniert und bei Google gefunden wird. Bei mir bekommst du beides aus einer Hand, ohne Übergabe zwischen zwei Dienstleistern.',
+        },
+        {
           question: 'Wird meine Website bei Google gefunden?',
           answer:
             'Die technischen Grundlagen dafür baue ich von Anfang an ein: klare Seitenstruktur, eigene Seiten für deine wichtigsten Leistungen, aussagekräftige Seitentitel und Beschreibungen, strukturierte Daten und kurze Ladezeiten. Einen ersten Platz kann seriös niemand versprechen. Eine Seite, die Google versteht, ist aber die Voraussetzung dafür.',
@@ -170,14 +179,14 @@ export const landingPages: Record<LandingKey, Localized<LandingPage>> = {
       },
       label: 'Web design Berlin',
       heading: 'Web design in Berlin for freelancers and small businesses',
-      lead: 'Need a new website, or has your old one stopped matching what you do today? I plan, design and build it — with one person to talk to, no agency relay and no page builder. What you end up with is a fast site that people find on Google and that you actually understand.',
+      lead: 'Need a new website, or has your old one stopped matching what you do today? As a web designer and web developer, I plan, design and build it — with one person to talk to, no agency relay and no page builder. What you end up with is a fast site that people find on Google and that you actually understand.',
       blocks: [
         {
           kind: 'text',
           heading: 'Who I build websites for',
           paragraphs: [
             'For anyone who wants their work to be found: freelancers and sole traders, trades and craft businesses, practices and studios, creatives, small brands and companies in and around Berlin. Often there is already a site that has grown over the years. Or there is none yet, and the business card points nowhere.',
-            'If your business runs in English, that works: I write and build in English and German, and can put both on one site. You don’t need any technical background. We talk about who you want to reach and what they should find on your site. I translate the rest into structure, design and code.',
+            'If your business runs in English, that works: I write and build in English and German, and can put both on one site. Website, homepage, web presence: whatever you call it, you don’t need any technical background. We talk about who you want to reach and what they should find on your site. I translate the rest into structure, design and code.',
           ],
         },
         {
@@ -254,6 +263,11 @@ export const landingPages: Record<LandingKey, Localized<LandingPage>> = {
             'I build websites individually with modern web technology rather than a page builder. The result loads faster, has a smaller attack surface and doesn’t need constant plugin updates. Whether a content management system makes sense is something we discuss in the first conversation.',
         },
         {
+          question: 'Web designer or web developer: which do I need?',
+          answer:
+            'For a good website, usually both. A web designer shapes how the site looks and how visitors move through it. A web developer builds it so it loads fast, works on every device and gets found on Google. With me you get both from one person, with no handover between two providers.',
+        },
+        {
           question: 'Will my website be found on Google?',
           answer:
             'I build the technical groundwork in from the start: a clear structure, a dedicated page for each key service, meaningful titles and descriptions, structured data and fast load times. Nobody can honestly promise the top spot. A site Google understands is the precondition for it, though.',
@@ -283,6 +297,195 @@ export const landingPages: Record<LandingKey, Localized<LandingPage>> = {
     },
   },
 
+  frontend: {
+    de: {
+      meta: {
+        title: 'Freelance Frontend-Entwickler in Berlin | Daniel von Boros',
+        description:
+          'Freelance Frontend-Entwickler in Berlin: React, TypeScript, Designsysteme und Datenvisualisierung. Drei Jahre Produkterfahrung, remote oder vor Ort.',
+      },
+      label: 'Frontend-Entwicklung',
+      heading: 'Frontend-Entwickler in Berlin für React, TypeScript und Designsysteme',
+      lead: 'Ob die Stelle Frontend Developer, Frontend Engineer oder UI Engineer heißt: Ich baue Oberflächen für Produkte, die über Jahre weiterwachsen sollen. Drei Jahre habe ich an einer datenintensiven Analyseplattform gearbeitet, mit Netzwerkgraphen, komplexen Datenstrukturen und einem Designsystem, das mit dem Produkt wachsen musste. Diese Erfahrung bringe ich heute als Freelancer in Teams ein.',
+      blocks: [
+        {
+          kind: 'pairs',
+          heading: 'Woran ich arbeite',
+          items: [
+            {
+              title: 'React- und TypeScript-Anwendungen',
+              body: 'Komponentenarchitektur, Zustand, Routing und Datenanbindung, streng typisiert von der API-Antwort bis zum Button.',
+            },
+            {
+              title: 'Designsysteme und Komponentenbibliotheken',
+              body: 'Bausteine, die in vielen Screens funktionieren statt nur in einem, abgestimmt mit dem Design-Team in Figma.',
+            },
+            {
+              title: 'Datenvisualisierung und Dashboards',
+              body: 'Interaktive Graphen, Diagramme und Tabellen, die auch bei Zehntausenden Einträgen bedienbar bleiben.',
+            },
+            {
+              title: 'Barrierearme, responsive Oberflächen',
+              body: 'Tastaturbedienung, Fokusführung, Lade- und Fehlerzustände, auf jeder Bildschirmgröße.',
+            },
+            {
+              title: 'Modernisierung',
+              body: 'Gewachsene Frontends auf TypeScript und moderne Build-Werkzeuge umstellen, Schritt für Schritt und ohne Stillstand.',
+            },
+          ],
+        },
+        {
+          kind: 'stack',
+          heading: 'Technologien',
+          intro: 'Mein Schwerpunkt ist React mit TypeScript. Damit arbeite ich täglich:',
+        },
+        {
+          kind: 'text',
+          heading: 'Erfahrung',
+          paragraphs: [
+            'Bei Maltego Technologies war ich von 2021 bis 2024 Frontend Developer im Produktteam einer Analyseplattform für Ermittlungs- und Intelligence-Arbeit. Ich habe interaktive Oberflächen für komplexe Datenvisualisierung gebaut, UI-Komponenten für Datenstrukturen und Netzwerkgraphen konzipiert und das Designsystem mit weiterentwickelt. Agil, in enger Abstimmung mit Product Management, Design und Backend.',
+            'Seitdem arbeite ich freiberuflich und baue Oberflächen mit React, Next.js und Vue, von mehrsprachigen Portfolio-Seiten mit Video bis zu Webanwendungen für kleine Marken.',
+          ],
+        },
+        {
+          kind: 'text',
+          heading: 'Frontend mit Gestaltungsblick',
+          paragraphs: [
+            'Als Architekt habe ich gelernt, in Räumen und Wegen zu denken. Im Frontend heißt das: Mir ist nicht nur wichtig, dass eine Komponente funktioniert, sondern wie sich jemand durch die Oberfläche bewegt. Ich spreche mit Designerinnen und Designern auf Augenhöhe und gestalte kleinere Projekte auch selbst. Manche Teams nennen diese Rolle Design Engineer.',
+          ],
+        },
+      ],
+      referencesHeading: 'Aktuelle Projekte',
+      faqHeading: 'Häufige Fragen zur Frontend-Entwicklung',
+      faq: [
+        {
+          question: 'Frontend Developer, Frontend Engineer, UI Engineer: Was ist der Unterschied?',
+          answer:
+            'In der Praxis meist keiner. Die Titel beschreiben dieselbe Arbeit: Oberflächen im Browser bauen, mit HTML, CSS, TypeScript und einem Framework wie React. „Engineer“ betont oft Architektur und Codequalität, „UI“ die Nähe zum Design. Auf Deutsch heißt die Rolle Frontend-Entwickler. Ich decke alle drei Seiten ab.',
+        },
+        {
+          question: 'Brauchen wir einen Frontend- oder einen Fullstack-Entwickler?',
+          answer:
+            'Wenn Backend und API stehen und vor allem an der Oberfläche gearbeitet wird, reicht Frontend. Müssen Datenmodell, API oder Deployment mitwachsen, lohnt sich jemand, der den ganzen Weg übernimmt. Ich kann beides.',
+        },
+        {
+          question: 'Mit welchen Frameworks arbeitest du?',
+          answer:
+            'React mit TypeScript ist mein Schwerpunkt, dazu Next.js und Vite. Vue 3 setze ich in eigenen Projekten produktiv ein. Beim Styling arbeite ich mit MUI, Tailwind CSS und eigenen Design-Tokens.',
+        },
+        {
+          question: 'Kannst du in ein bestehendes Designsystem einsteigen?',
+          answer:
+            'Ja. Ich steige in bestehende Komponentenbibliotheken ein, ergänze fehlende Bausteine und räume Inkonsistenzen auf, ohne laufende Features zu blockieren. Bei Maltego habe ich genau das drei Jahre lang an einem wachsenden Produkt gemacht.',
+        },
+        {
+          question: 'Arbeitest du remote?',
+          answer:
+            'Ja, remote mit Teams in ganz Deutschland. In Berlin komme ich auch gern vor Ort dazu, etwa für Kick-offs, Workshops oder feste Teamtage.',
+        },
+      ],
+      cta: {
+        heading: 'Braucht euer Frontend Verstärkung?',
+        lead: 'Schreib mir, woran ihr arbeitet, mit welchem Stack und ab wann. Ich antworte innerhalb von zwei Werktagen.',
+        mailLabel: 'E-Mail schreiben',
+      },
+      serviceType: 'Frontend-Entwicklung',
+    },
+    en: {
+      meta: {
+        title: 'Frontend Developer & Engineer in Berlin | Daniel von Boros',
+        description:
+          'Freelance frontend developer in Berlin: React, TypeScript, design systems and data visualisation. Three years of product experience, remote or on site.',
+      },
+      label: 'Frontend development',
+      heading: 'Frontend developer in Berlin for React, TypeScript and design systems',
+      lead: 'Whether the role says frontend developer, frontend engineer or UI engineer: I build interfaces for products that need to keep growing. I spent three years on a data-heavy analysis platform, with network graphs, complex data structures and a design system that had to grow with the product. Today I bring that experience to teams as a freelancer.',
+      blocks: [
+        {
+          kind: 'pairs',
+          heading: 'What I work on',
+          items: [
+            {
+              title: 'React and TypeScript applications',
+              body: 'Component architecture, state, routing and data fetching, strictly typed from the API response to the button.',
+            },
+            {
+              title: 'Design systems and component libraries',
+              body: 'Building blocks that work across many screens rather than just one, aligned with the design team in Figma.',
+            },
+            {
+              title: 'Data visualisation and dashboards',
+              body: 'Interactive graphs, charts and tables that stay usable with tens of thousands of entries.',
+            },
+            {
+              title: 'Accessible, responsive interfaces',
+              body: 'Keyboard operation, focus management, loading and error states, on every screen size.',
+            },
+            {
+              title: 'Modernisation',
+              body: 'Moving frontends that have grown over time to TypeScript and modern build tooling, step by step and without downtime.',
+            },
+          ],
+        },
+        {
+          kind: 'stack',
+          heading: 'Technology',
+          intro: 'My focus is React with TypeScript. This is what I work with day to day:',
+        },
+        {
+          kind: 'text',
+          heading: 'Experience',
+          paragraphs: [
+            'From 2021 to 2024 I was a frontend developer on the product team of Maltego Technologies, working on an analysis platform for investigative and intelligence work. I built interactive interfaces for complex data visualisation, designed UI components for data structures and network graphs, and helped evolve the design system. Agile, in close collaboration with product management, design and backend.',
+            'Since then I have worked freelance, building interfaces with React, Next.js and Vue, from multilingual portfolio sites with video to web applications for small brands.',
+          ],
+        },
+        {
+          kind: 'text',
+          heading: 'Frontend with a designer’s eye',
+          paragraphs: [
+            'As an architect I learned to think in spaces and routes. In the frontend that means I care not only that a component works, but how someone moves through the interface. I talk to designers as a peer and design smaller projects myself. Some teams call this role a design engineer.',
+          ],
+        },
+      ],
+      referencesHeading: 'Current work',
+      faqHeading: 'Frontend questions',
+      faq: [
+        {
+          question: 'Frontend developer, frontend engineer, UI engineer: what’s the difference?',
+          answer:
+            'In practice, usually none. The titles describe the same work: building interfaces in the browser with HTML, CSS, TypeScript and a framework such as React. “Engineer” often stresses architecture and code quality, “UI” the closeness to design. I cover all three sides.',
+        },
+        {
+          question: 'Do we need a frontend or a fullstack developer?',
+          answer:
+            'If the backend and API are in place and most of the work is in the interface, frontend is enough. If the data model, API or deployment need to grow too, someone who covers the whole path pays off. I do both.',
+        },
+        {
+          question: 'Which frameworks do you work with?',
+          answer:
+            'React with TypeScript is my focus, along with Next.js and Vite. I use Vue 3 in production on my own projects. For styling I work with MUI, Tailwind CSS and custom design tokens.',
+        },
+        {
+          question: 'Can you join an existing design system?',
+          answer:
+            'Yes. I join existing component libraries, add missing building blocks and clean up inconsistencies without blocking ongoing features. At Maltego I did exactly that for three years on a growing product.',
+        },
+        {
+          question: 'Do you work remotely?',
+          answer:
+            'Yes, remotely with teams across Germany and Europe. In Berlin I’m happy to join on site too, for kick-offs, workshops or regular team days.',
+        },
+      ],
+      cta: {
+        heading: 'Does your frontend need a hand?',
+        lead: 'Tell me what you are working on, with which stack and from when. I reply within two working days.',
+        mailLabel: 'Send an email',
+      },
+      serviceType: 'Frontend development',
+    },
+  },
+
   fullstack: {
     de: {
       meta: {
@@ -292,7 +495,7 @@ export const landingPages: Record<LandingKey, Localized<LandingPage>> = {
       },
       label: 'Fullstack-Entwicklung',
       heading: 'Freelance Fullstack-Entwickler in Berlin für React, TypeScript und Node.js',
-      lead: 'Ich verstärke Produktteams und baue Webanwendungen vom Datenmodell bis zur Oberfläche. Drei Jahre Produktentwicklung an einer datenintensiven Analyseplattform, davor Architektur und Bauleitung: Ich bringe Code mit, der wartbar bleibt, und die Gewohnheit, Schnittstellen zwischen Menschen genauso ernst zu nehmen wie die zwischen Systemen.',
+      lead: 'Ob ihr einen Fullstack Developer, Full Stack Engineer oder Webentwickler sucht: Ich verstärke Produktteams und baue Webanwendungen vom Datenmodell bis zur Oberfläche. Drei Jahre Produktentwicklung an einer datenintensiven Analyseplattform, davor Architektur und Bauleitung: Ich bringe Code mit, der wartbar bleibt, und die Gewohnheit, Schnittstellen zwischen Menschen genauso ernst zu nehmen wie die zwischen Systemen.',
       blocks: [
         {
           kind: 'pairs',
@@ -356,6 +559,11 @@ export const landingPages: Record<LandingKey, Localized<LandingPage>> = {
       faqHeading: 'Häufige Fragen zur Zusammenarbeit',
       faq: [
         {
+          question: 'Fullstack Developer, Full Stack Engineer, Web Engineer: Was davon bist du?',
+          answer:
+            'Alles davon. Die Titel meinen in der Regel dieselbe Rolle: jemand, der eine Webanwendung vom Datenmodell über die API bis zur Oberfläche baut. In Ausschreibungen heißt sie auch Full-Stack-Entwickler, Webentwickler oder Software Engineer mit Web-Schwerpunkt. „Engineer“ betont meist Architektur und Codequalität. Mein Schwerpunkt liegt auf React und TypeScript im Frontend, mit Node.js im Backend.',
+        },
+        {
           question: 'Arbeitest du remote oder vor Ort?',
           answer:
             'Beides. Ich arbeite remote mit Teams in ganz Deutschland und komme in Berlin gern ins Büro, etwa für Kick-offs, Workshops oder feste Teamtage.',
@@ -395,13 +603,13 @@ export const landingPages: Record<LandingKey, Localized<LandingPage>> = {
     },
     en: {
       meta: {
-        title: 'Freelance Fullstack Developer in Berlin | Daniel von Boros',
+        title: 'Fullstack Developer & Engineer in Berlin | Daniel von Boros',
         description:
           'Freelance fullstack developer in Berlin: React, TypeScript and Node.js. Team augmentation, web applications and frontend modernisation, remote or on site.',
       },
       label: 'Fullstack development',
       heading: 'Freelance fullstack developer in Berlin for React, TypeScript and Node.js',
-      lead: 'I join product teams and build web applications from the data model to the interface. Three years of product work on a data-heavy analysis platform, and architecture and construction management before that: I bring code that stays maintainable, and the habit of taking the interfaces between people as seriously as the ones between systems.',
+      lead: 'Whether you’re hiring a fullstack developer, a full stack engineer or a web developer: I join product teams and build web applications from the data model to the interface. Three years of product work on a data-heavy analysis platform, and architecture and construction management before that: I bring code that stays maintainable, and the habit of taking the interfaces between people as seriously as the ones between systems.',
       blocks: [
         {
           kind: 'pairs',
@@ -464,6 +672,11 @@ export const landingPages: Record<LandingKey, Localized<LandingPage>> = {
       referencesHeading: 'Current work',
       faqHeading: 'Working together',
       faq: [
+        {
+          question: 'Fullstack developer, full stack engineer, web engineer: which are you?',
+          answer:
+            'All of them. The titles usually describe the same role: someone who builds a web application from the data model and API to the interface. Job ads also call it full-stack web developer or software engineer with a web focus. “Engineer” tends to stress architecture and code quality. My focus is React and TypeScript on the frontend, with Node.js on the backend.',
+        },
         {
           question: 'Do you work remotely or on site?',
           answer:

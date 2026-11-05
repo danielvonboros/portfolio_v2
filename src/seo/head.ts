@@ -24,6 +24,7 @@ export function pageMeta(page: PageKey, lang: Lang): { title: string; descriptio
     case 'home':
       return meta[lang];
     case 'webdesign':
+    case 'frontend':
     case 'fullstack':
       return landingPages[page][lang].meta;
     case 'imprint':

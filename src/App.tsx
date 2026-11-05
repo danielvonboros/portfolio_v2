@@ -17,6 +17,7 @@ import { skipLink } from "./content/site";
 const PAGES: Record<RouteKey, ReactNode> = {
   home: <Home />,
   webdesign: <Landing page="webdesign" />,
+  frontend: <Landing page="frontend" />,
   fullstack: <Landing page="fullstack" />,
   imprint: <Legal />,
   privacy: <Legal isPrivacy />,

@@ -50,6 +50,9 @@ export function Footer() {
               <Link component={RouterLink} to={path("webdesign")} sx={linkSx}>
                 {t.webdesign}
               </Link>
+              <Link component={RouterLink} to={path("frontend")} sx={linkSx}>
+                {t.frontend}
+              </Link>
               <Link component={RouterLink} to={path("fullstack")} sx={linkSx}>
                 {t.fullstack}
               </Link>
