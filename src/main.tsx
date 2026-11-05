@@ -8,14 +8,17 @@ import { LanguageProvider } from './i18n/LanguageProvider';
 const container = document.getElementById('root');
 if (!container) throw new Error('Kein #root-Element im Dokument gefunden.');
 
+// Bewusst createRoot statt hydrateRoot: Das vorgerenderte HTML ist immer
+// hell, der Besucher kann dunkel eingestellt haben. React zeichnet deshalb
+// neu und ersetzt das statische Markup, statt es zu übernehmen.
 createRoot(container).render(
   <StrictMode>
-    <ColorModeProvider>
-      <LanguageProvider>
-        <BrowserRouter>
+    <BrowserRouter>
+      <ColorModeProvider>
+        <LanguageProvider>
           <App />
-        </BrowserRouter>
-      </LanguageProvider>
-    </ColorModeProvider>
+        </LanguageProvider>
+      </ColorModeProvider>
+    </BrowserRouter>
   </StrictMode>,
 );

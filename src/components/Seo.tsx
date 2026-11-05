@@ -1,23 +1,19 @@
 import { useEffect } from "react";
 import { useI18n } from "../i18n/useI18n";
-import { meta } from "../content/site";
+import { headTags, type PageKey } from "../seo/head";
 
-function setMeta(selector: string, attr: string, value: string) {
-  const el = document.head.querySelector<HTMLMetaElement>(selector);
-  if (el) el.setAttribute(attr, value);
-}
-
-export function Seo({ titleOverride }: { titleOverride?: string }) {
-  const { pick } = useI18n();
-  const m = pick(meta);
-  const title = titleOverride ? `${titleOverride} — ${m.title}` : m.title;
+/**
+ * Tauscht die Head-Tags bei Navigation im Browser aus. Beim ersten Aufruf
+ * stehen dieselben Tags schon im vorgerenderten HTML, siehe
+ * `scripts/prerender.mjs`.
+ */
+export function Seo({ page }: { page: PageKey }) {
+  const { lang } = useI18n();
 
   useEffect(() => {
-    document.title = title;
-    setMeta('meta[name="description"]', "content", m.description);
-    setMeta('meta[property="og:title"]', "content", title);
-    setMeta('meta[property="og:description"]', "content", m.description);
-  }, [title, m.description]);
+    document.head.querySelectorAll("[data-seo]").forEach((el) => el.remove());
+    document.head.insertAdjacentHTML("beforeend", headTags(page, lang));
+  }, [page, lang]);
 
   return null;
 }

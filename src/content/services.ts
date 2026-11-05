@@ -1,7 +1,11 @@
 import type { Localized } from '../i18n/types';
+import type { LandingKey } from './landing';
 
 export interface Service {
   id: string;
+  /** Leistungsseite, auf die Masthead und Leistungsblock verlinken. */
+  page: LandingKey;
+  more: Localized<string>;
   title: Localized<string>;
   navTitle: Localized<string>;
   body: Localized<string>;
@@ -22,6 +26,8 @@ export const servicesIntro: Localized<{ label: string; heading: string }> = {
 export const services: Service[] = [
   {
     id: 'frontend',
+    page: 'fullstack',
+    more: { de: 'Mehr zur Frontend-Entwicklung mit React', en: 'More on frontend work with React' },
     title: { de: 'Frontend-Entwicklung', en: 'Frontend engineering' },
     navTitle: { de: 'Frontend-Entwicklung', en: 'Frontend Engineering' },
     body: {
@@ -47,6 +53,8 @@ export const services: Service[] = [
   },
   {
     id: 'fullstack',
+    page: 'fullstack',
+    more: { de: 'Mehr zur Fullstack-Entwicklung in Berlin', en: 'More on fullstack development in Berlin' },
     title: { de: 'Fullstack & APIs', en: 'Fullstack & APIs' },
     navTitle: { de: 'Fullstack & APIs', en: 'Fullstack & APIs' },
     body: {
@@ -72,6 +80,8 @@ export const services: Service[] = [
   },
   {
     id: 'websites',
+    page: 'webdesign',
+    more: { de: 'Mehr zu Webdesign in Berlin', en: 'More on web design in Berlin' },
     title: {
       de: 'Websites für Selbstständige und kleine Marken',
       en: 'Websites for freelancers and small brands',

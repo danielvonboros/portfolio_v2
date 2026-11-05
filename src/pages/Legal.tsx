@@ -10,7 +10,7 @@ import { Seo } from "../components/Seo";
 import { ArrowLink } from "../components/ArrowLink";
 
 export function Legal({ isPrivacy }: { isPrivacy?: boolean }) {
-  const { pick } = useI18n();
+  const { pick, path } = useI18n();
   const theme = useTheme();
   const t = pick(isPrivacy ? privacy : imprint);
 
@@ -20,7 +20,7 @@ export function Legal({ isPrivacy }: { isPrivacy?: boolean }) {
 
   return (
     <>
-      <Seo titleOverride={t.title} />
+      <Seo page={isPrivacy ? "privacy" : "imprint"} />
       <Container sx={{ pt: { xs: 6, md: 10 }, pb: { xs: 10, md: 18 } }}>
         <Stack spacing={{ xs: 6, md: 8 }} sx={{ maxWidth: "62ch" }}>
           <Typography variant="h3" component="h1">
@@ -53,12 +53,12 @@ export function Legal({ isPrivacy }: { isPrivacy?: boolean }) {
               </Stack>
             ))}
           </Stack>
-          <Typography variant="h6" component="h1">
+          <Typography variant="h6" component="p">
             {t.lastUpdated}
           </Typography>
 
           <Box sx={{ alignSelf: "flex-start" }}>
-            <ArrowLink href="/" routerTo="/">
+            <ArrowLink href={path("home")} routerTo={path("home")}>
               {t.back}
             </ArrowLink>
           </Box>

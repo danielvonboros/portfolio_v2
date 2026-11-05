@@ -8,7 +8,13 @@ import { contact, identity, SECTION_IDS } from "../content/site";
 import { useSurface } from "../theme/surface";
 import { motion } from "../theme/tokens";
 
-function ContactBody() {
+interface ContactProps {
+  /** Eigene Überschrift und Einleitung, etwa auf den Leistungsseiten. */
+  heading?: string;
+  lead?: string;
+}
+
+function ContactBody({ heading, lead }: ContactProps) {
   const { pick } = useI18n();
   const s = useSurface();
   const t = pick(contact);
@@ -17,11 +23,11 @@ function ContactBody() {
     <Split label={pick({ de: "Kontakt", en: "Contact" })}>
       <Stack spacing={{ xs: 5, md: 7 }}>
         <Typography variant="h2" component="h2">
-          {t.heading}
+          {heading ?? t.heading}
         </Typography>
 
-        <Typography variant="subtitle1" sx={{ maxWidth: "52ch" }}>
-          {t.lead}
+        <Typography variant="subtitle1" component="p" sx={{ maxWidth: "52ch" }}>
+          {lead ?? t.lead}
         </Typography>
 
         <Box>
@@ -88,10 +94,10 @@ function ContactBody() {
   );
 }
 
-export function Contact() {
+export function Contact(props: ContactProps) {
   return (
     <Section id={SECTION_IDS.contact} surface="contrast" topRule>
-      <ContactBody />
+      <ContactBody {...props} />
     </Section>
   );
 }

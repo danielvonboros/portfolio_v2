@@ -6,7 +6,7 @@ Fullstack developer portfolio, bilingual, light and dark
 
 ### Description
 
-Portfolio site presenting work, services and résumé. All copy exists in German and English and is switched at runtime without a page reload or a route change. Colour mode follows the operating system until the visitor picks one, after which the choice is stored locally.
+Portfolio site presenting work, services and résumé. All copy exists in German and English. Each language has its own URLs (`/` German, `/en/` English), so search engines index both versions separately; the language switch links to the counterpart URL. Colour mode follows the operating system until the visitor picks one, after which the choice is stored locally.
 
 No content is hardcoded in components. Every string lives in `src/content` as a `Localized<T>` object, so a missing translation is a compile error rather than a runtime fallback.
 
@@ -78,6 +78,7 @@ Components read it through `pick()` from `useI18n()`. Because `Localized` is a `
 | `content/projects.ts` | current projects, archived training projects   |
 | `content/cv.ts`       | career stations, positions, education          |
 | `content/legal.ts`    | imprint, § 5 DDG                               |
+| `content/landing.ts`  | service landing pages: copy, FAQ, references   |
 
 Adding a language: extend `LANGUAGES` in `src/i18n/types.ts`. The compiler then lists every entry still missing the new variant.
 
@@ -112,7 +113,9 @@ An inline script in `index.html` paints the background before React mounts. It s
     |   |_  Resume
     |   |_  Contact
     |
-    |_  Imprint
+    |_  Landing (webdesign, fullstack)
+    |_  Legal (imprint, privacy)
+    |_  NotFound
     |_  Footer
 
     shared
@@ -166,7 +169,7 @@ Contact
 </ul>
 Imprint
 <ul>
-<li>Routes <code>/impressum</code> and <code>/legal-notice</code></li>
+<li>Routes <code>/impressum</code>, <code>/datenschutz</code>, <code>/en/legal-notice</code>, <code>/en/privacy</code></li>
 <li>Unfilled fields render in the focus colour as a reminder</li>
 </ul>
 
@@ -202,19 +205,37 @@ Type checking runs as part of the build, not the dev server. To check types on t
 $ yarn typecheck
 ```
 
+### Routes and SEO
+
+Route paths live in `src/i18n/routes.ts`, one per page and language:
+
+| Page        | German                         | English                          |
+| ----------- | ------------------------------ | -------------------------------- |
+| Home        | `/`                            | `/en/`                           |
+| Web design  | `/webdesign-berlin`            | `/en/web-design-berlin`          |
+| Fullstack   | `/fullstack-entwickler-berlin` | `/en/fullstack-developer-berlin` |
+| Imprint     | `/impressum`                   | `/en/legal-notice`               |
+| Privacy     | `/datenschutz`                 | `/en/privacy`                    |
+
+`src/seo/head.ts` builds title, description, canonical, hreflang, Open Graph and JSON-LD (`src/seo/schema.ts`) for each page. The prerender writes these tags into the static HTML; `<Seo>` swaps them on client-side navigation. Adding a page means adding a route key, an element in `App.tsx` and a case in `pageMeta()`; the sitemap follows automatically.
+
+Pages are prerendered in light mode. The browser does not hydrate them: `main.tsx` calls `createRoot`, which replaces the static markup. In dark mode the inline script in `index.html` removes the prerendered styles and keeps `#root` hidden until React has painted, so dark visitors never see a light flash.
+
+The full audit with keyword strategy and off-page to-dos is in `docs/SEO-AUDIT.md`.
+
 ### Build and deploy
 
 ```
 $ yarn build
 ```
 
-Runs `tsc -b` first, then `vite build`. Type errors fail the build. Output goes to `dist`. Inspect the production bundle locally with
+Runs `tsc -b`, `vite build`, an SSR build of `src/entry-server.tsx` and `scripts/prerender.mjs`. Type errors fail the build. Output goes to `dist`: one static HTML file per page and language, plus `404.html` and `sitemap.xml`. Inspect the production bundle locally with
 
 ```
 $ yarn preview
 ```
 
-Deploy as a static site, build command `yarn build`, publish directory `dist`. SPA rewrites are already committed: `public/_redirects` for Netlify, `vercel.json` for Vercel. Without them `/impressum` returns 404 on a direct hit.
+Deploy as a static site, build command `yarn build`, publish directory `dist`. On Apache (all-inkl), `public/.htaccess` maps `/impressum` to `impressum.html`, redirects `www` to the bare domain and serves `404.html` with a real 404 status. `public/_redirects` and `vercel.json` are older SPA fallbacks for Netlify and Vercel.
 
 ### Assets
 

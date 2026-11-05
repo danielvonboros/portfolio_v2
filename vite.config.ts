@@ -10,5 +10,8 @@ export default defineConfig({
     },
   },
   server: { port: 5173 },
+  // MUI lässt sich in Node nicht als ESM laden (Verzeichnis-Importe).
+  // Für das Prerendering wird es deshalb mit ins SSR-Bundle gepackt.
+  ssr: { noExternal: [/^@mui\//] },
   build: { outDir: 'dist', sourcemap: false },
 });

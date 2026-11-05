@@ -52,13 +52,13 @@ export const hero: Localized<{
   de: {
     eyebrow: 'Fullstack Developer · Berlin',
     headline: ['Interfaces,', 'die halten.'],
-    lead: 'Ich baue Weboberflächen und die APIs dahinter — mit React, TypeScript und Node.js. Davor habe ich zehn Jahre lang Gebäude geplant und Baustellen geleitet. Das merkt man meinem Code an: erst die Struktur, dann die Fassade.',
+    lead: 'Ich baue Websites, Webanwendungen und die APIs dahinter — mit React, TypeScript und Node.js. Davor habe ich zehn Jahre lang Gebäude geplant und Baustellen geleitet. Das merkt man meinem Code an: erst die Struktur, dann die Fassade.',
     available: 'Aktuell frei für Projekte',
   },
   en: {
     eyebrow: 'Fullstack Developer · Berlin',
     headline: ['Interfaces', 'that hold up.'],
-    lead: 'I build web interfaces and the APIs behind them, using React, TypeScript and Node.js. Before that I spent ten years planning buildings and running construction sites. It shows in the way I work: structure first, surface second.',
+    lead: 'I build websites, web applications and the APIs behind them, using React, TypeScript and Node.js. Before that I spent ten years planning buildings and running construction sites. It shows in the way I work: structure first, surface second.',
     available: 'Currently available for projects',
   },
 };
@@ -83,15 +83,26 @@ export const contact: Localized<{
   },
 };
 
-export const footer: Localized<{ rights: string; imprint: string; privacy: string; toTop: string }> = {
+export const footer: Localized<{
+  rights: string;
+  webdesign: string;
+  fullstack: string;
+  imprint: string;
+  privacy: string;
+  toTop: string;
+}> = {
   de: {
     rights: 'Alle Rechte vorbehalten.',
+    webdesign: 'Webdesign Berlin',
+    fullstack: 'Fullstack-Entwickler Berlin',
     imprint: 'Impressum',
     privacy: 'Datenschutz',
     toTop: 'Nach oben',
   },
   en: {
     rights: 'All rights reserved.',
+    webdesign: 'Web design Berlin',
+    fullstack: 'Fullstack developer Berlin',
     imprint: 'Legal notice',
     privacy: 'Privacy',
     toTop: 'Back to top',
@@ -100,13 +111,31 @@ export const footer: Localized<{ rights: string; imprint: string; privacy: strin
 
 export const meta: Localized<{ title: string; description: string }> = {
   de: {
-    title: 'Daniel von Boros — Fullstack Developer, Berlin',
+    title: 'Webdesigner & Fullstack-Entwickler Berlin | Daniel von Boros',
     description:
-      'Fullstack-Entwickler in Berlin. React, TypeScript und Node.js — mit zehn Jahren Architektur und Bauleitung im Rücken.',
+      'Webdesigner und Fullstack-Entwickler in Berlin: Websites für Selbstständige und kleine Unternehmen, Webanwendungen mit React, TypeScript und Node.js.',
   },
   en: {
-    title: 'Daniel von Boros — Fullstack Developer, Berlin',
+    title: 'Web Designer & Fullstack Developer, Berlin | Daniel von Boros',
     description:
-      'Fullstack developer in Berlin. React, TypeScript and Node.js, backed by ten years in architecture and construction management.',
+      'Web designer and fullstack developer in Berlin: websites for freelancers and small businesses, web applications with React, TypeScript and Node.js.',
   },
+};
+
+export const notFound: Localized<{ title: string; lead: string; back: string }> = {
+  de: {
+    title: 'Seite nicht gefunden',
+    lead: 'Diese Adresse gibt es nicht oder nicht mehr. Auf der Startseite findest du alles über meine Arbeit.',
+    back: 'Zur Startseite',
+  },
+  en: {
+    title: 'Page not found',
+    lead: 'This address doesn’t exist, or no longer does. The home page has everything about my work.',
+    back: 'Go to the home page',
+  },
+};
+
+export const skipLink: Localized<string> = {
+  de: 'Zum Inhalt springen',
+  en: 'Skip to content',
 };

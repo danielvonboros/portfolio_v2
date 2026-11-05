@@ -38,9 +38,10 @@ export function Masthead({
 }: {
   anchorsActive?: boolean;
 }) {
-  const { pick } = useI18n();
+  const { pick, path } = useI18n();
   const surface = useSurface();
-  const href = (id: string) => (anchorsActive ? `#${id}` : `/#${id}`);
+  const href = (id: string) =>
+    anchorsActive ? `#${id}` : `${path("home")}#${id}`;
 
   return (
     <Box
@@ -70,7 +71,7 @@ export function Masthead({
           <Box>
             <Link
               component={RouterLink}
-              to="/"
+              to={path("home")}
               sx={{
                 display: "block",
                 fontWeight: 700,
@@ -114,18 +115,23 @@ export function Masthead({
               display: { xs: "none", sm: "block" },
             }}
           >
+            {/* Verlinkt auf die Leistungsseiten: interne Links mit Suchbegriff im Ankertext. */}
             {services.map((service) => (
-              <Typography
+              <Link
                 key={service.id}
-                component="p"
+                component={RouterLink}
+                to={path(service.page)}
                 sx={{
+                  display: "block",
                   fontWeight: 700,
                   lineHeight: 1.45,
                   letterSpacing: "-0.01em",
+                  transition: `opacity ${motion.fast}`,
+                  "&:hover": { opacity: 0.6 },
                 }}
               >
                 {pick(service.navTitle)}
-              </Typography>
+              </Link>
             ))}
           </Box>
 

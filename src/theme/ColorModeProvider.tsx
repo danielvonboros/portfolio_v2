@@ -51,6 +51,8 @@ function writeStored(mode: Mode) {
 }
 
 function prefersDark(): boolean {
+  // Beim Prerendering gibt es kein window: vorgerendert wird immer hell.
+  if (typeof window === "undefined") return false;
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
@@ -74,6 +76,9 @@ export function ColorModeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const root = document.documentElement;
     const bg = palettes[mode].base.bg;
+    // Gesetzt vom Inline-Script in index.html, solange das vorgerenderte
+    // (helle) HTML im dunklen Modus verdeckt bleiben muss.
+    root.classList.remove("dvb-pending");
     root.dataset.mode = mode;
     root.style.colorScheme = mode;
     root.style.backgroundColor = bg;

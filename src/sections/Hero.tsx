@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -33,10 +34,14 @@ export function Hero() {
         }}
       >
         <Typography variant="h1" component="h1">
+          {/* Leerzeichen zwischen den Zeilen, sonst lesen Crawler „Interfaces,die“. */}
           {t.headline.map((line, i) => (
-            <Box key={i} component="span" sx={{ display: "block" }}>
-              {line}
-            </Box>
+            <Fragment key={i}>
+              {i > 0 && " "}
+              <Box component="span" sx={{ display: "block" }}>
+                {line}
+              </Box>
+            </Fragment>
           ))}
         </Typography>
 
@@ -79,7 +84,7 @@ export function Hero() {
           </Stack>
 
           <Stack spacing={3} sx={{ maxWidth: "62ch" }}>
-            <Typography variant="subtitle1">{t.lead}</Typography>
+            <Typography variant="subtitle1" component="p">{t.lead}</Typography>
             <Stack
               direction="row"
               spacing={{ xs: 3, sm: 4 }}

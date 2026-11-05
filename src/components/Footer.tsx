@@ -11,7 +11,7 @@ import { SurfaceProvider } from "../theme/surface";
 import { motion } from "../theme/tokens";
 
 export function Footer() {
-  const { pick } = useI18n();
+  const { pick, path } = useI18n();
   const theme = useTheme();
   const s = theme.app.base;
   const t = pick(footer);
@@ -47,10 +47,16 @@ export function Footer() {
               © {year} {identity.name}. {t.rights}
             </Typography>
             <Stack direction="row" spacing={3} flexWrap="wrap" useFlexGap>
-              <Link component={RouterLink} to="/impressum" sx={linkSx}>
+              <Link component={RouterLink} to={path("webdesign")} sx={linkSx}>
+                {t.webdesign}
+              </Link>
+              <Link component={RouterLink} to={path("fullstack")} sx={linkSx}>
+                {t.fullstack}
+              </Link>
+              <Link component={RouterLink} to={path("imprint")} sx={linkSx}>
                 {t.imprint}
               </Link>
-              <Link component={RouterLink} to="/datenschutz" sx={linkSx}>
+              <Link component={RouterLink} to={path("privacy")} sx={linkSx}>
                 {t.privacy}
               </Link>
               {identity.links.map((l) => (

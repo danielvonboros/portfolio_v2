@@ -1,16 +1,30 @@
+import type { ReactNode } from "react";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Masthead } from "./components/Masthead";
 import { Footer } from "./components/Footer";
 import { SurfaceProvider } from "./theme/surface";
 import { Home } from "./pages/Home";
 import { Legal } from "./pages/Legal";
+import { Landing } from "./pages/Landing";
+import { NotFound } from "./pages/NotFound";
+import { useI18n } from "./i18n/useI18n";
+import { LANGUAGES } from "./i18n/types";
+import { ROUTE_KEYS, routes, type RouteKey } from "./i18n/routes";
+import { skipLink } from "./content/site";
+
+const PAGES: Record<RouteKey, ReactNode> = {
+  home: <Home />,
+  webdesign: <Landing page="webdesign" />,
+  fullstack: <Landing page="fullstack" />,
+  imprint: <Legal />,
+  privacy: <Legal isPrivacy />,
+};
 
 export default function App() {
-  const { pathname } = useLocation();
+  const { pick, route } = useI18n();
   const theme = useTheme();
-  const isHome = pathname === "/";
 
   return (
     <SurfaceProvider kind="base">
@@ -35,17 +49,23 @@ export default function App() {
             "&:focus": { top: 16 },
           }}
         >
-          Zum Inhalt springen
+          {pick(skipLink)}
         </Box>
 
-        <Masthead anchorsActive={isHome} />
+        <Masthead anchorsActive={route === "home"} />
 
         <Box component="main" id="main" sx={{ flex: 1 }}>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/impressum" element={<Legal />} />
-            <Route path="/datenschutz" element={<Legal isPrivacy />} />
-            <Route path="*" element={<Home />} />
+            {ROUTE_KEYS.flatMap((key) =>
+              LANGUAGES.map((lang) => (
+                <Route
+                  key={`${key}-${lang}`}
+                  path={routes[key][lang]}
+                  element={PAGES[key]}
+                />
+              )),
+            )}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Box>
 

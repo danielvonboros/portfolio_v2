@@ -1,57 +1,42 @@
-import {
-  createContext,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useEffect, useMemo } from "react";
 import type { ReactNode } from "react";
-import {
-  DEFAULT_LANG,
-  STORAGE_KEY,
-  isLang,
-  type Lang,
-  type Localized,
-} from "./types";
+import { useLocation } from "react-router-dom";
+import type { Lang, Localized } from "./types";
+import { langFromPath, matchRoute, pathFor, type RouteKey } from "./routes";
 
 export interface LanguageContextValue {
   lang: Lang;
-  setLang: (lang: Lang) => void;
-  toggle: () => void;
+  /** Die aktuelle Seite, `null` auf der 404-Seite. */
+  route: RouteKey | null;
   pick: <T>(entry: Localized<T>) => T;
+  /** Pfad einer Seite in der aktuellen Sprache. */
+  path: (key: RouteKey) => string;
 }
 
 export const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-function detectInitialLang(): Lang {
-  if (typeof window === "undefined") return DEFAULT_LANG;
-  const stored = window.localStorage.getItem(STORAGE_KEY);
-  if (isLang(stored)) return stored;
-  return window.navigator.language.toLowerCase().startsWith("de") ? "de" : "en";
-}
-
+/**
+ * Die Sprache steht in der URL, nicht im localStorage. Damit liefert jede
+ * Adresse immer dieselbe Fassung aus — für Besucher, Crawler und das
+ * Prerendering. Ein Sprachwechsel ist ein Link auf die Gegenstück-URL.
+ */
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(detectInitialLang);
+  const { pathname } = useLocation();
+  const lang = langFromPath(pathname);
+  const route = matchRoute(pathname);
 
   useEffect(() => {
     document.documentElement.lang = lang;
-    window.localStorage.setItem(STORAGE_KEY, lang);
   }, [lang]);
-
-  const setLang = useCallback((next: Lang) => setLangState(next), []);
-  const toggle = useCallback(
-    () => setLangState((c) => (c === "de" ? "en" : "de")),
-    [],
-  );
 
   const value = useMemo<LanguageContextValue>(
     () => ({
       lang,
-      setLang,
-      toggle,
+      route,
       pick: <T,>(entry: Localized<T>) => entry[lang],
+      path: (key: RouteKey) => pathFor(key, lang),
     }),
-    [lang, setLang, toggle],
+    [lang, route],
   );
 
   return (

@@ -1,14 +1,18 @@
 import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useI18n } from "../i18n/useI18n";
 import { LANGUAGES, type Lang } from "../i18n/types";
+import { pathFor } from "../i18n/routes";
 import { useSurface } from "../theme/surface";
 import { motion } from "../theme/tokens";
 
 const NAMES: Record<Lang, string> = { de: "Deutsch", en: "English" };
 
+/** Echte Links statt Buttons: Crawler folgen ihnen zur anderen Sprachfassung. */
 export function LanguageSwitch() {
-  const { lang, setLang } = useI18n();
+  const { lang, route } = useI18n();
+  const { hash } = useLocation();
   const surface = useSurface();
 
   return (
@@ -31,9 +35,12 @@ export function LanguageSwitch() {
               </Box>
             )}
             <ButtonBase
-              onClick={() => setLang(code)}
+              component={RouterLink}
+              to={pathFor(route ?? "home", code) + hash}
+              hrefLang={code}
+              lang={code}
               aria-label={NAMES[code]}
-              aria-pressed={isActive}
+              aria-current={isActive ? "true" : undefined}
               sx={{
                 px: "3px",
                 fontWeight: 700,
