@@ -3,27 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daniel von Boros — Fullstack Developer, Berlin</title>
-    <meta
-      name="description"
-      content="Fullstack-Entwickler in Berlin. React, TypeScript und Node.js — mit zehn Jahren Architektur und Bauleitung im Rücken."
-    />
+    <!-- Titel, Beschreibung, Canonical, hreflang, Open Graph und JSON-LD
+         setzt scripts/prerender.mjs pro Seite ein, siehe src/seo/head.ts. -->
+    <!--app-head-->
     <meta name="theme-color" content="#DCDBD7" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href="https://danielvonboros.com/" />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://danielvonboros.com/" />
-    <meta
-      property="og:title"
-      content="Daniel von Boros — Fullstack Developer, Berlin"
-    />
-    <meta
-      property="og:description"
-      content="Fullstack-Entwickler in Berlin. React, TypeScript und Node.js — mit zehn Jahren Architektur und Bauleitung im Rücken."
-    />
-    <meta property="og:image" content="https://danielvonboros.com/og.jpg" />
-    <meta name="twitter:card" content="summary_large_image" />
     <link
       rel="preload"
       href="/fonts/Satoshi-Variable.woff2"
@@ -31,6 +15,11 @@
       type="font/woff2"
       crossorigin
     />
+    <style>
+      html.dvb-pending #root {
+        visibility: hidden;
+      }
+    </style>
   </head>
   <body>
     <script>
@@ -44,10 +33,18 @@
           root.dataset.mode = dark ? "dark" : "light";
           root.style.colorScheme = dark ? "dark" : "light";
           root.style.backgroundColor = dark ? "#0D0D0D" : "#DCDBD7";
+          // Vorgerendert wird immer hell. Im dunklen Modus fliegen die hellen
+          // Styles raus und der Inhalt bleibt verdeckt, bis React ihn dunkel
+          // neu gezeichnet hat (ColorModeProvider entfernt die Klasse).
+          if (dark) {
+            root.classList.add("dvb-pending");
+            var ssr = document.querySelectorAll("style[data-emotion]");
+            for (var i = 0; i < ssr.length; i++) ssr[i].remove();
+          }
         } catch (e) {}
       })();
     </script>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

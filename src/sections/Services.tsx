@@ -2,13 +2,14 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Section, Split, DashList } from '../components/Section';
+import { ArrowLink } from '../components/ArrowLink';
 import { useI18n } from '../i18n/useI18n';
 import { services, servicesIntro } from '../content/services';
 import { SECTION_IDS } from '../content/site';
 import { useSurface } from '../theme/surface';
 
 function ServicesBody() {
-  const { pick } = useI18n();
+  const { pick, path } = useI18n();
   const s = useSurface();
   const t = pick(servicesIntro);
 
@@ -42,6 +43,11 @@ function ServicesBody() {
                   {pick(service.body)}
                 </Typography>
                 <DashList items={pick(service.items)} />
+                <Box sx={{ alignSelf: 'flex-start' }}>
+                  <ArrowLink href={path(service.page)} routerTo={path(service.page)} size="sm">
+                    {pick(service.more)}
+                  </ArrowLink>
+                </Box>
               </Stack>
             </Box>
           ))}

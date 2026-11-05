@@ -15,7 +15,7 @@ import {
 import { SECTION_IDS } from "../content/site";
 import { useSurface } from "../theme/surface";
 
-function Thumbnail({
+export function Thumbnail({
   project,
   fallback,
 }: {

@@ -13,6 +13,7 @@ export const imprintData = {
 
 export const imprint: Localized<{
   title: string;
+  description: string;
   back: string;
   lastUpdated: string;
   sections: { heading: string; lines: string[] }[];
@@ -20,6 +21,7 @@ export const imprint: Localized<{
   de: 
     {
       title: 'Impressum',
+      description: 'Impressum von Daniel von Boros, Webdesigner und Fullstack-Entwickler in Berlin-Schöneberg.',
       back: 'Zurück zur Startseite',
       sections: [
         {
@@ -69,6 +71,7 @@ export const imprint: Localized<{
   },
   en: {
     title: 'Legal notice',
+    description: 'Legal notice for Daniel von Boros, web designer and fullstack developer in Berlin.',
     back: 'Back to the home page',
     sections: [
       {
@@ -119,11 +122,13 @@ export const imprint: Localized<{
 
 export const privacy: Localized<{
   title: string;
+  description: string;
   back: string;
   sections: { heading: string; lines: string[] }[];
   lastUpdated: string;
 }> = {de:{
     title: "Datenschutzerklärung",
+    description: "Datenschutzerklärung der Website von Daniel von Boros: Hosting, Kontaktaufnahme, keine Cookies und kein Tracking.",
     back: "Zurück zur Startseite",
     sections: [
       {
@@ -237,6 +242,7 @@ export const privacy: Localized<{
 
   en: {
     title: "Privacy Policy",
+    description: "Privacy policy for the website of Daniel von Boros: hosting, contact, no cookies and no tracking.",
     back: 'Back to the home page',
     sections: [
       {

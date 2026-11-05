@@ -9,7 +9,7 @@ import { Seo } from "../components/Seo";
 export function Home() {
   return (
     <>
-      <Seo />
+      <Seo page="home" />
       <Hero />
       <About />
       <Services />
