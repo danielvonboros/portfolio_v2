@@ -86,6 +86,7 @@ export const contact: Localized<{
 export const footer: Localized<{
   rights: string;
   webdesign: string;
+  frontend: string;
   fullstack: string;
   imprint: string;
   privacy: string;
@@ -94,6 +95,7 @@ export const footer: Localized<{
   de: {
     rights: 'Alle Rechte vorbehalten.',
     webdesign: 'Webdesign Berlin',
+    frontend: 'Frontend-Entwickler Berlin',
     fullstack: 'Fullstack-Entwickler Berlin',
     imprint: 'Impressum',
     privacy: 'Datenschutz',
@@ -102,6 +104,7 @@ export const footer: Localized<{
   en: {
     rights: 'All rights reserved.',
     webdesign: 'Web design Berlin',
+    frontend: 'Frontend developer Berlin',
     fullstack: 'Fullstack developer Berlin',
     imprint: 'Legal notice',
     privacy: 'Privacy',
@@ -113,14 +116,55 @@ export const meta: Localized<{ title: string; description: string }> = {
   de: {
     title: 'Webdesigner & Fullstack-Entwickler Berlin | Daniel von Boros',
     description:
-      'Webdesigner und Fullstack-Entwickler in Berlin: Websites für Selbstständige und kleine Unternehmen, Webanwendungen mit React, TypeScript und Node.js.',
+      'Webdesigner, Frontend- und Fullstack-Entwickler in Berlin: Websites für Selbstständige und kleine Unternehmen, Webanwendungen mit React, TypeScript und Node.js.',
   },
   en: {
     title: 'Web Designer & Fullstack Developer, Berlin | Daniel von Boros',
     description:
-      'Web designer and fullstack developer in Berlin: websites for freelancers and small businesses, web applications with React, TypeScript and Node.js.',
+      'Web designer, frontend and fullstack developer in Berlin: websites for freelancers and small businesses, web applications with React, TypeScript and Node.js.',
   },
 };
+
+/**
+ * Berufsbezeichnungen mit ihren gängigen Synonymen. Fließen als `jobTitle`
+ * und `hasOccupation` in die strukturierten Daten, siehe `seo/schema.ts`.
+ * Im sichtbaren Text stehen die Synonyme auf den Leistungsseiten.
+ */
+export const occupations: { name: Localized<string>; alternateNames: string[] }[] = [
+  {
+    name: { de: 'Webdesigner', en: 'Web designer' },
+    alternateNames: ['Web Designer', 'Website-Designer', 'Website Designer'],
+  },
+  {
+    name: { de: 'Frontend-Entwickler', en: 'Frontend developer' },
+    alternateNames: [
+      'Frontend Developer',
+      'Frontend Engineer',
+      'Front-End-Entwickler',
+      'UI Engineer',
+      'UI Developer',
+      'React-Entwickler',
+      'React Developer',
+      'Design Engineer',
+    ],
+  },
+  {
+    name: { de: 'Fullstack-Entwickler', en: 'Fullstack developer' },
+    alternateNames: [
+      'Full Stack Developer',
+      'Full Stack Engineer',
+      'Full-Stack-Entwickler',
+      'Fullstack Engineer',
+      'JavaScript-Entwickler',
+      'TypeScript Developer',
+      'Node.js Developer',
+    ],
+  },
+  {
+    name: { de: 'Webentwickler', en: 'Web developer' },
+    alternateNames: ['Web Developer', 'Web Engineer', 'Web-Entwickler', 'Webprogrammierer', 'Software Engineer (Web)'],
+  },
+];
 
 export const notFound: Localized<{ title: string; lead: string; back: string }> = {
   de: {

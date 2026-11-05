@@ -7,11 +7,12 @@ export const SITE_URL = 'https://danielvonboros.com';
  * Englisch unter /en/. Nur so kann Google beide Fassungen getrennt indexieren
  * und per hreflang einander zuordnen.
  */
-export type RouteKey = 'home' | 'webdesign' | 'fullstack' | 'imprint' | 'privacy';
+export type RouteKey = 'home' | 'webdesign' | 'frontend' | 'fullstack' | 'imprint' | 'privacy';
 
 export const routes: Record<RouteKey, Localized<string>> = {
   home: { de: '/', en: '/en/' },
   webdesign: { de: '/webdesign-berlin', en: '/en/web-design-berlin' },
+  frontend: { de: '/frontend-entwickler-berlin', en: '/en/frontend-developer-berlin' },
   fullstack: { de: '/fullstack-entwickler-berlin', en: '/en/fullstack-developer-berlin' },
   imprint: { de: '/impressum', en: '/en/legal-notice' },
   privacy: { de: '/datenschutz', en: '/en/privacy' },

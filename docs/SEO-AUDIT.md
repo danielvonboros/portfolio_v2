@@ -1,6 +1,6 @@
 # SEO-Audit danielvonboros.com
 
-Stand: 5. November 2026 · umgesetzt im Branch `seo/audit-landingpages`
+Stand: 5. November 2026 · umgesetzt im Branch `seo/audit-landingpages` · ergänzt um Frontend-Seite und Synonyme
 
 **Ziel:** gefunden werden von (a) Privatleuten, Selbstständigen und kleinen Unternehmen, die einen Webdesigner suchen, und (b) Firmen, die einen Fullstack-Entwickler suchen.
 
@@ -27,6 +27,7 @@ Stichprobe: Eine Websuche nach „Daniel von Boros Developer Berlin“ findet di
 
 | Befund | Status |
 |--------|--------|
+| Weiterleitungen von `www.` und `http://` landeten auf `/seite.html`, weil all-inkl MultiViews aktiv hat | ✅ Pfad kommt jetzt aus der ursprünglichen Anfrage (`THE_REQUEST`), lokal mit Apache und MultiViews getestet |
 | Lead-Absätze wurden als `<h6>` ausgegeben (MUI `subtitle1`), dadurch falsche Überschriften-Hierarchie | ✅ jetzt `<p>` |
 | Rechtstexte hatten eine zweite `<h1>` („Stand: …“) | ✅ jetzt `<p>` |
 | Hero-H1 wurde ohne Leerzeichen gelesen: „Interfaces,die halten.“ | ✅ behoben |
@@ -47,12 +48,22 @@ Stichprobe: Eine Websuche nach „Daniel von Boros Developer Berlin“ findet di
 
 ## 4. Keyword-Strategie
 
-| Zielgruppe | Seite | Hauptbegriff | Weitere Begriffe im Text |
-|-----------|-------|--------------|--------------------------|
-| Privatleute, Selbstständige, KMU | `/webdesign-berlin` | Webdesign Berlin, Webdesigner Berlin | Website erstellen lassen, Relaunch, Webdesign für Selbstständige und Handwerk, Berlin-Schöneberg |
-| Firmen, Agenturen, Produktteams | `/fullstack-entwickler-berlin` | Freelance Fullstack-Entwickler Berlin | React, TypeScript, Node.js, Next.js, Webentwickler, Teamverstärkung, remote |
-| Englischsprachige Firmen und Expats | `/en/web-design-berlin`, `/en/fullstack-developer-berlin` | web designer Berlin, freelance fullstack developer Berlin | React developer, small business website |
-| Namenssuche | `/`, `/en/` | Daniel von Boros | – |
+Jede Berufsbezeichnung hat eine Seite, die sie im Title, in der H1 oder im Fließtext trägt. Synonyme stehen dort, wo sie sich natürlich ergeben: im Einleitungstext und in einer FAQ, die die Titel erklärt („Frontend Developer, Frontend Engineer, UI Engineer: Was ist der Unterschied?“). Bewusst **nicht** verwendet: Meta-Keywords (ignoriert Google seit 2009), versteckter Text und Begriffslisten („Tags: …“). Beides wertet Google als Keyword-Stuffing.
+
+| Begriff (gewünscht ★, ergänzt ＋) | Seite DE | Seite EN | Wo genau |
+|---|---|---|---|
+| ★ Web Designer, ＋ Webdesigner, ＋ Website-Designer | `/webdesign-berlin` | `/en/web-design-berlin` | Title (EN), Lead, FAQ „Webdesigner oder Webentwickler?“ |
+| ＋ Website / Homepage erstellen lassen, ＋ Internetauftritt | `/webdesign-berlin` | – | Title, Fließtext |
+| ★ Frontend Developer, ★ Frontend Engineer, ＋ Frontend-Entwickler | `/frontend-entwickler-berlin` (neu) | `/en/frontend-developer-berlin` (neu) | Title, H1, Lead, FAQ |
+| ＋ UI Engineer, ＋ UI Developer, ＋ Design Engineer | `/frontend-entwickler-berlin` | `/en/frontend-developer-berlin` | Lead, Abschnitt „Frontend mit Gestaltungsblick“, FAQ |
+| ＋ React-Entwickler / React Developer, ＋ TypeScript Developer | `/frontend-entwickler-berlin` | `/en/frontend-developer-berlin` | H1, Technologien, FAQ |
+| ★ Full Stack Engineer, ＋ Fullstack Developer, ＋ Full-Stack-Entwickler | `/fullstack-entwickler-berlin` | `/en/fullstack-developer-berlin` | Title (EN „Fullstack Developer & Engineer“), Lead, FAQ |
+| ★ Web Engineer, ★ Web Developer, ＋ Webentwickler, ＋ Software Engineer (Web) | `/fullstack-entwickler-berlin`, `/webdesign-berlin` | beide EN-Seiten | Lead, FAQ, Erfahrung |
+| ＋ Node.js Developer, ＋ JavaScript-Entwickler, ＋ Webprogrammierer | – | – | nur strukturierte Daten (`hasOccupation`) |
+| Freelance / Freelancer, Berlin | alle Leistungsseiten | alle Leistungsseiten | Titles, H1 |
+| Daniel von Boros | `/` | `/en/` | Title, strukturierte Daten |
+
+Alle Bezeichnungen stehen zusätzlich in den strukturierten Daten: `jobTitle` und `hasOccupation` (mit `alternateName`) an der Person, `makesOffer` am Unternehmen. Die Liste pflegst du in `occupations` in `src/content/site.ts`.
 
 Realistisch eingeschätzt: „Webdesigner Berlin“ ist hart umkämpft (Agenturen, Verzeichnisse wie Trustlocal und Malt). Schneller erreichbar sind zwei Wege: das lokale Kartenpaket über das Google-Unternehmensprofil und Long-Tail-Begriffe wie „Webdesigner für Handwerker Berlin“ oder „React Freelancer Berlin“. Suchvolumina konnte ich ohne Keyword-Tool nicht prüfen. Belastbare Zahlen liefert die Search Console nach vier bis acht Wochen.
 
@@ -70,7 +81,7 @@ Hinweis zu FAQ-Daten: Google zeigt FAQ-Rich-Results seit 2023 nur noch für Beh�
 - Dunkelmodus: Vorgerendert wird hell. Ein Inline-Script verhindert bei dunklem Modus, dass das kurz aufblitzt.
 
 **Inhalte**
-- `src/content/landing.ts`: zwei Leistungsseiten auf Deutsch und Englisch, je ca. 750–900 Wörter: Zielgruppe, Leistungen, Ablauf, Arbeitsweise, Referenzen, sechs bis acht FAQ, Kontakt
+- `src/content/landing.ts`: drei Leistungsseiten (Webdesign, Frontend, Fullstack) auf Deutsch und Englisch, je ca. 750–900 Wörter: Zielgruppe, Leistungen, Ablauf, Arbeitsweise, Referenzen, sechs bis acht FAQ, Kontakt
 - Neue Titles und Descriptions für die Startseite, Hero-Text mit „Websites, Webanwendungen“
 
 Neue Titles (alle ≤ 61 Zeichen):
@@ -79,10 +90,12 @@ Neue Titles (alle ≤ 61 Zeichen):
 |-------|-------|
 | `/` | Webdesigner & Fullstack-Entwickler Berlin \| Daniel von Boros |
 | `/webdesign-berlin` | Webdesign Berlin: Website erstellen lassen \| Daniel von Boros |
+| `/frontend-entwickler-berlin` | Freelance Frontend-Entwickler in Berlin \| Daniel von Boros |
 | `/fullstack-entwickler-berlin` | Freelance Fullstack-Entwickler in Berlin \| Daniel von Boros |
 | `/en/` | Web Designer & Fullstack Developer, Berlin \| Daniel von Boros |
 | `/en/web-design-berlin` | Web Designer in Berlin for Small Businesses \| Daniel von Boros |
-| `/en/fullstack-developer-berlin` | Freelance Fullstack Developer in Berlin \| Daniel von Boros |
+| `/en/frontend-developer-berlin` | Frontend Developer & Engineer in Berlin \| Daniel von Boros |
+| `/en/fullstack-developer-berlin` | Fullstack Developer & Engineer in Berlin \| Daniel von Boros |
 
 ## 6. Bitte prüfen, bevor es live geht
 
@@ -115,7 +128,7 @@ Diese Aussagen habe ich aus deinen vorhandenen Texten abgeleitet, sie sind aber 
 ## 8. Checkliste nach dem Deployment
 
 - [ ] `https://danielvonboros.com/robots.txt` liefert Text, `/sitemap.xml` liefert XML, `/og.jpg` liefert ein Bild
-- [ ] `https://www.danielvonboros.com/` leitet per 301 auf `https://danielvonboros.com/` um
+- [ ] `https://www.danielvonboros.com/webdesign-berlin` und `http://danielvonboros.com/webdesign-berlin` leiten per 301 auf `https://danielvonboros.com/webdesign-berlin` um, ohne `.html`
 - [ ] `/gibts-nicht` liefert Status 404
 - [ ] `/en` leitet auf `/en/` um, `/impressum` lädt ohne `.html`
 - [ ] Seitenquelltext von `/webdesign-berlin` enthält den Text (nicht nur `<div id="root">`)

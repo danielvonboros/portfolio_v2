@@ -4,13 +4,20 @@ ErrorDocument 404 /404.html
   RewriteEngine On
   RewriteBase /
 
+  # Den Pfad für Weiterleitungen aus THE_REQUEST nehmen, nicht aus REQUEST_URI:
+  # all-inkl hat MultiViews aktiv, das /seite schon vor diesen Regeln auf
+  # /seite.html umschreibt. Sonst landet die Weiterleitung auf der .html-Adresse.
+  # Nur der Pfad ohne ?Query: Den Query-String hängt Apache selbst wieder an.
+
   # www auf die Hauptdomain umleiten: eine Adresse pro Seite, kein Duplicate Content.
-  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteCond %{THE_REQUEST} ^\S+\s(/[^\s?]*)
+  RewriteRule ^ https://danielvonboros.com%1 [NE,L,R=301]
 
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
-  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  RewriteCond %{THE_REQUEST} ^\S+\s(/[^\s?]*)
+  RewriteRule ^ https://%{HTTP_HOST}%1 [NE,L,R=301]
 
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
