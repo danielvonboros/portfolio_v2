@@ -6,6 +6,8 @@ export const SECTION_IDS = {
   projects: 'projekte',
   resume: 'lebenslauf',
   contact: 'kontakt',
+  /** Referenzen auf den Leistungsseiten. */
+  references: 'referenzen',
 } as const;
 
 export interface NavItem {
@@ -88,6 +90,7 @@ export const footer: Localized<{
   webdesign: string;
   frontend: string;
   fullstack: string;
+  projects: string;
   imprint: string;
   privacy: string;
   toTop: string;
@@ -97,6 +100,7 @@ export const footer: Localized<{
     webdesign: 'Webdesign Berlin',
     frontend: 'Frontend-Entwickler Berlin',
     fullstack: 'Fullstack-Entwickler Berlin',
+    projects: 'Projekte',
     imprint: 'Impressum',
     privacy: 'Datenschutz',
     toTop: 'Nach oben',
@@ -106,6 +110,7 @@ export const footer: Localized<{
     webdesign: 'Web design Berlin',
     frontend: 'Frontend developer Berlin',
     fullstack: 'Fullstack developer Berlin',
+    projects: 'Work',
     imprint: 'Legal notice',
     privacy: 'Privacy',
     toTop: 'Back to top',
@@ -177,6 +182,18 @@ export const notFound: Localized<{ title: string; lead: string; back: string }> 
     lead: 'This address doesn’t exist, or no longer does. The home page has everything about my work.',
     back: 'Go to the home page',
   },
+};
+
+/** Berufsbezeichnungen im Laufband zwischen Hero und Über mich. */
+export const titleBand: Localized<string[]> = {
+  de: ['Frontend Developer', 'Webdesigner', 'Full Stack Engineer', 'Webentwickler', 'Architekt M.Sc.'],
+  en: ['Frontend Developer', 'Web Designer', 'Full Stack Engineer', 'Web Developer', 'Architect M.Sc.'],
+};
+
+/** Zugänglicher Name der Brotkrumen-Navigation. */
+export const breadcrumbLabel: Localized<string> = {
+  de: 'Brotkrumen',
+  en: 'Breadcrumb',
 };
 
 export const skipLink: Localized<string> = {

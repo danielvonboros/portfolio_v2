@@ -1,57 +1,59 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 import { Route, Routes } from "react-router-dom";
-import { Masthead } from "./components/Masthead";
-import { Footer } from "./components/Footer";
+import { Masthead } from "./components/masthead/Masthead";
+import { Footer } from "./components/footer/Footer";
 import { SurfaceProvider } from "./theme/surface";
 import { Home } from "./pages/Home";
 import { Legal } from "./pages/Legal";
 import { Landing } from "./pages/Landing";
 import { NotFound } from "./pages/NotFound";
+import { ProjectDetail } from "./pages/ProjectDetail";
+import { ProjectOverview } from "./pages/ProjectOverview";
 import { useI18n } from "./i18n/useI18n";
 import { LANGUAGES } from "./i18n/types";
-import { ROUTE_KEYS, routes, type RouteKey } from "./i18n/routes";
-import { skipLink } from "./content/site";
+import {
+  ROUTE_KEYS,
+  isProjectRoute,
+  projectSlugOf,
+  routes,
+  type RouteKey,
+  type StaticRouteKey,
+} from "./i18n/routes";
+import { SkipLink } from "./components/skipLink/SkipLink";
+import { ScrollProgress } from "./components/scrollProgress/ScrollProgress";
+import { CursorLight } from "./components/cursorLight/CursorLight";
+import { finishBoot } from "./components/splitText/bootOffset";
 
-const PAGES: Record<RouteKey, ReactNode> = {
+const PAGES: Record<StaticRouteKey, ReactNode> = {
   home: <Home />,
   webdesign: <Landing page="webdesign" />,
   frontend: <Landing page="frontend" />,
   fullstack: <Landing page="fullstack" />,
+  projects: <ProjectOverview />,
   imprint: <Legal />,
   privacy: <Legal isPrivacy />,
 };
 
+/** Projektseiten entstehen aus der Projektliste, alle anderen stehen in PAGES. */
+function pageFor(key: RouteKey): ReactNode {
+  return isProjectRoute(key) ? <ProjectDetail slug={projectSlugOf(key)} /> : PAGES[key];
+}
+
 export default function App() {
-  const { pick, route } = useI18n();
-  const theme = useTheme();
+  const { route } = useI18n();
+
+  // Nach dem ersten Rendern starten neue Überschriften ohne Vorsprung.
+  useEffect(finishBoot, []);
 
   return (
     <SurfaceProvider kind="base">
       <Box
         sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
       >
-        {/* Erster Tabstopp: überspringt die Navigation. Nur bei Fokus sichtbar. */}
-        <Box
-          component="a"
-          href="#main"
-          sx={{
-            position: "absolute",
-            left: 16,
-            top: -80,
-            zIndex: 50,
-            px: 2,
-            py: 1.25,
-            fontSize: "0.9375rem",
-            fontWeight: 500,
-            backgroundColor: theme.app.base.ink,
-            color: theme.app.base.bg,
-            "&:focus": { top: 16 },
-          }}
-        >
-          {pick(skipLink)}
-        </Box>
+        <SkipLink />
+        <ScrollProgress />
+        <CursorLight />
 
         <Masthead anchorsActive={route === "home"} />
 
@@ -62,7 +64,7 @@ export default function App() {
                 <Route
                   key={`${key}-${lang}`}
                   path={routes[key][lang]}
-                  element={PAGES[key]}
+                  element={pageFor(key)}
                 />
               )),
             )}

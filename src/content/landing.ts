@@ -1,5 +1,8 @@
 import type { Localized } from '../i18n/types';
 import type { RouteKey } from '../i18n/routes';
+import type { BauteilShape } from '../components/bauteil/isometricShapes';
+import type { ProjectSlug } from './projects';
+import type { ContentBlock } from './contentBlock';
 
 /**
  * Leistungsseiten — je eine pro Suchabsicht. `webdesign` richtet sich an
@@ -10,13 +13,6 @@ import type { RouteKey } from '../i18n/routes';
  * Begriffsliste — Keyword-Listen wertet Google als Spam.
  */
 export type LandingKey = Extract<RouteKey, 'webdesign' | 'frontend' | 'fullstack'>;
-
-export type LandingBlock =
-  | { kind: 'text'; heading: string; paragraphs: string[] }
-  | { kind: 'list'; heading: string; intro?: string; items: string[] }
-  | { kind: 'pairs'; heading: string; numbered?: boolean; items: { title: string; body: string }[] }
-  /** Rendert die Technologiegruppen aus `about.ts`. */
-  | { kind: 'stack'; heading: string; intro: string };
 
 export interface FaqEntry {
   question: string;
@@ -29,7 +25,7 @@ export interface LandingPage {
   label: string;
   heading: string;
   lead: string;
-  blocks: LandingBlock[];
+  blocks: ContentBlock[];
   referencesHeading: string;
   faqHeading: string;
   faq: FaqEntry[];
@@ -38,10 +34,17 @@ export interface LandingPage {
   serviceType: string;
 }
 
+/** Bauteil, das neben der Überschrift der Seite steht, wie in den Leistungen. */
+export const landingShapes: Record<LandingKey, BauteilShape> = {
+  webdesign: 'volumen',
+  frontend: 'raster',
+  fullstack: 'schichten',
+};
+
 /** Projekte aus `projects.ts`, die auf der jeweiligen Seite als Referenz erscheinen. */
-export const landingReferences: Record<LandingKey, string[]> = {
-  webdesign: ['raumideenwerk_v2', 'studio-von-boros', 'denison-silva'],
-  frontend: ['denison-silva', 'studio-von-boros', 'raumideenwerk_v2'],
+export const landingReferences: Record<LandingKey, ProjectSlug[]> = {
+  webdesign: ['raumideenwerk-v2', 'studio-von-boros', 'denison-silva'],
+  frontend: ['denison-silva', 'studio-von-boros', 'raumideenwerk-v2'],
   fullstack: ['denison-silva', 'studio-von-boros', 'cana-hallenbau'],
 };
 

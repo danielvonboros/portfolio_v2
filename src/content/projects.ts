@@ -2,8 +2,23 @@ import type { Localized } from '../i18n/types';
 
 export type ProjectStatus = 'live' | 'inProgress' | 'concept' | 'offline';
 
+/**
+ * Kurznamen der aktuellen Projekte. Jeder Slug ist zugleich der letzte Teil
+ * der URL seiner Projektseite, z. B. /projekte/denison-silva. Neue Projekte
+ * hier und in `projects` eintragen, die Seite selbst steht in `projectPages/`.
+ */
+export const PROJECT_SLUGS = [
+  'denison-silva',
+  'studio-von-boros',
+  'cana-hallenbau',
+  'raumideenwerk-v2',
+  'raumideenwerk',
+] as const;
+
+export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
+
 export interface Project {
-  slug: string;
+  slug: ProjectSlug;
   title: string;
   client: Localized<string>;
   year: string;
@@ -12,6 +27,8 @@ export interface Project {
   contribution: Localized<string[]>;
   stack: string[];
   image?: string;
+  /** Pixelmaße des Bilds: verhindern Layoutsprünge und stehen im Open-Graph-Tag. */
+  imageSize?: { width: number; height: number };
   url?: string;
 }
 
@@ -29,6 +46,14 @@ export const projectsIntro: Localized<{
   archiveNote: string;
   visit: string;
   noImage: string;
+  /** Beschriftung des Kreises über dem Projektbild. */
+  viewLabel: string;
+  /** Zugänglicher Name des Bildlinks, `{title}` wird ersetzt. */
+  imageLinkLabel: string;
+  /** Link zur eigenen Projektseite. */
+  details: string;
+  /** Zugänglicher Name des Bildlinks zur Projektseite, `{title}` wird ersetzt. */
+  detailsLinkLabel: string;
 }> = {
   de: {
     label: 'Projekte',
@@ -38,6 +63,10 @@ export const projectsIntro: Localized<{
       'Ausbildungs- und Lernprojekte aus dem Quereinstieg 2021. Der Code liegt weiterhin öffentlich auf GitHub.',
     visit: 'Website ansehen',
     noImage: 'Screenshot folgt',
+    viewLabel: 'Ansehen',
+    imageLinkLabel: 'Website {title} ansehen',
+    details: 'Zum Projekt',
+    detailsLinkLabel: 'Projekt {title} ansehen',
   },
   en: {
     label: 'Work',
@@ -47,6 +76,10 @@ export const projectsIntro: Localized<{
       'Training and learning projects from my 2021 career change. The code is still public on GitHub.',
     visit: 'Visit the site',
     noImage: 'Screenshot to follow',
+    viewLabel: 'View',
+    imageLinkLabel: 'Visit the {title} website',
+    details: 'Read the case study',
+    detailsLinkLabel: 'Read the {title} case study',
   },
 };
 
@@ -61,6 +94,7 @@ export const projects: Project[] = [
     year: '2026',
     status: 'inProgress',
     image: '/projects/denison-silva.webp',
+    imageSize: { width: 1600, height: 1060 },
     url: 'https://denisonsilva.com',
     summary: {
       de: 'Eine Portfolioseite für einen Tänzer, dessen Arbeit sich schlecht in Standbildern erzählen lässt. Der Hero setzt den Namen als Schablone vor ein laufendes Bewegtbild — die Schrift wird zum Fenster auf die Choreografie. Der Rest der Seite bleibt bewusst ruhig, damit die Videos die Aufmerksamkeit bekommen.',
@@ -82,7 +116,7 @@ export const projects: Project[] = [
         'Sections for work, video, references and contact',
       ],
     },
-    stack: ['React', 'TypeScript', 'Next.js', 'Vite', 'i18n'],
+    stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'i18n'],
   },
   {
     slug: 'studio-von-boros',
@@ -95,6 +129,7 @@ export const projects: Project[] = [
     status: 'live',
     url: 'https://studiovonboros.com',
     image: '/projects/studio-von-boros.webp',
+    imageSize: { width: 1600, height: 1060 },
     summary: {
       de: 'Das Premium-Pendant zu raumideenwerk: eine eigene Marke für maßgefertigte Innenausbauten und Möbel. Die Seite ist Referenzportfolio und Angebot in einem — Renderings und Fotos realisierter Projekte in großem Format, wenig Text, klare Preislage. Bewusst in Vue gebaut, um den Stack außerhalb von React sauber zu beherrschen.',
       en: 'The premium counterpart to raumideenwerk: a separate brand for bespoke interiors and furniture. The site is reference portfolio and pitch in one — renderings and photographs of finished projects at large scale, little text, a clear price bracket. Deliberately built in Vue to keep a second stack sharp.',
@@ -125,6 +160,7 @@ export const projects: Project[] = [
     year: '2026',
     status: 'concept',
     image: '/projects/cana-hallenbau.webp',
+    imageSize: { width: 1600, height: 1060 },
     // url: 'https://cana-hallenbau.de',
     summary: {
       de: 'Ein gewachsener WordPress-Auftritt, verteilt auf mehrere Domains, mit doppelten Inhalten und ohne lokales SEO. Ich habe den Bestand geprüft, die Probleme benannt und zwei Umbauwege gegenübergestellt: React beziehungsweise Next.js mit Headless CMS oder eine konsolidierte WordPress-Lösung. Die Zusammenarbeit lief gemeinsam mit einer SEO-Agentur.',
@@ -147,7 +183,7 @@ export const projects: Project[] = [
     stack: ['SEO-Audit', 'WordPress', 'Next.js', 'Headless CMS'],
   },
   {
-    slug: 'raumideenwerk_v2',
+    slug: 'raumideenwerk-v2',
     title: 'raumideenwerk_v2',
     client: {
       de: 'Eigenes Gewerbe — Innenarchitektur und Raumplanung, Berlin',
@@ -156,6 +192,7 @@ export const projects: Project[] = [
     year: '2026',
     status: 'inProgress',
     image: '/projects/raumideenwerk_v2.webp',
+    imageSize: { width: 1600, height: 1079 },
     url: 'https://v2.raumideenwerk.com',
     summary: {
       de: 'Version 2 zum eigenen Innenarchitekturbüro. Die Website hat eine klarere Struktur und ist nun Teil einer ganzen CI-Kette: Logo, Website, Social Media, Visitenkarten und Briefpapier. Eine umfangreiche Neuauflage der bestehenden Website, mit komplett neuer Struktur, neuen Inhalten und einem modernen Design.',
@@ -173,7 +210,7 @@ export const projects: Project[] = [
         'Supporting content for Instagram',
       ],
     },
-    stack: ['HTML', 'CSS', 'JavaScript', 'SEO', 'Backend', 'Hosting'],
+    stack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'PHP', 'SEO'],
   },
   {
     slug: 'raumideenwerk',
@@ -185,6 +222,7 @@ export const projects: Project[] = [
     year: '2025',
     status: 'live',
     image: '/projects/raumideenwerk.webp',
+    imageSize: { width: 1600, height: 1065 },
     url: 'https://raumideenwerk.com',
     summary: {
       de: 'Mein eigenes Innenarchitekturbüro, seit 2025 selbstständig. Eine Website mit einem modernen Design, einer Auflistung von Modellentwürfen und fertigen Projekten, Kontakt zum Unternehmen und ein Google Booking-Kalender. Die Website war auf Vercel gehostet und wurde nach einem Jahr durch die Website v2 ersetzt.',
@@ -206,7 +244,7 @@ export const projects: Project[] = [
         'Hosting on Vercel, domain at checkdomain',
       ],
     },
-    stack: ['HTML', 'CSS', 'JavaScript', 'SEO'],
+    stack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel'],
   },
   // {
   //   slug: 'danielvonboros_v1',
@@ -238,6 +276,13 @@ export const projects: Project[] = [
   //   stack: ['HTML', 'CSS', 'JavaScript', 'Bootstrap'],
   // },
 ];
+
+/** Projekt zu einem Slug. Wirft beim Build, falls `projects` und `PROJECT_SLUGS` auseinanderlaufen. */
+export function getProject(slug: ProjectSlug): Project {
+  const project = projects.find((entry) => entry.slug === slug);
+  if (!project) throw new Error(`Projekt fehlt in projects.ts: ${slug}`);
+  return project;
+}
 
 export interface ArchiveProject {
   title: string;

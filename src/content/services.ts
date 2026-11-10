@@ -1,10 +1,13 @@
 import type { Localized } from '../i18n/types';
 import type { LandingKey } from './landing';
+import type { BauteilShape } from '../components/bauteil/isometricShapes';
 
 export interface Service {
   id: string;
   /** Leistungsseite, auf die Masthead und Leistungsblock verlinken. */
   page: LandingKey;
+  /** Strichzeichnung neben dem Titel: Raster, Schichten oder Volumen. */
+  shape: BauteilShape;
   more: Localized<string>;
   title: Localized<string>;
   navTitle: Localized<string>;
@@ -27,6 +30,7 @@ export const services: Service[] = [
   {
     id: 'frontend',
     page: 'frontend',
+    shape: 'raster',
     more: { de: 'Mehr zur Frontend-Entwicklung in Berlin', en: 'More on frontend development in Berlin' },
     title: { de: 'Frontend-Entwicklung', en: 'Frontend engineering' },
     navTitle: { de: 'Frontend-Entwicklung', en: 'Frontend Engineering' },
@@ -54,6 +58,7 @@ export const services: Service[] = [
   {
     id: 'fullstack',
     page: 'fullstack',
+    shape: 'schichten',
     more: { de: 'Mehr zur Fullstack-Entwicklung in Berlin', en: 'More on fullstack development in Berlin' },
     title: { de: 'Fullstack & APIs', en: 'Fullstack & APIs' },
     navTitle: { de: 'Fullstack & APIs', en: 'Fullstack & APIs' },
@@ -81,6 +86,7 @@ export const services: Service[] = [
   {
     id: 'websites',
     page: 'webdesign',
+    shape: 'volumen',
     more: { de: 'Mehr zu Webdesign in Berlin', en: 'More on web design in Berlin' },
     title: {
       de: 'Websites für Selbstständige und kleine Marken',
