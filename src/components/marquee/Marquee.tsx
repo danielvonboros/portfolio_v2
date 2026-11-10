@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import { useSurface } from "../../theme/surface";
 import { type as typeScale } from "../../theme/tokens";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { clipOverflow } from "../../theme/clipOverflow";
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
@@ -58,7 +59,7 @@ export function Marquee({ items }: { items: string[] }) {
   return (
     <Box
       sx={{
-        overflow: "hidden",
+        ...clipOverflow,
         borderBlock: `1px solid ${s.line}`,
         py: { xs: 2, md: 2.5 },
       }}

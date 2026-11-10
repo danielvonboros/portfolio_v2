@@ -11,6 +11,7 @@ import { PulseDot } from "../../components/pulseDot/PulseDot";
 import { Tower } from "../../components/tower/Tower";
 import { useSurface } from "../../theme/surface";
 import { layout } from "../../theme/tokens";
+import { clipOverflow } from "../../theme/clipOverflow";
 
 export function Hero() {
   const { pick } = useI18n();
@@ -21,7 +22,7 @@ export function Hero() {
     <Box
       component="section"
       id="top"
-      sx={{ position: "relative", overflow: "hidden", isolation: "isolate", color: s.ink }}
+      sx={{ position: "relative", ...clipOverflow, isolation: "isolate", color: s.ink }}
     >
       <Container
         sx={{

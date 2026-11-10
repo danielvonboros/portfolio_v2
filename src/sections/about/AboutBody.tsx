@@ -7,6 +7,7 @@ import { Hairline } from "../../components/hairline/Hairline";
 import { useI18n } from "../../i18n/useI18n";
 import { about, stack } from "../../content/about";
 import { useSurface } from "../../theme/surface";
+import { clipOverflow } from "../../theme/clipOverflow";
 
 export function AboutBody() {
   const { pick } = useI18n();
@@ -46,7 +47,7 @@ export function AboutBody() {
               order: { xs: -1, lg: 0 },
               maxWidth: { xs: 260, lg: "none" },
               width: "100%",
-              overflow: "hidden",
+              ...clipOverflow,
             }}
           >
             <Box

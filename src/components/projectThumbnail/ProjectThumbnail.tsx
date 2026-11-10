@@ -5,6 +5,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useSurface } from "../../theme/surface";
 import { motion } from "../../theme/tokens";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { clipOverflow } from "../../theme/clipOverflow";
 
 interface ProjectThumbnailProps {
   title: string;
@@ -83,7 +84,7 @@ export function ProjectThumbnail({
           display: "grid",
           placeItems: "center",
           aspectRatio: "16 / 10",
-          overflow: "hidden",
+          ...clipOverflow,
           backgroundColor: s.dim,
           border: `1px solid ${s.line}`,
           cursor: linked ? "none" : "default",

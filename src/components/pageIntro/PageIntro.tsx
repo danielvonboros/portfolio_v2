@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Breadcrumb, type Crumb } from "../breadcrumb/Breadcrumb";
 import { Glow } from "../glow/Glow";
 import { useSurface } from "../../theme/surface";
+import { clipOverflow } from "../../theme/clipOverflow";
 
 interface PageIntroProps {
   crumbs: Crumb[];
@@ -38,7 +39,7 @@ export function PageIntro({
     <Box
       component="section"
       id="top"
-      sx={{ position: "relative", overflow: "hidden", isolation: "isolate", color: s.ink }}
+      sx={{ position: "relative", ...clipOverflow, isolation: "isolate", color: s.ink }}
     >
       <Container
         sx={{

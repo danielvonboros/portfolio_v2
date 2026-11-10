@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useTheme } from "@mui/material/styles";
 import { SurfaceProvider, type SurfaceKind } from "../../theme/surface";
 import { layout, motion } from "../../theme/tokens";
+import { clipOverflow } from "../../theme/clipOverflow";
 
 interface SectionProps {
   id?: string;
@@ -31,7 +32,7 @@ export function Section({
         id={id}
         sx={{
           position: "relative",
-          overflow: "hidden",
+          ...clipOverflow,
           isolation: "isolate",
           backgroundColor: s.bg,
           backgroundImage: s.backdrop ?? "none",
