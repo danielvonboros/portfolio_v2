@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { useTheme } from "@mui/material/styles";
 import type { Surface } from "./tokens";
 
-export type SurfaceKind = "base" | "contrast";
+export type SurfaceKind = "base" | "contrast" | "drench";
 
 const SurfaceContext = createContext<SurfaceKind>("base");
 

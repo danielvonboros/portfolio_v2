@@ -23,9 +23,10 @@ No content is hardcoded in components. Every string lives in `src/content` as a 
 | State management     | React context, no external store                         |
 | Internationalisation | Custom typed provider, DE/EN                             |
 | Colour modes         | Custom provider, `localStorage` + `prefers-color-scheme` |
-| Typeface             | Satoshi, served by Fontshare                             |
+| 3D                   | Three.js, only for the tower in the hero, lazy loaded    |
+| Typeface             | Satoshi, self-hosted in `public/fonts`                   |
 | Package manager      | yarn                                                     |
-| Hosting              | Netlify or Vercel, static                                |
+| Hosting              | all-inkl, static, deployed by GitHub Actions             |
 
 ### Dependencies
 
@@ -36,20 +37,20 @@ No content is hardcoded in components. Every string lives in `src/content` as a 
 <li>react</li>
 <li>react-dom</li>
 <li>react-router-dom</li>
+<li>three</li>
 </ul>
 
 Dev dependencies
 
 <ul>
-<li>@types/node</li>
-<li>@types/react</li>
-<li>@types/react-dom</li>
+<li>@emotion/cache, @emotion/server (prerendering)</li>
+<li>@types/node, @types/react, @types/react-dom, @types/three</li>
 <li>@vitejs/plugin-react</li>
 <li>typescript</li>
 <li>vite</li>
 </ul>
 
-No i18n library, no icon package, no CSS framework. Icons are inline SVG.
+No i18n library, no icon package, no CSS framework, no animation library. Icons are inline SVG.
 
 ### User Stories
 
@@ -57,6 +58,7 @@ No i18n library, no icon package, no CSS framework. Icons are inline SVG.
 <li>As a recruiter, I want to scan the résumé without expanding anything, so that I can judge fit in under a minute.</li>
 <li>As a client, I want to read the site in German or English, so that I am not reading a machine translation of someone's second language.</li>
 <li>As a visitor on a dark device, I want the site to arrive dark, so that I am not hit by a bright flash at night.</li>
+<li>As a visitor who turned on reduced motion, I want everything to stand still and complete, so that nothing moves that I did not ask for.</li>
 </ul>
 
 ### Content model
@@ -70,108 +72,103 @@ type Localized<T> = Record<Lang, T>;
 
 Components read it through `pick()` from `useI18n()`. Because `Localized` is a `Record` over the full `Lang` union, omitting a language fails `tsc`.
 
-| File                  | Holds                                          |
-| --------------------- | ---------------------------------------------- |
-| `content/site.ts`     | identity, masthead tagline, nav, hero, contact |
-| `content/about.ts`    | about copy, grouped tech stack                 |
-| `content/services.ts` | three service blocks, long and short titles    |
-| `content/projects.ts` | current projects, archived training projects   |
-| `content/cv.ts`       | career stations, positions, education          |
-| `content/legal.ts`    | imprint, § 5 DDG                               |
-| `content/landing.ts`  | service landing pages: copy, FAQ, references   |
+| File                  | Holds                                                         |
+| --------------------- | ------------------------------------------------------------- |
+| `content/site.ts`     | identity, masthead tagline, nav, hero, title band, contact, meta |
+| `content/about.ts`    | about copy, grouped tech stack                                |
+| `content/services.ts` | three service blocks, their drawing (`shape`) and landing page |
+| `content/projects.ts` | current projects, archived training projects                  |
+| `content/cv.ts`       | career stations, positions, education, `field` per station    |
+| `content/legal.ts`    | imprint, § 5 DDG, privacy policy                              |
+| `content/landing.ts`  | service landing pages: copy, FAQ, references, drawing         |
 
 Adding a language: extend `LANGUAGES` in `src/i18n/types.ts`. The compiler then lists every entry still missing the new variant.
 
-### Theming
+### Theming: Beton & Licht
 
-All colour, type scale and spacing values live in `src/theme/tokens.ts`. `src/theme/theme.ts` builds the MUI theme from them per mode. Two base values carry both modes and swap roles between them.
+Grey is concrete, black is structure, violet is light. About 90 % of the surface stays grey and black. Violet appears as light (tower, glow, text selection), on interaction (links, hover, focus), as status (the availability dot) and in exactly one room that is violet all over: the contact section at the end of every page.
 
-| Token | Value     |
-| ----- | --------- |
-| grey  | `#DCDBD7` |
-| black | `#0D0D0D` |
+All colour, type scale, spacing and motion values live in `src/theme/tokens.ts`; keyframes in `src/theme/keyframes.ts`. `src/theme/theme.ts` builds the MUI theme from them per mode.
 
-Components do not import colours directly. They call `useSurface()`, which returns the palette of the surface they are rendered on (`base` or `contrast`), so the same component works on light and dark without an `inverted` prop.
+| Token            | Value     | Use                                         |
+| ---------------- | --------- | ------------------------------------------- |
+| grey             | `#DCDBD7` | base surface (light), text (dark)           |
+| black            | `#0D0D0D` | text (light)                                |
+| `VIOLET.onLight` | `#6741D9` | accent on grey, 4.55:1                      |
+| `VIOLET.onDark`  | `#9775FA` | accent on black and night violet, 5.8:1     |
+| `VIOLET.light`   | `#ACA4FF` | light and glow, never text                  |
+| `VIOLET.night`   | `#0C0B14` | contrast blocks instead of neutral black    |
+| `VIOLET.room`    | `#342373` | the violet room, with `#6240D1` as its light corner |
+
+Components do not import colours directly. They call `useSurface()`, which returns the palette of the surface they are rendered on (`base`, `contrast` or `drench`), including that surface's `accent`. The same component therefore works on grey, on night violet and in the violet room without an `inverted` prop.
 
 An inline script in `index.html` paints the background before React mounts. It shares the `dvb.mode` storage key with `ColorModeProvider`; changing one means changing the other.
 
-### App structure
+### Motion
+
+Every animation tells the same story as the hero copy: structure first, facade second. Lines appear before surfaces fill.
+
+- **Tower** (`components/tower`): sixteen floor slabs of violet glass around a glowing core, rendered with Three.js. On load the structure drops in as lines, then the glass facade closes, then the core lights up. Afterwards it turns slowly, follows the mouse and twists while scrolling. Three.js is imported dynamically after the first paint (~130 KB gzip in its own chunk) and the loop pauses while the canvas is off screen. Without WebGL the glow behind it stays alone.
+- **Title band** (`components/marquee`): the job titles run between hero and about. Scrolling speeds it up and tilts it; the scroll direction sets the running direction.
+- **Drawings** (`components/bauteil`): one isometric drawing per service, raster (frontend), layers (fullstack), volume (websites). Edges draw, then faces fill, driven by the scroll position.
+- **Reveal** (`components/reveal`): headings, service rows and project articles lift in as they scroll into view.
+- **Project images** (`components/projectThumbnail`): tilt towards the mouse, a light spot follows the pointer, a circle replaces the cursor and leads to the site.
+- **Résumé** (`components/timelineMarker`): each station has a line that fills while scrolling. Software stations glow violet, architecture stays concrete grey, so the line shows both professions honestly even though the list runs newest first.
+- **Contact** (`components/lightRing`, `components/magnetic`): a slowly turning ring of light in the violet room; the email address leans towards the mouse.
+
+Scroll-driven effects use CSS `animation-timeline: view()`, not timers: they follow the scroll position, and where a browser does not support them, the content simply stands complete. `prefers-reduced-motion` is respected everywhere: the tower renders one still frame, the band stands still, drawings and markers are complete.
+
+### Structure
+
+The layout follows the `pixelgeselle_website` repository: one folder per component, sections compose components, pages compose sections.
 
 ```
-    danielvonboros-portfolio
-
-    App
-    |_  Masthead
-    |   |_  LanguageSwitch
-    |   |_  ThemeToggle
-    |
-    |_  Home
-    |   |_  Hero
-    |   |_  About
-    |   |_  Services
-    |   |_  Projects
-    |   |_  Resume
-    |   |_  Contact
-    |
-    |_  Landing (webdesign, frontend, fullstack)
-    |_  Legal (imprint, privacy)
-    |_  NotFound
-    |_  Footer
-
-    shared
-    |_  Section, Split, Hairline, DashList
-    |_  ArrowLink
-    |_  Seo
+src/
+  components/   reusable building blocks, one folder each, e.g. components/tower/Tower.tsx
+  content/      all copy, German and English, one file per topic
+  hooks/        shared hooks, e.g. useReducedMotion
+  i18n/         language provider, route table per language
+  pages/        Home, Landing, Legal, NotFound, composed from sections
+  sections/     page sections, one folder each, with their sub-parts next to them
+  seo/          head tags and JSON-LD per page
+  theme/        tokens, keyframes, MUI theme, colour mode, surfaces
 ```
 
-#### Essential features of the Components
+Conventions:
 
-Masthead
+- A component file holds one component and stays under 300 lines. Helpers, types and sub-components get their own files. Content files are exempt from the line limit.
+- A section wraps its body in `Section` so that `useSurface()` inside the body reads the right surface. That is why most sections come as `Name.tsx` plus `NameBody.tsx`.
+- Strings live in `src/content`, visual values in `src/theme`.
 
-<ul>
-<li>Four column header: identity, services, anchor links, switches</li>
-<li>Static, scrolls out of view</li>
-<li>Anchor links resolve to <code>/#id</code> on routes other than <code>/</code></li>
-</ul>
-Hero
-<ul>
-<li>Display headline set per line, line breaks are authored not wrapped</li>
-<li>Availability marker and location</li>
-</ul>
-About
-<ul>
-<li>Long form copy and grayscale portrait</li>
-<li>Portrait falls back to a flat surface when the file is absent</li>
-</ul>
-Services
-<ul>
-<li>Three blocks, hairline separated</li>
-<li>Short titles reused by the masthead</li>
-</ul>
-Projects
-<ul>
-<li>Renders on the contrast surface</li>
-<li>Per project status: <code>live</code>, <code>inProgress</code>, <code>concept</code></li>
-<li>Thumbnails fall back to a typographic placeholder on 404</li>
-<li>Archive block for earlier training projects</li>
-</ul>
-Resume
-<ul>
-<li>Timeline, period in the left column</li>
-<li>Task lists as MUI Accordion, per position default from <code>expanded</code> in <code>cv.ts</code></li>
-<li>Props: <code>collapsible</code>, <code>defaultExpanded</code> (<code>fromData</code> | <code>none</code> | <code>first</code> | <code>all</code>)</li>
-<li>Collapsed content stays mounted, so it remains indexable and findable in page search</li>
-<li><code>@media print</code> forces every panel open</li>
-</ul>
-Contact
-<ul>
-<li>mailto set at display size</li>
-</ul>
-Imprint
-<ul>
-<li>Routes <code>/impressum</code>, <code>/datenschutz</code>, <code>/en/legal-notice</code>, <code>/en/privacy</code></li>
-<li>Unfilled fields render in the focus colour as a reminder</li>
-</ul>
+Sections in page order on the home page: Hero, TitleBand, About, Services, Projects, Resume, Contact. A landing page shows LandingIntro, LandingBlocks, LandingReferences, LandingFaq and Contact. Masthead and Footer wrap every page.
+
+Reusable components:
+
+| Component          | Purpose                                                                 |
+| ------------------ | ----------------------------------------------------------------------- |
+| `Section`          | Section frame on a surface (`base`, `contrast`, `drench`), optional decoration behind the content |
+| `Split`            | Asymmetric layout: narrow label column, content to the right            |
+| `Hairline`         | One-pixel rule in the surface's line colour                              |
+| `DashList`         | List with short dashes as bullets                                        |
+| `ArrowLink`        | Link with arrow and underline, violet on hover, router or external       |
+| `ArrowIcon`        | The arrow used by `ArrowLink` and the masthead navigation                |
+| `Masthead`         | Four-column header: identity, services, anchor links, switches          |
+| `Footer`           | Copyright, landing pages, legal pages, profiles                         |
+| `LanguageSwitch`   | Links to the same page in the other language                            |
+| `ThemeToggle`      | Light and dark switch                                                   |
+| `SkipLink`         | Keyboard link that jumps past the navigation                            |
+| `Seo`              | Swaps title, meta, canonical, hreflang and JSON-LD on navigation        |
+| `Tower`            | The hero object, see Motion                                             |
+| `Glow`             | Soft violet light behind an object, breathes slowly                     |
+| `PulseDot`         | Square status dot with a pulsing ring                                   |
+| `Marquee`          | Running band of terms, driven by scroll speed                           |
+| `Bauteil`          | Isometric drawing (raster, layers, volume), drawn by scrolling          |
+| `Reveal`           | Lifts its children in as they scroll into view                          |
+| `ProjectThumbnail` | Project image with tilt, light spot and view circle; placeholder without image |
+| `TimelineMarker`   | Line and marker next to a résumé station, violet or concrete            |
+| `PlusMinus`        | Plus that turns into a minus in the résumé accordion                    |
+| `LightRing`        | Turning ring of light in the violet room                                 |
+| `Magnetic`         | Pulls its child slightly towards the mouse                               |
 
 ### Setting up the tools:
 
@@ -254,7 +251,6 @@ Missing files degrade to placeholders, they do not break the build.
 <li>Fill the fields marked <code>AUSFÜLLEN</code> in <code>src/content/legal.ts</code>. An incomplete imprint is actionable under German law.</li>
 <li>Verify the GitHub and LinkedIn URLs in <code>src/content/site.ts</code>.</li>
 <li>Add a privacy policy once analytics or a contact form are introduced.</li>
-<li>Self host Satoshi if the external font request is unwanted.</li>
 </ul>
 
 ### Contact me!

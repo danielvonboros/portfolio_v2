@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import { useI18n } from "../i18n/useI18n";
 import { imprint, privacy } from "../content/legal";
-import { Seo } from "../components/Seo";
-import { ArrowLink } from "../components/ArrowLink";
+import { Seo } from "../components/seo/Seo";
+import { ArrowLink } from "../components/arrowLink/ArrowLink";
 
 export function Legal({ isPrivacy }: { isPrivacy?: boolean }) {
   const { pick, path } = useI18n();

@@ -6,6 +6,8 @@ export const SECTION_IDS = {
   projects: 'projekte',
   resume: 'lebenslauf',
   contact: 'kontakt',
+  /** Referenzen auf den Leistungsseiten. */
+  references: 'referenzen',
 } as const;
 
 export interface NavItem {
@@ -177,6 +179,12 @@ export const notFound: Localized<{ title: string; lead: string; back: string }> 
     lead: 'This address doesn’t exist, or no longer does. The home page has everything about my work.',
     back: 'Go to the home page',
   },
+};
+
+/** Berufsbezeichnungen im Laufband zwischen Hero und Über mich. */
+export const titleBand: Localized<string[]> = {
+  de: ['Frontend Developer', 'Webdesigner', 'Full Stack Engineer', 'Webentwickler', 'Architekt M.Sc.'],
+  en: ['Frontend Developer', 'Web Designer', 'Full Stack Engineer', 'Web Developer', 'Architect M.Sc.'],
 };
 
 export const skipLink: Localized<string> = {

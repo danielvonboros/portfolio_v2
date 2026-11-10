@@ -1,5 +1,5 @@
 import { createTheme, type Theme } from '@mui/material/styles';
-import { font, GRAIN_SVG, layout, motion, palettes, type, type AppPalette, type Mode } from './tokens';
+import { font, GRAIN_SVG, layout, motion, palettes, REFERENCE, type, type AppPalette, type Mode } from './tokens';
 
 declare module '@mui/material/styles' {
   /** Die aufgelöste Palette hängt direkt am Theme — kein Prop-Durchreichen nötig. */
@@ -76,7 +76,7 @@ export function buildTheme(mode: Mode): Theme {
             // Hell: Korn dunkelt ab. Dunkel: es liegt schlicht als helles Rauschen auf.
             mixBlendMode: mode === 'light' ? 'multiply' : 'normal',
           },
-          '::selection': { background: app.base.ink, color: app.base.bg },
+          '::selection': { background: app.glow, color: REFERENCE.black },
           'a:focus-visible, button:focus-visible, [tabindex]:focus-visible': {
             outline: `2px solid ${app.focus}`,
             outlineOffset: 3,

@@ -10,8 +10,12 @@ export interface Position {
   expanded?: boolean;
 }
 
+/** Software leuchtet in der Zeitleiste violett, Architektur bleibt betongrau. */
+export type CareerField = 'software' | 'architecture';
+
 export interface Station {
   company: string;
+  field: CareerField;
   location: Localized<string>;
   positions: Position[];
 }
@@ -48,6 +52,7 @@ export const resumeIntro: Localized<{
 export const stations: Station[] = [
   {
     company: 'raumideenwerk',
+    field: 'architecture',
     location: { de: 'Berlin · Hybrid', en: 'Berlin · Hybrid' },
     positions: [
       {
@@ -80,6 +85,7 @@ export const stations: Station[] = [
   },
   {
     company: 'Maltego Technologies',
+    field: 'software',
     location: { de: 'München · Remote', en: 'Munich · Remote' },
     positions: [
       {
@@ -111,6 +117,7 @@ export const stations: Station[] = [
   },
   {
     company: 'bauart — Architekten und Ingenieure',
+    field: 'architecture',
     location: { de: 'Berlin · Vor Ort', en: 'Berlin · On site' },
     positions: [
       {
@@ -146,6 +153,7 @@ export const stations: Station[] = [
   },
   {
     company: 'von Rüden Immobilien GmbH',
+    field: 'architecture',
     location: { de: 'Berlin', en: 'Berlin' },
     positions: [
       {
@@ -200,6 +208,7 @@ export const stations: Station[] = [
   },
   {
     company: 'Meisterbau Teltow GmbH',
+    field: 'architecture',
     location: { de: 'Teltow, Brandenburg', en: 'Teltow, Brandenburg' },
     positions: [
       {
@@ -245,6 +254,7 @@ export const stations: Station[] = [
 
 export interface Education {
   institution: string;
+  field: CareerField;
   subtitle?: Localized<string>;
   qualification: Localized<string>;
   period: Localized<string>;
@@ -254,6 +264,7 @@ export interface Education {
 export const education: Education[] = [
   {
     institution: 'CareerFoundry',
+    field: 'software',
     qualification: {
       de: 'Full-Stack Web Development — React, JavaScript, Angular, TypeScript',
       en: 'Full-stack web development — React, JavaScript, Angular, TypeScript',
@@ -263,6 +274,7 @@ export const education: Education[] = [
   },
   {
     institution: 'Berliner Hochschule für Technik',
+    field: 'architecture',
     subtitle: { de: 'University of Applied Sciences', en: 'University of Applied Sciences' },
     qualification: { de: 'M.Sc. Architektur', en: 'M.Sc. Architecture' },
     period: { de: 'Okt. 2014 — Apr. 2017', en: 'Oct 2014 — April 2017' },
@@ -270,6 +282,7 @@ export const education: Education[] = [
   },
   {
     institution: 'Hochschule Karlsruhe',
+    field: 'architecture',
     subtitle: { de: 'University of Applied Sciences', en: 'University of Applied Sciences' },
     qualification: { de: 'B.A. Architektur', en: 'B.A. Architecture' },
     period: { de: 'Okt. 2011 — Juli 2014', en: 'Oct 2011 — July 2014' },

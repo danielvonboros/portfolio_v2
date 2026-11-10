@@ -4,8 +4,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useI18n } from "../i18n/useI18n";
 import { notFound } from "../content/site";
-import { Seo } from "../components/Seo";
-import { ArrowLink } from "../components/ArrowLink";
+import { Seo } from "../components/seo/Seo";
+import { ArrowLink } from "../components/arrowLink/ArrowLink";
 
 /** Wird auch als `404.html` vorgerendert und trägt `noindex`. */
 export function NotFound() {

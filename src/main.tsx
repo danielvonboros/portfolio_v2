@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { ColorModeProvider } from './theme/ColorModeProvider';
 import { LanguageProvider } from './i18n/LanguageProvider';
+// Bindet die Schrift Satoshi ein (@font-face). Fehlte bisher, die Seite lief in der Ersatzschrift.
+import './index.css';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Kein #root-Element im Dokument gefunden.');

@@ -29,6 +29,10 @@ export const projectsIntro: Localized<{
   archiveNote: string;
   visit: string;
   noImage: string;
+  /** Beschriftung des Kreises über dem Projektbild. */
+  viewLabel: string;
+  /** Zugänglicher Name des Bildlinks, `{title}` wird ersetzt. */
+  imageLinkLabel: string;
 }> = {
   de: {
     label: 'Projekte',
@@ -38,6 +42,8 @@ export const projectsIntro: Localized<{
       'Ausbildungs- und Lernprojekte aus dem Quereinstieg 2021. Der Code liegt weiterhin öffentlich auf GitHub.',
     visit: 'Website ansehen',
     noImage: 'Screenshot folgt',
+    viewLabel: 'Ansehen',
+    imageLinkLabel: 'Website {title} ansehen',
   },
   en: {
     label: 'Work',
@@ -47,6 +53,8 @@ export const projectsIntro: Localized<{
       'Training and learning projects from my 2021 career change. The code is still public on GitHub.',
     visit: 'Visit the site',
     noImage: 'Screenshot to follow',
+    viewLabel: 'View',
+    imageLinkLabel: 'Visit the {title} website',
   },
 };
 

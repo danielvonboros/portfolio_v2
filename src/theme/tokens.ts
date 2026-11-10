@@ -1,17 +1,42 @@
 /**
  * Design-Tokens. Alles Visuelle hat hier genau eine Quelle.
  *
+ * Konzept „Beton & Licht“: Grau ist Beton, Schwarz ist Tragwerk, Violett ist
+ * Licht. Rund 90 % der Fläche bleiben Grau und Schwarz; Violett erscheint als
+ * Licht (Turm, Glühen), bei Interaktion (Links, Hover, Fokus), als Status und
+ * in genau einem vollflächigen Raum, dem Kontakt.
+ *
  * Die beiden Grundfarben stammen aus der Referenz kevinhilgendorf.com,
  * pixelgenau aus dem Screenshot ausgelesen:
  *   Fläche  #DCDBD7   warmes Grau, leicht grünlicher Stich
  *   Schrift #0D0D0D   neutrales Fast-Schwarz
- *
- * Der Dark Mode erfindet keine neuen Farben — die beiden tauschen die Rollen.
  */
 
 export const REFERENCE = {
   grey: '#DCDBD7',
   black: '#0D0D0D',
+} as const;
+
+/**
+ * Violett, festgelegt am 2. Oktober 2026 (Artifact „Akzentfarbe
+ * danielvonboros.com“), Farbton 287° in OKLCH. Kontraste nach WCAG 2.1.
+ */
+export const VIOLET = {
+  /** Links und Akzente auf Beton, 4,55:1. */
+  onLight: '#6741D9',
+  /** Links und Akzente auf Schwarz und Nachtviolett, 5,8:1. */
+  onDark: '#9775FA',
+  /** Markenfarbe für Logo und Print. */
+  brand: '#7048E8',
+  /** Licht und Glühen, nie Schrift. */
+  light: '#ACA4FF',
+  /** Licht im Dark Mode, kräftiger, damit es auf Schwarz trägt. */
+  lightOnDark: '#7D64EF',
+  /** Kontrastblöcke statt neutralem Schwarz. */
+  night: '#0C0B14',
+  /** Der violette Raum, dunkle und helle Ecke des Verlaufs. */
+  room: '#342373',
+  roomLight: '#6240D1',
 } as const;
 
 export type Mode = 'light' | 'dark';
@@ -20,23 +45,44 @@ export type Mode = 'light' | 'dark';
 export interface Surface {
   bg: string;
   ink: string;
-  /** Sekundärtext. Beide Werte sind auf mindestens 4,5:1 geprüft. */
+  /** Sekundärtext. Alle Werte sind auf mindestens 4,5:1 geprüft. */
   muted: string;
   line: string;
   /** Platzhalterfläche, z. B. für fehlende Bilder. */
   dim: string;
+  /** Akzent für Links, Hover und Markierungen auf dieser Fläche. */
+  accent: string;
+  /** Optionaler Verlauf über der Grundfarbe. */
+  backdrop?: string;
 }
 
 export interface AppPalette {
   /** Grundfläche der Seite. */
   base: Surface;
-  /** Der abgesetzte Block — hell: schwarz, dunkel: leicht angehoben. */
+  /** Der abgesetzte Block: Nachtviolett mit Licht von oben. */
   contrast: Surface;
-  /** Nur für den Tastaturfokus. Im normalen Gebrauch unsichtbar. */
+  /** Der violette Raum, einzige vollflächig violette Fläche. */
+  drench: Surface;
+  /** Lichtfarbe für Turm, Glühen und Textmarkierung, nie für Schrift. */
+  glow: string;
+  /** Tastaturfokus. */
   focus: string;
   /** Stärke des Filmkorns über der Fläche. */
   grain: number;
 }
+
+/** Licht, das von oben in die Nachtviolett-Blöcke fällt. */
+const LIGHT_FROM_ABOVE = `radial-gradient(60% 45% at 50% 0%, ${VIOLET.brand}47, transparent 70%)`;
+
+const drench: Surface = {
+  bg: VIOLET.room,
+  ink: '#F2F0FA',
+  muted: '#DEDAF5',
+  line: '#7C6BDF',
+  dim: '#5536B6',
+  accent: '#F2F0FA',
+  backdrop: `radial-gradient(120% 90% at 85% 10%, ${VIOLET.roomLight}, ${VIOLET.room})`,
+};
 
 export const palettes: Record<Mode, AppPalette> = {
   light: {
@@ -46,35 +92,51 @@ export const palettes: Record<Mode, AppPalette> = {
       muted: '#5E5D58',
       line: '#C3C2BD',
       dim: '#CDCCC7',
+      accent: VIOLET.onLight,
     },
     contrast: {
-      bg: REFERENCE.black,
+      bg: VIOLET.night,
       ink: REFERENCE.grey,
       muted: '#908F8A',
-      line: '#2B2B29',
-      dim: '#191918',
+      line: '#252532',
+      dim: '#171723',
+      accent: VIOLET.onDark,
+      backdrop: LIGHT_FROM_ABOVE,
     },
-    focus: '#1E43C4',
+    drench,
+    glow: VIOLET.light,
+    focus: VIOLET.onLight,
     grain: 0.22,
   },
   dark: {
     base: {
-      bg: REFERENCE.black,
+      bg: '#0C0C10',
       ink: REFERENCE.grey,
       muted: '#908F8A',
-      line: '#2B2B29',
-      dim: '#191918',
+      line: '#26262C',
+      dim: '#16151B',
+      accent: VIOLET.onDark,
     },
     contrast: {
-      bg: '#171716',
+      bg: '#151325',
       ink: REFERENCE.grey,
       muted: '#95948F',
-      line: '#323230',
-      dim: '#232322',
+      line: '#313046',
+      dim: '#232136',
+      accent: VIOLET.light,
+      backdrop: LIGHT_FROM_ABOVE,
     },
-    focus: '#6E8CFF',
+    drench,
+    glow: VIOLET.lightOnDark,
+    focus: VIOLET.onDark,
     grain: 0.1,
   },
+};
+
+/** Farben des Turms im Hero, als Zahlen für Three.js. */
+export const towerColors: Record<Mode, { slab: number; emissive: number; edge: number; core: number }> = {
+  light: { slab: 0x5a36d0, emissive: 0x1c0b52, edge: 0x5a36c9, core: 0xc9c2ff },
+  dark: { slab: 0x7b5cf0, emissive: 0x3b1f9a, edge: 0x9775fa, core: 0xc9c2ff },
 };
 
 export const font = {
@@ -103,9 +165,18 @@ export const layout = {
 } as const;
 
 export const motion = {
-  /** Sparsam: nur Zustandswechsel, keine Scroll-Choreografie. */
+  /** Zustandswechsel: Hover, Farbe, Fokus. */
   fast: '140ms cubic-bezier(0.2, 0, 0, 1)',
   base: '260ms cubic-bezier(0.2, 0, 0, 1)',
+  /** Auslaufende Bewegung für Neigung und Magnetik. */
+  settle: '500ms cubic-bezier(0.16, 1, 0.3, 1)',
+  /**
+   * Scrollgebundene Animationen laufen über die Scrollposition, nicht über
+   * die Zeit. Bereiche nach CSS `animation-range`.
+   */
+  revealRange: 'cover 0% cover 18%',
+  drawRange: 'cover 10% cover 35%',
+  fillRange: 'cover 30% cover 45%',
 } as const;
 
 /**

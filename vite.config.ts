@@ -13,5 +13,11 @@ export default defineConfig({
   // MUI lässt sich in Node nicht als ESM laden (Verzeichnis-Importe).
   // Für das Prerendering wird es deshalb mit ins SSR-Bundle gepackt.
   ssr: { noExternal: [/^@mui\//] },
-  build: { outDir: 'dist', sourcemap: false },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    // Three.js für den Turm liegt bewusst in einem eigenen, nachgeladenen
+    // Chunk (~510 KB roh, ~130 KB gzip). Die Warnung soll nur echte Ausreißer melden.
+    chunkSizeWarningLimit: 600,
+  },
 });

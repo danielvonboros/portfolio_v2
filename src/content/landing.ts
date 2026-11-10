@@ -1,5 +1,6 @@
 import type { Localized } from '../i18n/types';
 import type { RouteKey } from '../i18n/routes';
+import type { BauteilShape } from '../components/bauteil/isometricShapes';
 
 /**
  * Leistungsseiten — je eine pro Suchabsicht. `webdesign` richtet sich an
@@ -37,6 +38,13 @@ export interface LandingPage {
   /** Leistungsart für die strukturierten Daten. */
   serviceType: string;
 }
+
+/** Bauteil, das neben der Überschrift der Seite steht, wie in den Leistungen. */
+export const landingShapes: Record<LandingKey, BauteilShape> = {
+  webdesign: 'volumen',
+  frontend: 'raster',
+  fullstack: 'schichten',
+};
 
 /** Projekte aus `projects.ts`, die auf der jeweiligen Seite als Referenz erscheinen. */
 export const landingReferences: Record<LandingKey, string[]> = {
