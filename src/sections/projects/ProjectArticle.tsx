@@ -5,16 +5,18 @@ import { DashList } from "../../components/dashList/DashList";
 import { ArrowLink } from "../../components/arrowLink/ArrowLink";
 import { ProjectThumbnail } from "../../components/projectThumbnail/ProjectThumbnail";
 import { Reveal } from "../../components/reveal/Reveal";
+import { ProjectStatus } from "../../components/projectStatus/ProjectStatus";
 import { useI18n } from "../../i18n/useI18n";
-import { projectsIntro, statusLabel, type Project } from "../../content/projects";
+import { projectRoute } from "../../i18n/routes";
+import { projectsIntro, type Project } from "../../content/projects";
 import { useSurface } from "../../theme/surface";
 
 /** Ein aktuelles Projekt: Bild links, Status, Beschreibung und Beitrag rechts. */
 export function ProjectArticle({ project }: { project: Project }) {
-  const { pick } = useI18n();
+  const { pick, path } = useI18n();
   const s = useSurface();
   const t = pick(projectsIntro);
-  const live = project.status === "live";
+  const details = path(projectRoute(project.slug));
 
   return (
     <Reveal component="article">
@@ -30,10 +32,10 @@ export function ProjectArticle({ project }: { project: Project }) {
         <ProjectThumbnail
           title={project.title}
           image={project.image}
-          url={project.url}
+          href={details}
           fallback={t.noImage}
           viewLabel={t.viewLabel}
-          linkLabel={t.imageLinkLabel.replace("{title}", project.title)}
+          linkLabel={t.detailsLinkLabel.replace("{title}", project.title)}
         />
 
         <Stack spacing={2.5}>
@@ -41,26 +43,7 @@ export function ProjectArticle({ project }: { project: Project }) {
             <Typography variant="caption" sx={{ color: s.muted }}>
               {project.year}
             </Typography>
-            <Typography
-              variant="caption"
-              sx={{
-                color: live ? s.ink : s.muted,
-                display: "flex",
-                alignItems: "center",
-                gap: 0.75,
-              }}
-            >
-              <Box
-                aria-hidden
-                sx={{
-                  width: 7,
-                  height: 7,
-                  backgroundColor: live ? s.accent : "transparent",
-                  border: `1px solid ${s.accent}`,
-                }}
-              />
-              {pick(statusLabel[project.status])}
-            </Typography>
+            <ProjectStatus status={project.status} />
           </Stack>
 
           <Box>
@@ -82,13 +65,16 @@ export function ProjectArticle({ project }: { project: Project }) {
             {project.stack.join("  ·  ")}
           </Typography>
 
-          {project.url && (
-            <Box sx={{ pt: 0.5 }}>
+          <Stack direction="row" spacing={{ xs: 3, sm: 4 }} flexWrap="wrap" useFlexGap sx={{ pt: 0.5 }}>
+            <ArrowLink href={details} routerTo={details}>
+              {t.details}
+            </ArrowLink>
+            {project.url && (
               <ArrowLink href={project.url} external>
                 {t.visit}
               </ArrowLink>
-            </Box>
-          )}
+            )}
+          </Stack>
         </Stack>
       </Box>
     </Reveal>

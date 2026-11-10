@@ -3,20 +3,17 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
 import { Reveal } from "../../components/reveal/Reveal";
-import { useI18n } from "../../i18n/useI18n";
-import { landingPages, type LandingKey } from "../../content/landing";
+import { ContentBlock } from "../../components/contentBlock/ContentBlock";
+import type { ContentBlock as Block } from "../../content/contentBlock";
 import { useSurface } from "../../theme/surface";
-import { LandingBlockBody } from "./LandingBlockBody";
 
-export function LandingBlocksBody({ page }: { page: LandingKey }) {
-  const { pick } = useI18n();
+export function ContentBlocksBody({ label, blocks }: { label: string; blocks: Block[] }) {
   const s = useSurface();
-  const t = pick(landingPages[page]);
 
   return (
-    <Split label={t.label}>
+    <Split label={label}>
       <Stack>
-        {t.blocks.map((block) => (
+        {blocks.map((block) => (
           <Reveal key={block.heading}>
             <Box
               sx={{
@@ -31,7 +28,7 @@ export function LandingBlocksBody({ page }: { page: LandingKey }) {
               <Typography variant="h4" component="h2" sx={{ maxWidth: "16ch" }}>
                 {block.heading}
               </Typography>
-              <LandingBlockBody block={block} />
+              <ContentBlock block={block} />
             </Box>
           </Reveal>
         ))}

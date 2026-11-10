@@ -1,41 +1,12 @@
 import { DEFAULT_LANG, LANGUAGES, type Lang } from '../i18n/types';
-import { absoluteUrl, pathFor, type RouteKey } from '../i18n/routes';
-import { identity, meta, notFound } from '../content/site';
-import { landingPages } from '../content/landing';
-import { imprint, privacy } from '../content/legal';
+import { absoluteUrl, pathFor } from '../i18n/routes';
+import { identity } from '../content/site';
 import { schemaFor } from './schema';
+import { pageImage, pageMeta, type PageKey } from './pageMeta';
 
-export type PageKey = RouteKey | 'notFound';
+export type { PageKey } from './pageMeta';
 
 const OG_LOCALE: Record<Lang, string> = { de: 'de_DE', en: 'en_GB' };
-
-const OG_IMAGE = {
-  url: absoluteUrl('/og.jpg'),
-  width: 1200,
-  height: 630,
-  alt: {
-    de: 'Daniel von Boros – Webdesigner und Fullstack-Entwickler in Berlin',
-    en: 'Daniel von Boros – web designer and fullstack developer in Berlin',
-  },
-};
-
-export function pageMeta(page: PageKey, lang: Lang): { title: string; description: string } {
-  switch (page) {
-    case 'home':
-      return meta[lang];
-    case 'webdesign':
-    case 'frontend':
-    case 'fullstack':
-      return landingPages[page][lang].meta;
-    case 'imprint':
-    case 'privacy': {
-      const t = (page === 'imprint' ? imprint : privacy)[lang];
-      return { title: `${t.title} | ${identity.name}`, description: t.description };
-    }
-    case 'notFound':
-      return { title: `${notFound[lang].title} | ${identity.name}`, description: notFound[lang].lead };
-  }
-}
 
 function esc(value: string): string {
   return value
@@ -59,6 +30,7 @@ function tag(name: string, attrs: Record<string, string>): string {
  */
 export function headTags(page: PageKey, lang: Lang): string {
   const { title, description } = pageMeta(page, lang);
+  const image = pageImage(page, lang);
   const tags = [
     `<title data-seo>${esc(title)}</title>`,
     tag('meta', { name: 'description', content: description }),
@@ -85,10 +57,10 @@ export function headTags(page: PageKey, lang: Lang): string {
     ...LANGUAGES.filter((alt) => alt !== lang).map((alt) =>
       tag('meta', { property: 'og:locale:alternate', content: OG_LOCALE[alt] }),
     ),
-    tag('meta', { property: 'og:image', content: OG_IMAGE.url }),
-    tag('meta', { property: 'og:image:width', content: String(OG_IMAGE.width) }),
-    tag('meta', { property: 'og:image:height', content: String(OG_IMAGE.height) }),
-    tag('meta', { property: 'og:image:alt', content: OG_IMAGE.alt[lang] }),
+    tag('meta', { property: 'og:image', content: image.url }),
+    tag('meta', { property: 'og:image:width', content: String(image.width) }),
+    tag('meta', { property: 'og:image:height', content: String(image.height) }),
+    tag('meta', { property: 'og:image:alt', content: image.alt }),
     tag('meta', { name: 'twitter:card', content: 'summary_large_image' }),
   );
 

@@ -8,19 +8,34 @@ import { Home } from "./pages/Home";
 import { Legal } from "./pages/Legal";
 import { Landing } from "./pages/Landing";
 import { NotFound } from "./pages/NotFound";
+import { ProjectDetail } from "./pages/ProjectDetail";
+import { ProjectOverview } from "./pages/ProjectOverview";
 import { useI18n } from "./i18n/useI18n";
 import { LANGUAGES } from "./i18n/types";
-import { ROUTE_KEYS, routes, type RouteKey } from "./i18n/routes";
+import {
+  ROUTE_KEYS,
+  isProjectRoute,
+  projectSlugOf,
+  routes,
+  type RouteKey,
+  type StaticRouteKey,
+} from "./i18n/routes";
 import { SkipLink } from "./components/skipLink/SkipLink";
 
-const PAGES: Record<RouteKey, ReactNode> = {
+const PAGES: Record<StaticRouteKey, ReactNode> = {
   home: <Home />,
   webdesign: <Landing page="webdesign" />,
   frontend: <Landing page="frontend" />,
   fullstack: <Landing page="fullstack" />,
+  projects: <ProjectOverview />,
   imprint: <Legal />,
   privacy: <Legal isPrivacy />,
 };
+
+/** Projektseiten entstehen aus der Projektliste, alle anderen stehen in PAGES. */
+function pageFor(key: RouteKey): ReactNode {
+  return isProjectRoute(key) ? <ProjectDetail slug={projectSlugOf(key)} /> : PAGES[key];
+}
 
 export default function App() {
   const { route } = useI18n();
@@ -41,7 +56,7 @@ export default function App() {
                 <Route
                   key={`${key}-${lang}`}
                   path={routes[key][lang]}
-                  element={PAGES[key]}
+                  element={pageFor(key)}
                 />
               )),
             )}

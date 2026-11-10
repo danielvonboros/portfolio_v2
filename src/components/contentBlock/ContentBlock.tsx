@@ -3,12 +3,12 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { DashList } from "../../components/dashList/DashList";
 import { useI18n } from "../../i18n/useI18n";
-import type { LandingBlock } from "../../content/landing";
+import type { ContentBlock as Block } from "../../content/contentBlock";
 import { stack } from "../../content/about";
 import { useSurface } from "../../theme/surface";
 
-/** Inhalt eines Blocks der Leistungsseite, je nach Art: Text, Liste, Paare oder Technologien. */
-export function LandingBlockBody({ block }: { block: LandingBlock }) {
+/** Inhalt eines Blocks, je nach Art: Text, Liste, Paare oder Technologien. */
+export function ContentBlock({ block }: { block: Block }) {
   const { pick } = useI18n();
   const s = useSurface();
 

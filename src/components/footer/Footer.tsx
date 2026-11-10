@@ -56,6 +56,9 @@ export function Footer() {
               <Link component={RouterLink} to={path("fullstack")} sx={linkSx}>
                 {t.fullstack}
               </Link>
+              <Link component={RouterLink} to={path("projects")} sx={linkSx}>
+                {t.projects}
+              </Link>
               <Link component={RouterLink} to={path("imprint")} sx={linkSx}>
                 {t.imprint}
               </Link>

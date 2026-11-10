@@ -1,6 +1,7 @@
 import { useRef, useState, type PointerEvent } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { Link as RouterLink } from "react-router-dom";
 import { useSurface } from "../../theme/surface";
 import { motion } from "../../theme/tokens";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
@@ -8,24 +9,31 @@ import { useReducedMotion } from "../../hooks/useReducedMotion";
 interface ProjectThumbnailProps {
   title: string;
   image?: string;
-  url?: string;
+  /** Ziel des Bildlinks: Projektseite oder, mit `external`, die Website selbst. */
+  href?: string;
+  /** Öffnet `href` in einem neuen Tab statt über den Router. */
+  external?: boolean;
+  /** Beschreibender Alternativtext. Ohne Angabe gilt der Linktext als Name. */
+  alt?: string;
   /** Text, wenn kein Bild existiert oder es nicht lädt. */
   fallback: string;
   /** Beschriftung des Kreises, der dem Zeiger folgt. */
   viewLabel: string;
-  /** Zugänglicher Name des Links, z. B. „Website Denison Silva ansehen“. */
+  /** Zugänglicher Name des Links, z. B. „Projekt Denison Silva ansehen“. */
   linkLabel: string;
 }
 
 /**
  * Projektbild, das sich zur Maus neigt. Ein Lichtfleck folgt dem Zeiger, ein
- * Kreis zeigt, dass das Bild zur Website führt. Ohne Bild erscheint eine
- * typografische Fläche, ohne URL bleibt es ein Bild ohne Link.
+ * Kreis zeigt, dass das Bild ein Link ist. Ohne Bild erscheint eine
+ * typografische Fläche, ohne `href` bleibt es ein Bild ohne Link.
  */
 export function ProjectThumbnail({
   title,
   image,
-  url,
+  href,
+  external = false,
+  alt,
   fallback,
   viewLabel,
   linkLabel,
@@ -52,14 +60,18 @@ export function ProjectThumbnail({
     frame.current?.style.setProperty("--ry", "0deg");
   };
 
-  const linked = Boolean(url);
+  const linked = Boolean(href);
+  const linkProps = !href
+    ? { component: "div" }
+    : external
+      ? { component: "a", href, target: "_blank", rel: "noopener noreferrer", "aria-label": linkLabel }
+      : { component: RouterLink, to: href, "aria-label": linkLabel };
 
   return (
     <Box sx={{ perspective: "1200px" }}>
       <Box
         ref={frame}
-        component={linked ? "a" : "div"}
-        {...(linked ? { href: url, target: "_blank", rel: "noopener noreferrer", "aria-label": linkLabel } : {})}
+        {...linkProps}
         onPointerMove={onMove}
         onPointerLeave={onLeave}
         sx={{
@@ -101,7 +113,7 @@ export function ProjectThumbnail({
           <Box
             component="img"
             src={image}
-            alt={linked ? "" : title}
+            alt={alt ?? (linked ? "" : title)}
             loading="lazy"
             onError={() => setFailed(true)}
             sx={{

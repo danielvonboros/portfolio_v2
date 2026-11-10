@@ -77,7 +77,9 @@ Components read it through `pick()` from `useI18n()`. Because `Localized` is a `
 | `content/site.ts`     | identity, masthead tagline, nav, hero, title band, contact, meta |
 | `content/about.ts`    | about copy, grouped tech stack                                |
 | `content/services.ts` | three service blocks, their drawing (`shape`) and landing page |
-| `content/projects.ts` | current projects, archived training projects                  |
+| `content/projects.ts` | current projects with their slugs, archived training projects |
+| `content/projectPages/` | one file per project page: SEO title and description, H1, lead, case study blocks, keywords, contact copy; plus the overview page and fixed labels |
+| `content/contentBlock.ts` | the block type (text, list, pairs, stack) shared by landing and project pages |
 | `content/cv.ts`       | career stations, positions, education, `field` per station    |
 | `content/legal.ts`    | imprint, § 5 DDG, privacy policy                              |
 | `content/landing.ts`  | service landing pages: copy, FAQ, references, drawing         |
@@ -128,7 +130,7 @@ src/
   content/      all copy, German and English, one file per topic
   hooks/        shared hooks, e.g. useReducedMotion
   i18n/         language provider, route table per language
-  pages/        Home, Landing, Legal, NotFound, composed from sections
+  pages/        Home, Landing, ProjectOverview, ProjectDetail, Legal, NotFound, composed from sections
   sections/     page sections, one folder each, with their sub-parts next to them
   seo/          head tags and JSON-LD per page
   theme/        tokens, keyframes, MUI theme, colour mode, surfaces
@@ -140,7 +142,14 @@ Conventions:
 - A section wraps its body in `Section` so that `useSurface()` inside the body reads the right surface. That is why most sections come as `Name.tsx` plus `NameBody.tsx`.
 - Strings live in `src/content`, visual values in `src/theme`.
 
-Sections in page order on the home page: Hero, TitleBand, About, Services, Projects, Resume, Contact. A landing page shows LandingIntro, LandingBlocks, LandingReferences, LandingFaq and Contact. Masthead and Footer wrap every page.
+Sections in page order:
+
+- Home: Hero, TitleBand, About, Services, Projects, Resume, Contact.
+- Landing page: LandingIntro, ContentBlocks, ProjectCards (references), LandingFaq, Contact.
+- Project overview: OverviewIntro, ProjectCards (all projects), Contact.
+- Project page: ProjectIntro, ProjectShowcase, ContentBlocks (case study), ProjectCards (the next three projects), Contact.
+
+Masthead and Footer wrap every page.
 
 Reusable components:
 
@@ -153,7 +162,7 @@ Reusable components:
 | `ArrowLink`        | Link with arrow and underline, violet on hover, router or external       |
 | `ArrowIcon`        | The arrow used by `ArrowLink` and the masthead navigation                |
 | `Masthead`         | Four-column header: identity, services, anchor links, switches          |
-| `Footer`           | Copyright, landing pages, legal pages, profiles                         |
+| `Footer`           | Copyright, landing pages, projects, legal pages, profiles               |
 | `LanguageSwitch`   | Links to the same page in the other language                            |
 | `ThemeToggle`      | Light and dark switch                                                   |
 | `SkipLink`         | Keyboard link that jumps past the navigation                            |
@@ -164,7 +173,13 @@ Reusable components:
 | `Marquee`          | Running band of terms, driven by scroll speed                           |
 | `Bauteil`          | Isometric drawing (raster, layers, volume), drawn by scrolling          |
 | `Reveal`           | Lifts its children in as they scroll into view                          |
-| `ProjectThumbnail` | Project image with tilt, light spot and view circle; placeholder without image |
+| `ProjectThumbnail` | Project image with tilt, light spot and view circle; links to the project page or, with `external`, to the site; placeholder without image |
+| `ProjectCard`      | Image, title, client and link to the project page                       |
+| `ProjectStatus`    | Project status with a square, filled when live                          |
+| `PageIntro`        | Head of every subpage: breadcrumb, H1, lead, optional right column      |
+| `Breadcrumb`       | Path from the home page to the current page                             |
+| `FactList`         | Label and value pairs between hairlines, e.g. the project facts         |
+| `ContentBlock`     | One block of a landing or project page: text, list, pairs or stack      |
 | `TimelineMarker`   | Line and marker next to a résumé station, violet or concrete            |
 | `PlusMinus`        | Plus that turns into a minus in the résumé accordion                    |
 | `LightRing`        | Turning ring of light in the violet room                                 |
@@ -212,10 +227,14 @@ Route paths live in `src/i18n/routes.ts`, one per page and language:
 | Web design  | `/webdesign-berlin`            | `/en/web-design-berlin`          |
 | Frontend    | `/frontend-entwickler-berlin`  | `/en/frontend-developer-berlin`  |
 | Fullstack   | `/fullstack-entwickler-berlin` | `/en/fullstack-developer-berlin` |
+| Projects    | `/projekte/`                   | `/en/projects/`                  |
+| One project | `/projekte/<slug>`             | `/en/projects/<slug>`            |
 | Imprint     | `/impressum`                   | `/en/legal-notice`               |
 | Privacy     | `/datenschutz`                 | `/en/privacy`                    |
 
-`src/seo/head.ts` builds title, description, canonical, hreflang, Open Graph and JSON-LD (`src/seo/schema.ts`) for each page. The prerender writes these tags into the static HTML; `<Seo>` swaps them on client-side navigation. Adding a page means adding a route key, an element in `App.tsx` and a case in `pageMeta()`; the sitemap follows automatically.
+`src/seo/head.ts` builds title, description, canonical, hreflang, Open Graph and JSON-LD (`src/seo/schema.ts`) for each page. The prerender writes these tags into the static HTML; `<Seo>` swaps them on client-side navigation. Adding a page means adding a route key, an element in `App.tsx` and a case in `pageMeta()` (`src/seo/pageMeta.ts`); the sitemap follows automatically.
+
+Project pages are generated from the project list. Adding one takes three steps: add the slug to `PROJECT_SLUGS` and an entry to `projects` in `content/projects.ts`, write `content/projectPages/<name>.ts` and register it in `content/projectPages/index.ts` together with its matching service pages. Route, page, sitemap entry, Open Graph image (the project screenshot) and structured data (`CreativeWork` plus breadcrumb, see `src/seo/projectSchema.ts`) follow from that. Keywords are written out in title, H1, lead and blocks; the `keywords` list only goes into the JSON-LD, never onto the page as a list.
 
 Pages are prerendered in light mode. The browser does not hydrate them: `main.tsx` calls `createRoot`, which replaces the static markup. In dark mode the inline script in `index.html` removes the prerendered styles and keeps `#root` hidden until React has painted, so dark visitors never see a light flash.
 
@@ -239,7 +258,7 @@ Deploy as a static site, build command `yarn build`, publish directory `dist`. O
 
 <ul>
 <li><code>public/portrait.jpg</code>, portrait, 4:5</li>
-<li><code>public/projects/&lt;slug&gt;.jpg</code>, 16:10, 1600 x 1000 minimum, slugs from <code>content/projects.ts</code></li>
+<li><code>public/projects/&lt;name&gt;.webp</code>, about 16:10, 1600 px wide, path and pixel size (<code>imageSize</code>) in <code>content/projects.ts</code>. The image is also the link preview of the project page.</li>
 <li><code>public/og.jpg</code>, 1200 x 630</li>
 </ul>
 

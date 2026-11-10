@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -8,15 +7,14 @@ import { useI18n } from "../i18n/useI18n";
 import { imprint, privacy } from "../content/legal";
 import { Seo } from "../components/seo/Seo";
 import { ArrowLink } from "../components/arrowLink/ArrowLink";
+import { useScrollToTop } from "../hooks/useScrollToTop";
 
 export function Legal({ isPrivacy }: { isPrivacy?: boolean }) {
   const { pick, path } = useI18n();
   const theme = useTheme();
   const t = pick(isPrivacy ? privacy : imprint);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useScrollToTop(isPrivacy);
 
   return (
     <>

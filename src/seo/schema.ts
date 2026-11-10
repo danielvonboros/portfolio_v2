@@ -1,22 +1,26 @@
 import type { Lang } from '../i18n/types';
-import { SITE_URL, absoluteUrl, pathFor, type RouteKey } from '../i18n/routes';
+import {
+  SITE_URL,
+  absoluteUrl,
+  isProjectRoute,
+  pathFor,
+  projectSlugOf,
+  type RouteKey,
+} from '../i18n/routes';
 import { identity, occupations } from '../content/site';
 import { stack } from '../content/about';
 import { education } from '../content/cv';
 import { imprintData } from '../content/legal';
 import { landingPages, type LandingKey } from '../content/landing';
+import { breadcrumbList } from './breadcrumbList';
+import { projectNodes, projectsOverviewNodes } from './projectSchema';
+import { BUSINESS_ID, PERSON_ID, WEBSITE_ID, type SchemaNode } from './schemaIds';
 
 /**
  * Strukturierte Daten (schema.org, JSON-LD). Person und Unternehmen stehen auf
  * jeder Seite im selben Graphen und werden per @id referenziert, damit Google
  * Name, Adresse und Profile als eine Entität zusammenführt.
  */
-
-const PERSON_ID = `${SITE_URL}/#person`;
-const BUSINESS_ID = `${SITE_URL}/#business`;
-const WEBSITE_ID = `${SITE_URL}/#website`;
-
-type Node = Record<string, unknown>;
 
 const LANDING_KEYS: LandingKey[] = ['webdesign', 'frontend', 'fullstack'];
 
@@ -34,7 +38,7 @@ const address = {
   addressCountry: 'DE',
 };
 
-function person(lang: Lang): Node {
+function person(lang: Lang): SchemaNode {
   return {
     '@type': 'Person',
     '@id': PERSON_ID,
@@ -57,7 +61,7 @@ function person(lang: Lang): Node {
   };
 }
 
-function business(lang: Lang): Node {
+function business(lang: Lang): SchemaNode {
   return {
     '@type': 'ProfessionalService',
     '@id': BUSINESS_ID,
@@ -87,7 +91,7 @@ function business(lang: Lang): Node {
   };
 }
 
-function website(): Node {
+function website(): SchemaNode {
   return {
     '@type': 'WebSite',
     '@id': WEBSITE_ID,
@@ -98,22 +102,36 @@ function website(): Node {
   };
 }
 
-function webPage(page: RouteKey, lang: Lang, title: string, description: string): Node {
+function pageType(page: RouteKey): string {
+  if (page === 'home') return 'ProfilePage';
+  if (page === 'projects') return 'CollectionPage';
+  return 'WebPage';
+}
+
+/** Worum es auf der Seite hauptsächlich geht, falls es dafür einen eigenen Knoten gibt. */
+function mainEntity(page: RouteKey, url: string): SchemaNode {
+  if (page === 'home') return { mainEntity: { '@id': PERSON_ID } };
+  if (page === 'projects') return { mainEntity: { '@id': `${url}#itemlist` } };
+  if (isProjectRoute(page)) return { mainEntity: { '@id': `${url}#project` } };
+  return {};
+}
+
+function webPage(page: RouteKey, lang: Lang, title: string, description: string): SchemaNode {
   const url = absoluteUrl(pathFor(page, lang));
   return {
-    '@type': page === 'home' ? 'ProfilePage' : 'WebPage',
+    '@type': pageType(page),
     '@id': `${url}#webpage`,
     url,
     name: title,
     description,
     inLanguage: lang,
     isPartOf: { '@id': WEBSITE_ID },
-    ...(page === 'home' ? { mainEntity: { '@id': PERSON_ID } } : {}),
+    ...mainEntity(page, url),
   };
 }
 
-export function schemaFor(page: RouteKey, lang: Lang, title: string, description: string): Node {
-  const graph: Node[] = [person(lang), business(lang), website(), webPage(page, lang, title, description)];
+export function schemaFor(page: RouteKey, lang: Lang, title: string, description: string): SchemaNode {
+  const graph: SchemaNode[] = [person(lang), business(lang), website(), webPage(page, lang, title, description)];
 
   if (isLanding(page)) {
     const t = landingPages[page][lang];
@@ -141,15 +159,15 @@ export function schemaFor(page: RouteKey, lang: Lang, title: string, description
           acceptedAnswer: { '@type': 'Answer', text: entry.answer },
         })),
       },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: identity.name, item: absoluteUrl(pathFor('home', lang)) },
-          { '@type': 'ListItem', position: 2, name: t.label, item: url },
-        ],
-      },
+      breadcrumbList([
+        { name: identity.name, url: absoluteUrl(pathFor('home', lang)) },
+        { name: t.label, url },
+      ]),
     );
   }
+
+  if (page === 'projects') graph.push(...projectsOverviewNodes(lang));
+  if (isProjectRoute(page)) graph.push(...projectNodes(projectSlugOf(page), lang, description));
 
   return { '@context': 'https://schema.org', '@graph': graph };
 }
