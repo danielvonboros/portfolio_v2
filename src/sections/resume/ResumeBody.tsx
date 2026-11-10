@@ -4,7 +4,7 @@ import ButtonBase from "@mui/material/ButtonBase";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
-import { Reveal } from "../../components/reveal/Reveal";
+import { SplitText } from "../../components/splitText/SplitText";
 import { useI18n } from "../../i18n/useI18n";
 import { education, resumeIntro, stations, type CareerField } from "../../content/cv";
 import { useSurface } from "../../theme/surface";
@@ -52,11 +52,9 @@ export function ResumeBody({ collapsible, defaultExpanded }: Required<ResumeProp
   return (
     <Split label={t.label}>
       <Stack spacing={{ xs: 6, md: 8 }}>
-        <Reveal>
-          <Typography variant="h3" component="h2" sx={{ maxWidth: "20ch" }}>
-            {t.heading}
-          </Typography>
-        </Reveal>
+        <Typography variant="h3" component="h2" sx={{ maxWidth: "20ch" }}>
+          <SplitText text={t.heading} trigger="scroll" />
+        </Typography>
 
         <Box>
           <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={2} sx={{ pb: 1 }}>

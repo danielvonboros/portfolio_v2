@@ -3,21 +3,19 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
 import { Reveal } from "../../components/reveal/Reveal";
+import { Hairline } from "../../components/hairline/Hairline";
 import { ContentBlock } from "../../components/contentBlock/ContentBlock";
 import type { ContentBlock as Block } from "../../content/contentBlock";
-import { useSurface } from "../../theme/surface";
 
 export function ContentBlocksBody({ label, blocks }: { label: string; blocks: Block[] }) {
-  const s = useSurface();
-
   return (
     <Split label={label}>
       <Stack>
         {blocks.map((block) => (
           <Reveal key={block.heading}>
+            <Hairline draw />
             <Box
               sx={{
-                borderTop: `1px solid ${s.line}`,
                 py: { xs: 4, md: 5 },
                 display: "grid",
                 gridTemplateColumns: { xs: "1fr", md: "minmax(0, 1fr) minmax(0, 2fr)" },

@@ -177,6 +177,17 @@ export const motion = {
   revealRange: 'cover 0% cover 18%',
   drawRange: 'cover 10% cover 35%',
   fillRange: 'cover 30% cover 45%',
+  /** Haarlinien zeichnen sich, während sie ins untere Drittel scrollen. */
+  lineRange: 'cover 0% cover 30%',
+  /** Projektbilder legen sich frei, solange sie hereinkommen. */
+  unveilRange: 'entry 0% cover 35%',
+  /** Überschriften beim Laden: Dauer, Verzögerung und Abstand je Wort in ms. */
+  rise: { duration: 950, delay: 120, stagger: 70, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' },
+  /**
+   * Überschriften beim Scrollen: jedes Wort startet `step` Prozent später
+   * im `cover`-Bereich und braucht `span` Prozent bis zum Ziel.
+   */
+  words: { start: 6, step: 2.2, span: 16 },
 } as const;
 
 /**

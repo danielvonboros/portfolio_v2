@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import Box from "@mui/material/Box";
 import { Route, Routes } from "react-router-dom";
 import { Masthead } from "./components/masthead/Masthead";
@@ -21,6 +21,9 @@ import {
   type StaticRouteKey,
 } from "./i18n/routes";
 import { SkipLink } from "./components/skipLink/SkipLink";
+import { ScrollProgress } from "./components/scrollProgress/ScrollProgress";
+import { CursorLight } from "./components/cursorLight/CursorLight";
+import { finishBoot } from "./components/splitText/bootOffset";
 
 const PAGES: Record<StaticRouteKey, ReactNode> = {
   home: <Home />,
@@ -40,12 +43,17 @@ function pageFor(key: RouteKey): ReactNode {
 export default function App() {
   const { route } = useI18n();
 
+  // Nach dem ersten Rendern starten neue Überschriften ohne Vorsprung.
+  useEffect(finishBoot, []);
+
   return (
     <SurfaceProvider kind="base">
       <Box
         sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
       >
         <SkipLink />
+        <ScrollProgress />
+        <CursorLight />
 
         <Masthead anchorsActive={route === "home"} />
 

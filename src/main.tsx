@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { ColorModeProvider } from './theme/ColorModeProvider';
 import { LanguageProvider } from './i18n/LanguageProvider';
+import { measureBootOffset } from './components/splitText/bootOffset';
 // Bindet die Schrift Satoshi ein (@font-face). Fehlte bisher, die Seite lief in der Ersatzschrift.
 import './index.css';
 
@@ -13,6 +14,10 @@ if (!container) throw new Error('Kein #root-Element im Dokument gefunden.');
 // Bewusst createRoot statt hydrateRoot: Das vorgerenderte HTML ist immer
 // hell, der Besucher kann dunkel eingestellt haben. React zeichnet deshalb
 // neu und ersetzt das statische Markup, statt es zu übernehmen.
+// Wie weit die Überschriften im vorgerenderten HTML schon aufgestiegen sind,
+// damit sie nach dem Austausch nahtlos weiterlaufen, siehe bootOffset.ts.
+measureBootOffset();
+
 createRoot(container).render(
   <StrictMode>
     <BrowserRouter>

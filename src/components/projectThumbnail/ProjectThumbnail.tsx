@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import { Link as RouterLink } from "react-router-dom";
 import { useSurface } from "../../theme/surface";
 import { motion } from "../../theme/tokens";
+import { drift, unveil } from "../../theme/keyframes";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { clipOverflow } from "../../theme/clipOverflow";
 
@@ -104,6 +105,21 @@ export function ProjectThumbnail({
           "&:hover img": { transform: "scale(1.04)" },
           "&:hover .view": { transform: "translate(-50%, -50%) scale(1)" },
           "@media (pointer: coarse)": { cursor: "pointer", "& .view": { display: "none" } },
+          // Beim Hereinscrollen legt sich das Bild von unten frei, danach
+          // wandert es langsamer als die Seite. Etwas größer skaliert, damit
+          // beim Wandern keine Kante sichtbar wird.
+          "@supports (animation-timeline: view())": {
+            "@media (prefers-reduced-motion: no-preference)": {
+              animation: `${unveil} linear both`,
+              animationTimeline: "view()",
+              animationRange: motion.unveilRange,
+              "& img": {
+                scale: "1.12",
+                animation: `${drift} linear both`,
+                animationTimeline: "view()",
+              },
+            },
+          },
         }}
       >
         {failed ? (

@@ -33,6 +33,8 @@ export interface TowerScene {
 const FLOORS = 16;
 const FLOOR_GAP = 0.3;
 const BASE_TWIST = 0.1;
+/** Wie weit die Geschosse beim Scrollen auseinanderrücken, als Anteil des Abstands. */
+const SCROLL_SPREAD = 0.6;
 
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
@@ -112,26 +114,28 @@ export function createTowerScene(
   }
 
   /** Bauablauf: erst Tragwerk, dann Fassade, zuletzt Licht im Kern. */
-  function build(seconds: number) {
+  function build(seconds: number, spread: number) {
     floors.forEach(({ floor, solid, edge, y }, i) => {
       const structure = easeOut(clamp01((seconds - i * 0.07) / 0.7));
       const facade = easeOut(clamp01((seconds - 1.3 - i * 0.05) / 0.6));
-      floor.position.y = y + (1 - structure) * 1.2;
+      floor.position.y = y * (1 + spread) + (1 - structure) * 1.2;
       edge.material.opacity = structure * (1 - 0.7 * facade);
       solid.material.opacity = facade * 0.88;
     });
     core.material.opacity = clamp01((seconds - 2.2) / 0.8) * 0.75;
+    core.scale.y = 1 + spread;
   }
 
   const pointer = { x: 0, y: 0 };
   const smooth = { x: 0, y: 0, scroll: 0 };
 
   function draw(seconds: number) {
-    build(seconds);
     const scroll = clamp01(window.scrollY / Math.max(canvas.clientHeight, 1));
     smooth.x += (pointer.x - smooth.x) * 0.06;
     smooth.y += (pointer.y - smooth.y) * 0.06;
     smooth.scroll += (scroll - smooth.scroll) * 0.1;
+    // Beim Scrollen fächert sich der Turm auf: die Geschosse rücken auseinander.
+    build(seconds, reducedMotion ? 0 : smooth.scroll * SCROLL_SPREAD);
 
     const twist = BASE_TWIST + smooth.scroll * 0.14;
     floors.forEach(({ floor }, i) => {

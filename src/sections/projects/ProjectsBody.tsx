@@ -1,7 +1,7 @@
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
-import { Reveal } from "../../components/reveal/Reveal";
+import { SplitText } from "../../components/splitText/SplitText";
 import { useI18n } from "../../i18n/useI18n";
 import { projects, projectsIntro } from "../../content/projects";
 import { ProjectArticle } from "./ProjectArticle";
@@ -14,11 +14,9 @@ export function ProjectsBody() {
   return (
     <Split label={t.label}>
       <Stack spacing={{ xs: 7, md: 10 }}>
-        <Reveal>
-          <Typography variant="h3" component="h2">
-            {t.heading}
-          </Typography>
-        </Reveal>
+        <Typography variant="h3" component="h2">
+          <SplitText text={t.heading} trigger="scroll" />
+        </Typography>
 
         <Stack spacing={{ xs: 8, md: 12 }}>
           {projects.map((project) => (

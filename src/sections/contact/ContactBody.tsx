@@ -3,6 +3,7 @@ import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
+import { SplitText } from "../../components/splitText/SplitText";
 import { useI18n } from "../../i18n/useI18n";
 import { contact, identity } from "../../content/site";
 import { useSurface } from "../../theme/surface";
@@ -20,7 +21,7 @@ export function ContactBody({ heading, lead }: ContactProps) {
     <Split label={pick({ de: "Kontakt", en: "Contact" })}>
       <Stack spacing={{ xs: 5, md: 7 }}>
         <Typography variant="h2" component="h2">
-          {heading ?? t.heading}
+          <SplitText text={heading ?? t.heading} trigger="scroll" />
         </Typography>
 
         <Typography variant="subtitle1" component="p" sx={{ maxWidth: "52ch" }}>

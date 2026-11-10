@@ -5,6 +5,7 @@ import { useTheme } from "@mui/material/styles";
 import { SurfaceProvider, type SurfaceKind } from "../../theme/surface";
 import { layout, motion } from "../../theme/tokens";
 import { clipOverflow } from "../../theme/clipOverflow";
+import { Hairline } from "../hairline/Hairline";
 
 interface SectionProps {
   id?: string;
@@ -37,10 +38,14 @@ export function Section({
           backgroundColor: s.bg,
           backgroundImage: s.backdrop ?? "none",
           color: s.ink,
-          borderTop: topRule ? `1px solid ${s.line}` : "none",
           transition: `background-color ${motion.base}, color ${motion.base}`,
         }}
       >
+        {topRule && (
+          <Box sx={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 1 }}>
+            <Hairline draw />
+          </Box>
+        )}
         {decoration}
         <Container
           sx={{

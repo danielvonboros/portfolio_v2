@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -9,6 +8,7 @@ import { ArrowLink } from "../../components/arrowLink/ArrowLink";
 import { Glow } from "../../components/glow/Glow";
 import { PulseDot } from "../../components/pulseDot/PulseDot";
 import { Tower } from "../../components/tower/Tower";
+import { SplitText } from "../../components/splitText/SplitText";
 import { useSurface } from "../../theme/surface";
 import { layout } from "../../theme/tokens";
 import { clipOverflow } from "../../theme/clipOverflow";
@@ -37,15 +37,7 @@ export function Hero() {
         <Glow sx={{ right: "-10vw", top: "4%", width: "min(70vw, 900px)" }} />
 
         <Typography variant="h1" component="h1">
-          {/* Leerzeichen zwischen den Zeilen, sonst lesen Crawler „Interfaces,die“. */}
-          {t.headline.map((line, i) => (
-            <Fragment key={i}>
-              {i > 0 && " "}
-              <Box component="span" sx={{ display: "block" }}>
-                {line}
-              </Box>
-            </Fragment>
-          ))}
+          <SplitText text={t.headline} trigger="load" />
         </Typography>
 
         <Box

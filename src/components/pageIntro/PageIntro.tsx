@@ -5,6 +5,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Breadcrumb, type Crumb } from "../breadcrumb/Breadcrumb";
 import { Glow } from "../glow/Glow";
+import { SplitText } from "../splitText/SplitText";
 import { useSurface } from "../../theme/surface";
 import { clipOverflow } from "../../theme/clipOverflow";
 
@@ -62,7 +63,7 @@ export function PageIntro({
           <Breadcrumb items={crumbs} />
 
           <Typography variant="h2" component="h1" sx={{ maxWidth: "22ch" }}>
-            {heading}
+            <SplitText text={heading} trigger="load" />
           </Typography>
 
           <Stack spacing={3} sx={{ maxWidth: "62ch" }}>

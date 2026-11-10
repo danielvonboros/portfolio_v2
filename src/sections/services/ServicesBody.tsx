@@ -5,7 +5,7 @@ import { Split } from '../../components/split/Split';
 import { DashList } from '../../components/dashList/DashList';
 import { ArrowLink } from '../../components/arrowLink/ArrowLink';
 import { Bauteil } from '../../components/bauteil/Bauteil';
-import { Reveal } from '../../components/reveal/Reveal';
+import { SplitText } from "../../components/splitText/SplitText";
 import { useI18n } from '../../i18n/useI18n';
 import { services, servicesIntro } from '../../content/services';
 import { useSurface } from '../../theme/surface';
@@ -19,11 +19,9 @@ export function ServicesBody() {
   return (
     <Split label={t.label}>
       <Stack spacing={{ xs: 6, md: 8 }}>
-        <Reveal>
-          <Typography variant="h3" component="h2" sx={{ maxWidth: '18ch' }}>
-            {t.heading}
-          </Typography>
-        </Reveal>
+        <Typography variant="h3" component="h2" sx={{ maxWidth: '18ch' }}>
+          <SplitText text={t.heading} trigger="scroll" />
+        </Typography>
 
         <Stack>
           {services.map((service) => (

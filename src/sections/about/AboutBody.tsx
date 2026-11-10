@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
 import { Hairline } from "../../components/hairline/Hairline";
+import { SplitText } from "../../components/splitText/SplitText";
 import { useI18n } from "../../i18n/useI18n";
 import { about, stack } from "../../content/about";
 import { useSurface } from "../../theme/surface";
@@ -18,7 +19,7 @@ export function AboutBody() {
     <Split label={t.label}>
       <Stack spacing={{ xs: 6, md: 8 }}>
         <Typography variant="h3" component="h2" sx={{ maxWidth: "20ch" }}>
-          {t.heading}
+          <SplitText text={t.heading} trigger="scroll" />
         </Typography>
 
         <Box

@@ -9,6 +9,8 @@ import { useI18n } from "../../i18n/useI18n";
 import { footer, identity } from "../../content/site";
 import { SurfaceProvider } from "../../theme/surface";
 import { motion } from "../../theme/tokens";
+import { Wordmark } from "../wordmark/Wordmark";
+import { clipOverflow } from "../../theme/clipOverflow";
 
 export function Footer() {
   const { pick, path } = useI18n();
@@ -36,6 +38,9 @@ export function Footer() {
           transition: `background-color ${motion.base}`,
         }}
       >
+        <Container sx={{ pt: { xs: 6, md: 9 }, ...clipOverflow }}>
+          <Wordmark text={identity.name} />
+        </Container>
         <Container sx={{ py: 4 }}>
           <Stack
             direction={{ xs: "column", sm: "row" }}

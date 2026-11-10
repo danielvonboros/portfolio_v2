@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
-import { Reveal } from "../../components/reveal/Reveal";
+import { SplitText } from "../../components/splitText/SplitText";
 import { useI18n } from "../../i18n/useI18n";
 import { landingPages, type LandingKey } from "../../content/landing";
 import { useSurface } from "../../theme/surface";
@@ -15,11 +15,9 @@ export function LandingFaqBody({ page }: { page: LandingKey }) {
   return (
     <Split label="FAQ">
       <Stack spacing={{ xs: 6, md: 8 }}>
-        <Reveal>
-          <Typography variant="h3" component="h2">
-            {t.faqHeading}
-          </Typography>
-        </Reveal>
+        <Typography variant="h3" component="h2">
+          <SplitText text={t.faqHeading} trigger="scroll" />
+        </Typography>
         <Stack>
           {t.faq.map((entry) => (
             <Box

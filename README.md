@@ -110,15 +110,25 @@ An inline script in `index.html` paints the background before React mounts. It s
 
 Every animation tells the same story as the hero copy: structure first, facade second. Lines appear before surfaces fill.
 
-- **Tower** (`components/tower`): sixteen floor slabs of violet glass around a glowing core, rendered with Three.js. On load the structure drops in as lines, then the glass facade closes, then the core lights up. Afterwards it turns slowly, follows the mouse and twists while scrolling. Three.js is imported dynamically after the first paint (~130 KB gzip in its own chunk) and the loop pauses while the canvas is off screen. Without WebGL the glow behind it stays alone.
+- **Tower** (`components/tower`): sixteen floor slabs of violet glass around a glowing core, rendered with Three.js. On load the structure drops in as lines, then the glass facade closes, then the core lights up. Afterwards it turns slowly, follows the mouse, twists while scrolling and fans out: the floors move apart as the hero scrolls away. Three.js is imported dynamically after the first paint (~130 KB gzip in its own chunk) and the loop pauses while the canvas is off screen. Without WebGL the glow behind it stays alone.
 - **Title band** (`components/marquee`): the job titles run between hero and about. Scrolling speeds it up and tilts it; the scroll direction sets the running direction.
 - **Drawings** (`components/bauteil`): one isometric drawing per service, raster (frontend), layers (fullstack), volume (websites). Edges draw, then faces fill, driven by the scroll position.
-- **Reveal** (`components/reveal`): headings, service rows and project articles lift in as they scroll into view.
-- **Project images** (`components/projectThumbnail`): tilt towards the mouse, a light spot follows the pointer, a circle replaces the cursor and leads to the site.
+- **Headings** (`components/splitText`): the H1 rises line by line or word by word when the page opens; section headings rise word by word while they scroll into view. The text stays real text with spaces in between, so crawlers and screen readers read it unchanged.
+- **Reveal** (`components/reveal`): service rows, project articles and content blocks lift in as they scroll into view.
+- **Rules** (`components/hairline`): the hairline above a section and between content blocks draws from left to right.
+- **Project images** (`components/projectThumbnail`): uncovered from the bottom up like a facade going up, then drift slower than the page. They tilt towards the mouse, a light spot follows the pointer, a circle replaces the cursor and leads to the project page or the site.
+- **Scroll progress** (`components/scrollProgress`): a thin line of light along the top edge grows with the scroll position.
+- **Cursor light** (`components/cursorLight`): a soft violet light follows the mouse across the page, like a lamp over concrete. Mouse only, never on touch screens.
+- **Wordmark** (`components/wordmark`): the name in concrete grey across the footer; a streak of light sweeps over it as the page end comes into view and comes to rest on the surname.
 - **Résumé** (`components/timelineMarker`): each station has a line that fills while scrolling. Software stations glow violet, architecture stays concrete grey, so the line shows both professions honestly even though the list runs newest first.
 - **Contact** (`components/lightRing`, `components/magnetic`): a slowly turning ring of light in the violet room; the email address leans towards the mouse.
 
-Scroll-driven effects use CSS `animation-timeline: view()`, not timers: they follow the scroll position, and where a browser does not support them, the content simply stands complete. `prefers-reduced-motion` is respected everywhere: the tower renders one still frame, the band stands still, drawings and markers are complete.
+Scroll-driven effects use CSS `animation-timeline: view()`, not timers: they follow the scroll position, and where a browser does not support them, the content simply stands complete. `prefers-reduced-motion` is respected everywhere: the tower renders one still frame, the band stands still, drawings, markers and headings are complete, and neither cursor light nor progress line appears.
+
+Two details that are easy to break:
+
+- Containers that cut off overflowing content use `clipOverflow` from `src/theme/clipOverflow.ts`, never `overflow: hidden`. `hidden` turns the element into a scroll container, and every `view()` animation inside it then measures against that element instead of the window and stands still.
+- The prerendered HTML starts the H1 animation before JavaScript arrives, and `createRoot` then replaces that HTML. `main.tsx` measures how far the animation already got (`measureBootOffset`), and the first render continues from there instead of starting over. See `components/splitText/bootOffset.ts`.
 
 ### Structure
 
@@ -157,7 +167,7 @@ Reusable components:
 | ------------------ | ----------------------------------------------------------------------- |
 | `Section`          | Section frame on a surface (`base`, `contrast`, `drench`), optional decoration behind the content |
 | `Split`            | Asymmetric layout: narrow label column, content to the right            |
-| `Hairline`         | One-pixel rule in the surface's line colour                              |
+| `Hairline`         | One-pixel rule in the surface's line colour, optionally drawn by scrolling |
 | `DashList`         | List with short dashes as bullets                                        |
 | `ArrowLink`        | Link with arrow and underline, violet on hover, router or external       |
 | `ArrowIcon`        | The arrow used by `ArrowLink` and the masthead navigation                |
@@ -173,6 +183,10 @@ Reusable components:
 | `Marquee`          | Running band of terms, driven by scroll speed                           |
 | `Bauteil`          | Isometric drawing (raster, layers, volume), drawn by scrolling          |
 | `Reveal`           | Lifts its children in as they scroll into view                          |
+| `SplitText`        | Heading whose lines or words rise one after another, on load or on scroll |
+| `ScrollProgress`   | Line of light at the top that grows with the scroll position            |
+| `CursorLight`      | Soft violet light that follows the mouse                                 |
+| `Wordmark`         | The name across the footer with a sweeping streak of light              |
 | `ProjectThumbnail` | Project image with tilt, light spot and view circle; links to the project page or, with `external`, to the site; placeholder without image |
 | `ProjectCard`      | Image, title, client and link to the project page                       |
 | `ProjectStatus`    | Project status with a square, filled when live                          |

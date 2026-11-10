@@ -5,6 +5,7 @@ import { Split } from "../../components/split/Split";
 import { ArrowLink } from "../../components/arrowLink/ArrowLink";
 import { ProjectCard } from "../../components/projectCard/ProjectCard";
 import { Reveal } from "../../components/reveal/Reveal";
+import { SplitText } from "../../components/splitText/SplitText";
 import { getProject } from "../../content/projects";
 import type { ProjectCardsProps } from "./ProjectCards";
 
@@ -13,7 +14,7 @@ export function ProjectCardsBody({ label, heading, slugs, more }: Omit<ProjectCa
     <Split label={label}>
       <Stack spacing={{ xs: 6, md: 8 }}>
         <Typography variant="h3" component="h2">
-          {heading}
+          <SplitText text={heading} trigger="scroll" />
         </Typography>
         <Box
           sx={{
