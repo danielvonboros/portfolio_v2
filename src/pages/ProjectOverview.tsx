@@ -1,5 +1,5 @@
 import { Seo } from "../components/seo/Seo";
-import { OverviewIntro } from "../sections/overviewIntro/OverviewIntro";
+import { SubpageIntro } from "../sections/subpageIntro/SubpageIntro";
 import { ProjectCards } from "../sections/projectCards/ProjectCards";
 import { Contact } from "../sections/contact/Contact";
 import { useI18n } from "../i18n/useI18n";
@@ -16,7 +16,7 @@ export function ProjectOverview() {
   return (
     <>
       <Seo page="projects" />
-      <OverviewIntro />
+      <SubpageIntro label={t.label} heading={t.heading} lead={t.lead} />
       <ProjectCards label={t.label} heading={t.gridHeading} slugs={[...PROJECT_SLUGS]} />
       <Contact heading={t.cta.heading} lead={t.cta.lead} />
     </>

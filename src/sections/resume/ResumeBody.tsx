@@ -4,19 +4,19 @@ import ButtonBase from "@mui/material/ButtonBase";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
-import { SplitText } from "../../components/splitText/SplitText";
+import { SectionHeading } from "../../components/sectionHeading/SectionHeading";
 import { useI18n } from "../../i18n/useI18n";
 import { education, resumeIntro, stations, type CareerField } from "../../content/cv";
 import { useSurface } from "../../theme/surface";
 import { motion } from "../../theme/tokens";
-import type { ResumeProps } from "./resumeTypes";
+import type { ResumeBodyProps } from "./resumeTypes";
 import { TimelineRow } from "./TimelineRow";
 import { PositionBlock } from "./PositionBlock";
 
 const toneOf = (field: CareerField) => (field === "software" ? "light" : "concrete");
 
-export function ResumeBody({ collapsible, defaultExpanded }: Required<ResumeProps>) {
-  const { pick } = useI18n();
+export function ResumeBody({ collapsible, defaultExpanded, linkHeading }: ResumeBodyProps) {
+  const { pick, path } = useI18n();
   const s = useSurface();
   const t = pick(resumeIntro);
 
@@ -52,9 +52,11 @@ export function ResumeBody({ collapsible, defaultExpanded }: Required<ResumeProp
   return (
     <Split label={t.label}>
       <Stack spacing={{ xs: 6, md: 8 }}>
-        <Typography variant="h3" component="h2" sx={{ maxWidth: "20ch" }}>
-          <SplitText text={t.heading} trigger="scroll" />
-        </Typography>
+        <SectionHeading
+          text={t.heading}
+          maxWidth="20ch"
+          to={linkHeading ? path("resume") : undefined}
+        />
 
         <Box>
           <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={2} sx={{ pb: 1 }}>

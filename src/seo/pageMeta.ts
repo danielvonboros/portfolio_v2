@@ -6,6 +6,7 @@ import { imprint, privacy } from '../content/legal';
 import { projects } from '../content/projects';
 import { projectPages } from '../content/projectPages';
 import { projectsOverview } from '../content/projectPages/projectsOverview';
+import { subpages } from '../content/subpages';
 
 export type PageKey = RouteKey | 'notFound';
 
@@ -22,6 +23,11 @@ export function pageMeta(page: PageKey, lang: Lang): { title: string; descriptio
       return landingPages[page][lang].meta;
     case 'projects':
       return projectsOverview[lang].meta;
+    case 'about':
+    case 'services':
+    case 'resume':
+    case 'contact':
+      return subpages[page][lang].meta;
     case 'imprint':
     case 'privacy': {
       const t = (page === 'imprint' ? imprint : privacy)[lang];

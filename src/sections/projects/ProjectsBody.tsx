@@ -1,22 +1,19 @@
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
-import { SplitText } from "../../components/splitText/SplitText";
+import { SectionHeading } from "../../components/sectionHeading/SectionHeading";
 import { useI18n } from "../../i18n/useI18n";
 import { projects, projectsIntro } from "../../content/projects";
 import { ProjectArticle } from "./ProjectArticle";
 import { ArchiveList } from "./ArchiveList";
 
-export function ProjectsBody() {
-  const { pick } = useI18n();
+export function ProjectsBody({ linkHeading }: { linkHeading: boolean }) {
+  const { pick, path } = useI18n();
   const t = pick(projectsIntro);
 
   return (
     <Split label={t.label}>
       <Stack spacing={{ xs: 7, md: 10 }}>
-        <Typography variant="h3" component="h2">
-          <SplitText text={t.heading} trigger="scroll" />
-        </Typography>
+        <SectionHeading text={t.heading} to={linkHeading ? path("projects") : undefined} />
 
         <Stack spacing={{ xs: 8, md: 12 }}>
           {projects.map((project) => (

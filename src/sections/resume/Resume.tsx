@@ -6,10 +6,16 @@ import { ResumeBody } from "./ResumeBody";
 export function Resume({
   collapsible = true,
   defaultExpanded = "fromData",
+  topRule = false,
+  linkHeading = false,
 }: ResumeProps = {}) {
   return (
-    <Section id={SECTION_IDS.resume}>
-      <ResumeBody collapsible={collapsible} defaultExpanded={defaultExpanded} />
+    <Section id={SECTION_IDS.resume} topRule={topRule}>
+      <ResumeBody
+        collapsible={collapsible}
+        defaultExpanded={defaultExpanded}
+        linkHeading={linkHeading}
+      />
     </Section>
   );
 }

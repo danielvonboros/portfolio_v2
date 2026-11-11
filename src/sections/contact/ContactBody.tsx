@@ -3,7 +3,7 @@ import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
-import { SplitText } from "../../components/splitText/SplitText";
+import { SectionHeading } from "../../components/sectionHeading/SectionHeading";
 import { useI18n } from "../../i18n/useI18n";
 import { contact, identity } from "../../content/site";
 import { useSurface } from "../../theme/surface";
@@ -12,17 +12,19 @@ import { Magnetic } from "../../components/magnetic/Magnetic";
 import type { ContactProps } from "./contactTypes";
 
 
-export function ContactBody({ heading, lead }: ContactProps) {
-  const { pick } = useI18n();
+export function ContactBody({ heading, lead, linkHeading = false }: ContactProps) {
+  const { pick, path } = useI18n();
   const s = useSurface();
   const t = pick(contact);
 
   return (
     <Split label={pick({ de: "Kontakt", en: "Contact" })}>
       <Stack spacing={{ xs: 5, md: 7 }}>
-        <Typography variant="h2" component="h2">
-          <SplitText text={heading ?? t.heading} trigger="scroll" />
-        </Typography>
+        <SectionHeading
+          text={heading ?? t.heading}
+          size="h2"
+          to={linkHeading ? path("contact") : undefined}
+        />
 
         <Typography variant="subtitle1" component="p" sx={{ maxWidth: "52ch" }}>
           {lead ?? t.lead}

@@ -15,6 +15,9 @@ export interface NavItem {
   label: Localized<string>;
 }
 
+/** Einziger Link der Kopfzeile auf allen Seiten außer der Startseite. */
+export const homeLabel: Localized<string> = { de: 'Startseite', en: 'Home' };
+
 export const nav: NavItem[] = [
   { id: SECTION_IDS.about, label: { de: 'Über mich', en: 'About' } },
   { id: SECTION_IDS.services, label: { de: 'Leistungen', en: 'Services' } },

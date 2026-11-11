@@ -12,6 +12,7 @@ import { stack } from '../content/about';
 import { education } from '../content/cv';
 import { imprintData } from '../content/legal';
 import { landingPages, type LandingKey } from '../content/landing';
+import { subpages, type SubpageKey } from '../content/subpages';
 import { breadcrumbList } from './breadcrumbList';
 import { projectNodes, projectsOverviewNodes } from './projectSchema';
 import { BUSINESS_ID, PERSON_ID, WEBSITE_ID, type SchemaNode } from './schemaIds';
@@ -26,6 +27,12 @@ const LANDING_KEYS: LandingKey[] = ['webdesign', 'frontend', 'fullstack'];
 
 function isLanding(page: RouteKey): page is LandingKey {
   return (LANDING_KEYS as RouteKey[]).includes(page);
+}
+
+const SUBPAGE_KEYS: SubpageKey[] = ['about', 'services', 'resume', 'contact'];
+
+function isSubpage(page: RouteKey): page is SubpageKey {
+  return (SUBPAGE_KEYS as RouteKey[]).includes(page);
 }
 
 const [postalCode, ...locality] = imprintData.city.split(' ');
@@ -103,14 +110,17 @@ function website(): SchemaNode {
 }
 
 function pageType(page: RouteKey): string {
-  if (page === 'home') return 'ProfilePage';
+  if (page === 'home' || page === 'resume') return 'ProfilePage';
+  if (page === 'about') return 'AboutPage';
+  if (page === 'contact') return 'ContactPage';
   if (page === 'projects') return 'CollectionPage';
   return 'WebPage';
 }
 
 /** Worum es auf der Seite hauptsächlich geht, falls es dafür einen eigenen Knoten gibt. */
 function mainEntity(page: RouteKey, url: string): SchemaNode {
-  if (page === 'home') return { mainEntity: { '@id': PERSON_ID } };
+  if (page === 'home' || page === 'about' || page === 'resume') return { mainEntity: { '@id': PERSON_ID } };
+  if (page === 'services' || page === 'contact') return { mainEntity: { '@id': BUSINESS_ID } };
   if (page === 'projects') return { mainEntity: { '@id': `${url}#itemlist` } };
   if (isProjectRoute(page)) return { mainEntity: { '@id': `${url}#project` } };
   return {};
@@ -162,6 +172,15 @@ export function schemaFor(page: RouteKey, lang: Lang, title: string, description
       breadcrumbList([
         { name: identity.name, url: absoluteUrl(pathFor('home', lang)) },
         { name: t.label, url },
+      ]),
+    );
+  }
+
+  if (isSubpage(page)) {
+    graph.push(
+      breadcrumbList([
+        { name: identity.name, url: absoluteUrl(pathFor('home', lang)) },
+        { name: subpages[page][lang].label, url: absoluteUrl(pathFor(page, lang)) },
       ]),
     );
   }

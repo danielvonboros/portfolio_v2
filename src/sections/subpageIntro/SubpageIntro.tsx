@@ -5,20 +5,29 @@ import { PulseDot } from "../../components/pulseDot/PulseDot";
 import { ArrowLink } from "../../components/arrowLink/ArrowLink";
 import { useI18n } from "../../i18n/useI18n";
 import { hero, identity, SECTION_IDS } from "../../content/site";
-import { projectsOverview } from "../../content/projectPages/projectsOverview";
 import { useSurface } from "../../theme/surface";
 
-/** Kopf der Projektübersicht. */
-export function OverviewIntro() {
+interface SubpageIntroProps {
+  /** Name der Seite im Breadcrumb. */
+  label: string;
+  heading: string;
+  lead: string;
+}
+
+/**
+ * Kopf der Unterseiten ohne eigene rechte Spalte: Projektübersicht, Über mich,
+ * Leistungen, Lebenslauf und Kontakt. Darunter Verfügbarkeit und ein Link
+ * zum Kontaktbereich am Ende der Seite.
+ */
+export function SubpageIntro({ label, heading, lead }: SubpageIntroProps) {
   const { pick, path } = useI18n();
   const s = useSurface();
-  const t = pick(projectsOverview);
 
   return (
     <PageIntro
-      crumbs={[{ label: identity.name, to: path("home") }, { label: t.label }]}
-      heading={t.heading}
-      lead={t.lead}
+      crumbs={[{ label: identity.name, to: path("home") }, { label }]}
+      heading={heading}
+      lead={lead}
     >
       <Typography
         variant="caption"

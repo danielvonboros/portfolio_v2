@@ -7,6 +7,8 @@ import { Link as RouterLink } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { useI18n } from "../../i18n/useI18n";
 import { footer, identity } from "../../content/site";
+import { subpages } from "../../content/subpages";
+import type { RouteKey } from "../../i18n/routes";
 import { SurfaceProvider } from "../../theme/surface";
 import { motion } from "../../theme/tokens";
 import { Wordmark } from "../wordmark/Wordmark";
@@ -18,6 +20,21 @@ export function Footer() {
   const s = theme.app.base;
   const t = pick(footer);
   const year = new Date().getFullYear();
+
+  // Jede Unterseite ist von jeder Seite aus verlinkt: Die Kopfzeile zeigt
+  // dort nur „Startseite“, und Google findet so alle Seiten.
+  const pageLinks: { route: RouteKey; label: string }[] = [
+    { route: "about", label: pick(subpages.about).label },
+    { route: "services", label: pick(subpages.services).label },
+    { route: "webdesign", label: t.webdesign },
+    { route: "frontend", label: t.frontend },
+    { route: "fullstack", label: t.fullstack },
+    { route: "projects", label: t.projects },
+    { route: "resume", label: pick(subpages.resume).label },
+    { route: "contact", label: pick(subpages.contact).label },
+    { route: "imprint", label: t.imprint },
+    { route: "privacy", label: t.privacy },
+  ];
 
   const linkSx = {
     fontSize: "0.8125rem",
@@ -52,24 +69,11 @@ export function Footer() {
               © {year} {identity.name}. {t.rights}
             </Typography>
             <Stack direction="row" spacing={3} flexWrap="wrap" useFlexGap>
-              <Link component={RouterLink} to={path("webdesign")} sx={linkSx}>
-                {t.webdesign}
-              </Link>
-              <Link component={RouterLink} to={path("frontend")} sx={linkSx}>
-                {t.frontend}
-              </Link>
-              <Link component={RouterLink} to={path("fullstack")} sx={linkSx}>
-                {t.fullstack}
-              </Link>
-              <Link component={RouterLink} to={path("projects")} sx={linkSx}>
-                {t.projects}
-              </Link>
-              <Link component={RouterLink} to={path("imprint")} sx={linkSx}>
-                {t.imprint}
-              </Link>
-              <Link component={RouterLink} to={path("privacy")} sx={linkSx}>
-                {t.privacy}
-              </Link>
+              {pageLinks.map((link) => (
+                <Link key={link.route} component={RouterLink} to={path(link.route)} sx={linkSx}>
+                  {link.label}
+                </Link>
+              ))}
               {identity.links.map((l) => (
                 <Link
                   key={l.label}

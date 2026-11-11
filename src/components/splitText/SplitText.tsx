@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, type ReactNode } from "react";
 import Box from "@mui/material/Box";
 import { rise } from "../../theme/keyframes";
 import { motion } from "../../theme/tokens";
@@ -13,6 +13,8 @@ interface SplitTextProps {
    * `scroll`: steigt auf, während die Überschrift ins Bild scrollt.
    */
   trigger: "load" | "scroll";
+  /** Hängt am letzten Wort und steigt mit ihm auf, z. B. ein Pfeil. */
+  suffix?: ReactNode;
 }
 
 const NO_MOTION = "@media (prefers-reduced-motion: no-preference)";
@@ -22,7 +24,7 @@ const NO_MOTION = "@media (prefers-reduced-motion: no-preference)";
  * Der Text bleibt echter Text mit Leerzeichen dazwischen: Crawler und
  * Screenreader lesen ihn wie vorher. Ohne Animation steht er einfach da.
  */
-export function SplitText({ text, trigger }: SplitTextProps) {
+export function SplitText({ text, trigger, suffix }: SplitTextProps) {
   const [offset] = useState(bootOffset);
   const lines = Array.isArray(text);
   const parts = lines ? text : text.split(" ");
@@ -73,6 +75,7 @@ export function SplitText({ text, trigger }: SplitTextProps) {
               sx={{ display: "inline-block", ...motionFor(index) }}
             >
               {part}
+              {index === parts.length - 1 && suffix}
             </Box>
           </Box>
         </Fragment>
