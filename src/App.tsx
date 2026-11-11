@@ -10,6 +10,7 @@ import { Landing } from "./pages/Landing";
 import { NotFound } from "./pages/NotFound";
 import { ProjectDetail } from "./pages/ProjectDetail";
 import { ProjectOverview } from "./pages/ProjectOverview";
+import { Subpage } from "./pages/Subpage";
 import { useI18n } from "./i18n/useI18n";
 import { LANGUAGES } from "./i18n/types";
 import {
@@ -27,10 +28,14 @@ import { finishBoot } from "./components/splitText/bootOffset";
 
 const PAGES: Record<StaticRouteKey, ReactNode> = {
   home: <Home />,
+  about: <Subpage page="about" />,
+  services: <Subpage page="services" />,
   webdesign: <Landing page="webdesign" />,
   frontend: <Landing page="frontend" />,
   fullstack: <Landing page="fullstack" />,
   projects: <ProjectOverview />,
+  resume: <Subpage page="resume" />,
+  contact: <Subpage page="contact" />,
   imprint: <Legal />,
   privacy: <Legal isPrivacy />,
 };
@@ -55,7 +60,7 @@ export default function App() {
         <ScrollProgress />
         <CursorLight />
 
-        <Masthead anchorsActive={route === "home"} />
+        <Masthead onHome={route === "home"} />
 
         <Box component="main" id="main" sx={{ flex: 1 }}>
           <Routes>

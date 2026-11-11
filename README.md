@@ -83,6 +83,7 @@ Components read it through `pick()` from `useI18n()`. Because `Localized` is a `
 | `content/cv.ts`       | career stations, positions with optional `link`, education, `field` per station |
 | `content/legal.ts`    | imprint, § 5 DDG, privacy policy                              |
 | `content/landing.ts`  | service landing pages: copy, FAQ, references, drawing         |
+| `content/subpages.ts` | own pages for the home sections (about, services, résumé, contact): SEO title and description, breadcrumb label, H1, lead |
 
 Adding a language: extend `LANGUAGES` in `src/i18n/types.ts`. The compiler then lists every entry still missing the new variant.
 
@@ -140,7 +141,7 @@ src/
   content/      all copy, German and English, one file per topic
   hooks/        shared hooks, e.g. useReducedMotion
   i18n/         language provider, route table per language
-  pages/        Home, Landing, ProjectOverview, ProjectDetail, Legal, NotFound, composed from sections
+  pages/        Home, Subpage, Landing, ProjectOverview, ProjectDetail, Legal, NotFound, composed from sections
   sections/     page sections, one folder each, with their sub-parts next to them
   seo/          head tags and JSON-LD per page
   theme/        tokens, keyframes, MUI theme, colour mode, surfaces
@@ -156,10 +157,11 @@ Sections in page order:
 
 - Home: Hero, TitleBand, About, Services, Projects, Resume, Contact.
 - Landing page: LandingIntro, ContentBlocks, ProjectCards (references), LandingFaq, Contact.
-- Project overview: OverviewIntro, ProjectCards (all projects), Contact.
+- Subpage (`/about`, `/leistungen`, `/lebenslauf`, `/kontakt`): SubpageIntro, then the same section as on the home page (About; Services plus ProjectCards; Resume with every position open; nothing extra for contact), Contact.
+- Project overview: SubpageIntro, ProjectCards (all projects), Contact.
 - Project page: ProjectIntro, ProjectShowcase, ContentBlocks (case study), ProjectCards (the next three projects), Contact.
 
-Masthead and Footer wrap every page.
+Masthead and Footer wrap every page. On the home page the masthead navigation jumps to the sections; on every other page it shows only „Startseite“ (`MastheadNav`). On the home page the section headings of About, Services, Projects, Resume and Contact link to their own pages (`linkHeading`), with a small arrow and no underline. The footer links every page, so each one is reachable from everywhere.
 
 Reusable components:
 
@@ -171,8 +173,10 @@ Reusable components:
 | `DashList`         | List with short dashes as bullets                                        |
 | `ArrowLink`        | Link with arrow and underline, violet on hover, router or external       |
 | `ArrowIcon`        | The arrow used by `ArrowLink` and the masthead navigation                |
-| `Masthead`         | Four-column header: identity, services, anchor links, switches          |
-| `Footer`           | Copyright, landing pages, projects, legal pages, profiles               |
+| `Masthead`         | Four-column header: identity, services, navigation, switches            |
+| `MastheadNav`      | Third masthead column: section anchors on the home page, otherwise only the link home |
+| `SectionHeading`   | Section heading (always an h2) whose words rise on scroll; with `to` it links to the section's own page, with a small arrow and no underline |
+| `Footer`           | Copyright, links to every page, profiles                                |
 | `LanguageSwitch`   | Links to the same page in the other language                            |
 | `ThemeToggle`      | Light and dark switch                                                   |
 | `SkipLink`         | Keyboard link that jumps past the navigation                            |
@@ -183,7 +187,7 @@ Reusable components:
 | `Marquee`          | Running band of terms, driven by scroll speed                           |
 | `Bauteil`          | Isometric drawing (raster, layers, volume), drawn by scrolling          |
 | `Reveal`           | Lifts its children in as they scroll into view                          |
-| `SplitText`        | Heading whose lines or words rise one after another, on load or on scroll |
+| `SplitText`        | Heading whose lines or words rise one after another, on load or on scroll; `suffix` hangs on the last word, e.g. the arrow |
 | `ScrollProgress`   | Line of light at the top that grows with the scroll position            |
 | `CursorLight`      | Soft violet light that follows the mouse                                 |
 | `Wordmark`         | The name across the footer with a sweeping streak of light              |
@@ -238,15 +242,23 @@ Route paths live in `src/i18n/routes.ts`, one per page and language:
 | Page        | German                         | English                          |
 | ----------- | ------------------------------ | -------------------------------- |
 | Home        | `/`                            | `/en/`                           |
+| About       | `/about`                       | `/en/about`                      |
+| Services    | `/leistungen`                  | `/en/services`                   |
 | Web design  | `/webdesign-berlin`            | `/en/web-design-berlin`          |
 | Frontend    | `/frontend-entwickler-berlin`  | `/en/frontend-developer-berlin`  |
 | Fullstack   | `/fullstack-entwickler-berlin` | `/en/fullstack-developer-berlin` |
 | Projects    | `/projekte/`                   | `/en/projects/`                  |
 | One project | `/projekte/<slug>`             | `/en/projects/<slug>`            |
+| Résumé      | `/lebenslauf`                  | `/en/resume`                     |
+| Contact     | `/kontakt`                     | `/en/contact`                    |
 | Imprint     | `/impressum`                   | `/en/legal-notice`               |
 | Privacy     | `/datenschutz`                 | `/en/privacy`                    |
 
 `src/seo/head.ts` builds title, description, canonical, hreflang, Open Graph and JSON-LD (`src/seo/schema.ts`) for each page. The prerender writes these tags into the static HTML; `<Seo>` swaps them on client-side navigation. Adding a page means adding a route key, an element in `App.tsx` and a case in `pageMeta()` (`src/seo/pageMeta.ts`); the sitemap follows automatically.
+
+About, services, résumé and contact repeat a section of the home page on a page of their own, with their own title, description, H1 and structured data (`AboutPage`, `WebPage`, `ProfilePage`, `ContactPage`, each with a breadcrumb). Their copy is in `content/subpages.ts`.
+
+The project slug follows the project's domain, e.g. `/projekte/denisonsilva` for denisonsilva.com. Until 2.0.0 two slugs had hyphens (`denison-silva`, `studio-von-boros`); `public/.htaccess` redirects those old addresses with a 301. Changing the slug of a published project needs such a redirect too.
 
 Project pages are generated from the project list. Adding one takes three steps: add the slug to `PROJECT_SLUGS` and an entry to `projects` in `content/projects.ts`, write `content/projectPages/<name>.ts` and register it in `content/projectPages/index.ts` together with its matching service pages. Route, page, sitemap entry, Open Graph image (the project screenshot) and structured data (`CreativeWork` plus breadcrumb, see `src/seo/projectSchema.ts`) follow from that. Keywords are written out in title, H1, lead and blocks; the `keywords` list only goes into the JSON-LD, never onto the page as a list.
 
@@ -289,6 +301,16 @@ Missing files degrade to placeholders, they do not break the build.
 ### Changelog
 
 Every change gets a new version number in `package.json` and an entry here. Major = first digit, minor = second, fix = third.
+
+**3.0.0** (2026-11-11)
+
+<ul>
+<li>Own pages for the home sections: <code>/about</code>, <code>/leistungen</code>, <code>/lebenslauf</code> and <code>/kontakt</code> (English <code>/en/about</code>, <code>/en/services</code>, <code>/en/resume</code>, <code>/en/contact</code>), each with SEO title, description, H1, structured data and breadcrumb, all in the sitemap.</li>
+<li>On the home page the section headings link to these pages and to the project overview, with a small arrow and no underline.</li>
+<li>On every page except the home page the masthead navigation shows only „Startseite“; language switch and colour mode stay on the right. The footer links every page.</li>
+<li>Project slugs follow the domain: <code>/projekte/denisonsilva</code> and <code>/projekte/studiovonboros</code>. The old addresses redirect with a 301.</li>
+<li>New shared components <code>SectionHeading</code>, <code>MastheadNav</code> and <code>SubpageIntro</code> (replaces <code>OverviewIntro</code>).</li>
+</ul>
 
 **2.0.0** (2026-11-11)
 

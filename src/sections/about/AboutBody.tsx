@@ -4,23 +4,25 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
 import { Hairline } from "../../components/hairline/Hairline";
-import { SplitText } from "../../components/splitText/SplitText";
+import { SectionHeading } from "../../components/sectionHeading/SectionHeading";
 import { useI18n } from "../../i18n/useI18n";
 import { about, stack } from "../../content/about";
 import { useSurface } from "../../theme/surface";
 import { clipOverflow } from "../../theme/clipOverflow";
 
-export function AboutBody() {
-  const { pick } = useI18n();
+export function AboutBody({ linkHeading }: { linkHeading: boolean }) {
+  const { pick, path } = useI18n();
   const s = useSurface();
   const t = pick(about);
 
   return (
     <Split label={t.label}>
       <Stack spacing={{ xs: 6, md: 8 }}>
-        <Typography variant="h3" component="h2" sx={{ maxWidth: "20ch" }}>
-          <SplitText text={t.heading} trigger="scroll" />
-        </Typography>
+        <SectionHeading
+          text={t.heading}
+          maxWidth="20ch"
+          to={linkHeading ? path("about") : undefined}
+        />
 
         <Box
           sx={{

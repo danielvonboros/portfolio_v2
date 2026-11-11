@@ -5,23 +5,21 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Link as RouterLink } from "react-router-dom";
 import { useI18n } from "../../i18n/useI18n";
-import { identity, nav } from "../../content/site";
+import { identity } from "../../content/site";
 import { services } from "../../content/services";
 import { useSurface } from "../../theme/surface";
 import { motion } from "../../theme/tokens";
 import { ThemeToggle } from "../themeToggle/ThemeToggle";
 import { LanguageSwitch } from "../languageSwitch/LanguageSwitch";
-import { ArrowIcon } from "../arrowIcon/ArrowIcon";
+import { MastheadNav } from "./MastheadNav";
 
-export function Masthead({
-  anchorsActive = true,
-}: {
-  anchorsActive?: boolean;
-}) {
+/**
+ * Kopfzeile: Name, Leistungen, Navigation, Sprache und Farbmodus. Die
+ * Navigation hängt davon ab, ob die Startseite offen ist (`MastheadNav`).
+ */
+export function Masthead({ onHome }: { onHome: boolean }) {
   const { pick, path } = useI18n();
   const surface = useSurface();
-  const href = (id: string) =>
-    anchorsActive ? `#${id}` : `${path("home")}#${id}`;
 
   return (
     <Box
@@ -115,34 +113,7 @@ export function Masthead({
             ))}
           </Box>
 
-          <Box
-            component="nav"
-            sx={{
-              gridColumn: { xs: "1 / -1", md: "auto" },
-              justifySelf: { md: "start" },
-            }}
-          >
-            {nav.map((item) => (
-              <Link
-                key={item.id}
-                href={href(item.id)}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.4em",
-                  fontWeight: 700,
-                  lineHeight: 1.45,
-                  letterSpacing: "-0.01em",
-                  transition: `opacity ${motion.fast}`,
-                  "&:hover": { color: surface.accent },
-                  "&:hover svg": { transform: "translateX(3px)" },
-                }}
-              >
-                <ArrowIcon />
-                {pick(item.label)}
-              </Link>
-            ))}
-          </Box>
+          <MastheadNav onHome={onHome} />
 
           <Stack
             direction="row"

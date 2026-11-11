@@ -5,13 +5,13 @@ import { Split } from '../../components/split/Split';
 import { DashList } from '../../components/dashList/DashList';
 import { ArrowLink } from '../../components/arrowLink/ArrowLink';
 import { Bauteil } from '../../components/bauteil/Bauteil';
-import { SplitText } from "../../components/splitText/SplitText";
+import { SectionHeading } from "../../components/sectionHeading/SectionHeading";
 import { useI18n } from '../../i18n/useI18n';
 import { services, servicesIntro } from '../../content/services';
 import { useSurface } from '../../theme/surface';
 import { motion } from '../../theme/tokens';
 
-export function ServicesBody() {
+export function ServicesBody({ linkHeading }: { linkHeading: boolean }) {
   const { pick, path } = useI18n();
   const s = useSurface();
   const t = pick(servicesIntro);
@@ -19,9 +19,11 @@ export function ServicesBody() {
   return (
     <Split label={t.label}>
       <Stack spacing={{ xs: 6, md: 8 }}>
-        <Typography variant="h3" component="h2" sx={{ maxWidth: '18ch' }}>
-          <SplitText text={t.heading} trigger="scroll" />
-        </Typography>
+        <SectionHeading
+          text={t.heading}
+          maxWidth="18ch"
+          to={linkHeading ? path('services') : undefined}
+        />
 
         <Stack>
           {services.map((service) => (

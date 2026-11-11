@@ -1,11 +1,10 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import { Split } from "../../components/split/Split";
 import { ArrowLink } from "../../components/arrowLink/ArrowLink";
 import { ProjectCard } from "../../components/projectCard/ProjectCard";
 import { Reveal } from "../../components/reveal/Reveal";
-import { SplitText } from "../../components/splitText/SplitText";
+import { SectionHeading } from "../../components/sectionHeading/SectionHeading";
 import { getProject } from "../../content/projects";
 import type { ProjectCardsProps } from "./ProjectCards";
 
@@ -13,9 +12,7 @@ export function ProjectCardsBody({ label, heading, slugs, more }: Omit<ProjectCa
   return (
     <Split label={label}>
       <Stack spacing={{ xs: 6, md: 8 }}>
-        <Typography variant="h3" component="h2">
-          <SplitText text={heading} trigger="scroll" />
-        </Typography>
+        <SectionHeading text={heading} />
         <Box
           sx={{
             display: "grid",

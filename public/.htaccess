@@ -19,6 +19,14 @@ ErrorDocument 404 /404.html
   RewriteCond %{THE_REQUEST} ^\S+\s(/[^\s?]*)
   RewriteRule ^ https://%{HTTP_HOST}%1 [NE,L,R=301]
 
+  # Projektadressen bis Version 2.0.0 hatten Bindestriche, seit 3.0.0 folgen
+  # sie der Domain des Projekts. Die alten Adressen leiten dauerhaft um.
+  RewriteCond %{THE_REQUEST} ^\S+\s/(projekte|en/projects)/denison-silva(?:\.html)?[\s?]
+  RewriteRule ^ https://danielvonboros.com/%1/denisonsilva [NE,L,R=301]
+
+  RewriteCond %{THE_REQUEST} ^\S+\s/(projekte|en/projects)/studio-von-boros(?:\.html)?[\s?]
+  RewriteRule ^ https://danielvonboros.com/%1/studiovonboros [NE,L,R=301]
+
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]

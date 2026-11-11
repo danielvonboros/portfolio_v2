@@ -10,26 +10,35 @@ export const SITE_URL = 'https://danielvonboros.com';
  */
 export type StaticRouteKey =
   | 'home'
+  | 'about'
+  | 'services'
   | 'webdesign'
   | 'frontend'
   | 'fullstack'
   | 'projects'
+  | 'resume'
+  | 'contact'
   | 'imprint'
   | 'privacy';
 
-/** Jede Projektseite hat einen eigenen Schlüssel, z. B. `project:denison-silva`. */
+/** Jede Projektseite hat einen eigenen Schlüssel, z. B. `project:denisonsilva`. */
 export type ProjectRouteKey = `project:${ProjectSlug}`;
 
 export type RouteKey = StaticRouteKey | ProjectRouteKey;
 
 const staticRoutes: Record<StaticRouteKey, Localized<string>> = {
   home: { de: '/', en: '/en/' },
+  // Eigene Seiten für die Abschnitte der Startseite, siehe content/subpages.ts.
+  about: { de: '/about', en: '/en/about' },
+  services: { de: '/leistungen', en: '/en/services' },
   webdesign: { de: '/webdesign-berlin', en: '/en/web-design-berlin' },
   frontend: { de: '/frontend-entwickler-berlin', en: '/en/frontend-developer-berlin' },
   fullstack: { de: '/fullstack-entwickler-berlin', en: '/en/fullstack-developer-berlin' },
   // Mit Schrägstrich: Die Übersicht liegt als index.html im selben Ordner
   // wie die Projektseiten, siehe scripts/prerender.mjs.
   projects: { de: '/projekte/', en: '/en/projects/' },
+  resume: { de: '/lebenslauf', en: '/en/resume' },
+  contact: { de: '/kontakt', en: '/en/contact' },
   imprint: { de: '/impressum', en: '/en/legal-notice' },
   privacy: { de: '/datenschutz', en: '/en/privacy' },
 };

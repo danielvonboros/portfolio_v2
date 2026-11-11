@@ -1,8 +1,8 @@
 Vorschaubilder der aktuellen Projekte, eines pro Slug:
 
   pixelgesellen.png
-  denison-silva.jpg
-  studio-von-boros.jpg
+  denisonsilva.jpg
+  studiovonboros.jpg
   cana-hallenbau.jpg
   raumideenwerk-v2.jpg
   raumideenwerk.jpg

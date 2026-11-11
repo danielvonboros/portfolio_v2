@@ -13,11 +13,12 @@ export function Home() {
       <Seo page="home" />
       <Hero />
       <TitleBand />
-      <About />
-      <Services />
-      <Projects />
-      <Resume />
-      <Contact />
+      {/* Die Überschriften führen zu den eigenen Seiten der Abschnitte. */}
+      <About linkHeading />
+      <Services linkHeading />
+      <Projects linkHeading />
+      <Resume linkHeading />
+      <Contact linkHeading />
     </>
   );
 }

@@ -14,8 +14,8 @@ export type { ProjectPage } from './projectPageTypes';
 /** Inhalt jeder Projektseite, eine Datei pro Projekt in diesem Ordner. */
 export const projectPages: Record<ProjectSlug, Localized<ProjectPage>> = {
   pixelgesellen: pixelgesellen,
-  'denison-silva': denisonSilva,
-  'studio-von-boros': studioVonBoros,
+  denisonsilva: denisonSilva,
+  studiovonboros: studioVonBoros,
   'cana-hallenbau': canaHallenbau,
   'raumideenwerk-v2': raumideenwerkV2,
   raumideenwerk: raumideenwerk,
@@ -27,8 +27,8 @@ export const projectPages: Record<ProjectSlug, Localized<ProjectPage>> = {
  */
 export const projectServices: Record<ProjectSlug, LandingKey[]> = {
   pixelgesellen: ['webdesign', 'frontend'],
-  'denison-silva': ['webdesign', 'frontend'],
-  'studio-von-boros': ['webdesign', 'fullstack'],
+  denisonsilva: ['webdesign', 'frontend'],
+  studiovonboros: ['webdesign', 'fullstack'],
   'cana-hallenbau': ['fullstack', 'webdesign'],
   'raumideenwerk-v2': ['webdesign', 'frontend'],
   raumideenwerk: ['webdesign'],

@@ -4,13 +4,16 @@ export type ProjectStatus = 'live' | 'inProgress' | 'concept' | 'archived' | 'of
 
 /**
  * Kurznamen der aktuellen Projekte. Jeder Slug ist zugleich der letzte Teil
- * der URL seiner Projektseite, z. B. /projekte/denison-silva. Neue Projekte
- * hier und in `projects` eintragen, die Seite selbst steht in `projectPages/`.
+ * der URL seiner Projektseite, z. B. /projekte/denisonsilva, und folgt der
+ * Domain des Projekts. Neue Projekte hier und in `projects` eintragen, die
+ * Seite selbst steht in `projectPages/`. Ändert sich ein Slug einer
+ * veröffentlichten Seite, braucht die alte Adresse eine Weiterleitung in
+ * `public/.htaccess`.
  */
 export const PROJECT_SLUGS = [
   'pixelgesellen',
-  'denison-silva',
-  'studio-von-boros',
+  'denisonsilva',
+  'studiovonboros',
   'cana-hallenbau',
   'raumideenwerk-v2',
   'raumideenwerk',
@@ -122,7 +125,7 @@ export const projects: Project[] = [
     stack: ['React', 'TypeScript', 'Vite', 'MUI', 'Prerendering', 'PHP', 'SEO'],
   },
   {
-    slug: 'denison-silva',
+    slug: 'denisonsilva',
     title: 'Denison Silva',
     client: {
       de: 'Tänzer, Choreograf und Tanzpädagoge, Berlin',
@@ -130,7 +133,7 @@ export const projects: Project[] = [
     },
     year: '2026',
     status: 'inProgress',
-    image: '/projects/denison-silva.jpg',
+    image: '/projects/denisonsilva.jpg',
     imageSize: { width: 1200, height: 630 },
     url: 'https://denisonsilva.com',
     summary: {
@@ -156,7 +159,7 @@ export const projects: Project[] = [
     stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'i18n'],
   },
   {
-    slug: 'studio-von-boros',
+    slug: 'studiovonboros',
     title: 'Studio von Boros',
     client: {
       de: 'Eigene Marke — Innenarchitektur, Berlin',
@@ -165,7 +168,7 @@ export const projects: Project[] = [
     year: '2026',
     status: 'live',
     url: 'https://studiovonboros.com',
-    image: '/projects/studio-von-boros.jpg',
+    image: '/projects/studiovonboros.jpg',
     imageSize: { width: 1200, height: 630 },
     summary: {
       de: 'Das Premium-Pendant zu raumideenwerk: eine eigene Marke für maßgefertigte Innenausbauten und Möbel. Die Seite ist Referenzportfolio und Angebot in einem — Renderings und Fotos realisierter Projekte in großem Format, wenig Text, klare Preislage. Bewusst in Vue gebaut, um den Stack außerhalb von React sauber zu beherrschen.',
