@@ -43,7 +43,7 @@ export const landingShapes: Record<LandingKey, BauteilShape> = {
 
 /** Projekte aus `projects.ts`, die auf der jeweiligen Seite als Referenz erscheinen. */
 export const landingReferences: Record<LandingKey, ProjectSlug[]> = {
-  webdesign: ['raumideenwerk-v2', 'studio-von-boros', 'denison-silva'],
+  webdesign: ['pixelgesellen', 'raumideenwerk-v2', 'studio-von-boros'],
   frontend: ['denison-silva', 'studio-von-boros', 'raumideenwerk-v2'],
   fullstack: ['denison-silva', 'studio-von-boros', 'cana-hallenbau'],
 };

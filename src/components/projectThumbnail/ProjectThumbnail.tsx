@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Link as RouterLink } from "react-router-dom";
 import { useSurface } from "../../theme/surface";
-import { motion } from "../../theme/tokens";
+import { layout, motion } from "../../theme/tokens";
 import { drift, unveil } from "../../theme/keyframes";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { clipOverflow } from "../../theme/clipOverflow";
@@ -84,7 +84,7 @@ export function ProjectThumbnail({
           position: "relative",
           display: "grid",
           placeItems: "center",
-          aspectRatio: "16 / 10",
+          aspectRatio: layout.previewRatio,
           ...clipOverflow,
           backgroundColor: s.dim,
           border: `1px solid ${s.line}`,
@@ -107,14 +107,15 @@ export function ProjectThumbnail({
           "@media (pointer: coarse)": { cursor: "pointer", "& .view": { display: "none" } },
           // Beim Hereinscrollen legt sich das Bild von unten frei, danach
           // wandert es langsamer als die Seite. Etwas größer skaliert, damit
-          // beim Wandern keine Kante sichtbar wird.
+          // beim Wandern keine Kante sichtbar wird. Bewusst knapp, weil die
+          // Vorschaubilder Schrift nah am Rand tragen.
           "@supports (animation-timeline: view())": {
             "@media (prefers-reduced-motion: no-preference)": {
               animation: `${unveil} linear both`,
               animationTimeline: "view()",
               animationRange: motion.unveilRange,
               "& img": {
-                scale: "1.12",
+                scale: "1.06",
                 animation: `${drift} linear both`,
                 animationTimeline: "view()",
               },

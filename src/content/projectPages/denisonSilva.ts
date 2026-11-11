@@ -11,7 +11,7 @@ export const denisonSilva: Localized<ProjectPage> = {
     heading: 'Portfolio-Website für den Tänzer und Choreografen Denison Silva',
     lead: 'Tanz lässt sich schlecht in Standbildern erzählen. Für Denison Silva, Tänzer, Choreograf und Tanzpädagoge in Berlin, habe ich eine Künstler-Website gestaltet und entwickelt, auf der die Bewegung zuerst kommt: Sein Name wird zur Schablone, durch die das Video läuft. Dreisprachig, schnell und ohne Tracking.',
     imageAlt:
-      'Startseite von denisonsilva.com: der Name Denison Silva in großen Versalien als Schablone über einem Schwarzweißbild, darunter Tänzer, Choreograf und Tanzpädagoge',
+      'Vorschaubild von denisonsilva.com: der Name Denison Silva in großen, schmalen Versalien als Schablone über einem Schwarzweißporträt auf dunklem Grund',
     keywords: [
       'Portfolio-Website für Tänzer',
       'Website für Künstler',
@@ -78,7 +78,7 @@ export const denisonSilva: Localized<ProjectPage> = {
     heading: 'A portfolio website for dancer and choreographer Denison Silva',
     lead: 'Dance is hard to tell through still images. For Denison Silva, a dancer, choreographer and dance teacher in Berlin, I designed and built an artist website where movement comes first: his name becomes a stencil with the video running through it. Three languages, fast, and free of tracking.',
     imageAlt:
-      'Home page of denisonsilva.com: the name Denison Silva in large capitals used as a stencil over a black-and-white image, with dancer, choreographer and dance teacher below',
+      'Preview image of denisonsilva.com: the name Denison Silva in large condensed capitals used as a stencil over a black-and-white portrait on a dark background',
     keywords: [
       'portfolio website for dancers',
       'artist website',

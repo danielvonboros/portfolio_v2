@@ -7,10 +7,17 @@ export interface Position {
   employment?: Localized<string>;
   bullets: Localized<string[]>;
   note?: Localized<string>;
+  /** Weiterführender Link unter den Aufgaben, öffnet in einem neuen Tab. */
+  link?: { href: string; label: Localized<string> };
   expanded?: boolean;
 }
 
-/** Software leuchtet in der Zeitleiste violett, Architektur bleibt betongrau. */
+/**
+ * Software leuchtet in der Zeitleiste violett, Architektur bleibt betongrau.
+ * Ab dem Wechsel 2021 (CareerFoundry, Maltego) zählt jede Station als
+ * Software, auch raumideenwerk: Website, Hosting, SEO und Werbung liefen dort
+ * in Eigenregie.
+ */
 export type CareerField = 'software' | 'architecture';
 
 export interface Station {
@@ -51,14 +58,57 @@ export const resumeIntro: Localized<{
 
 export const stations: Station[] = [
   {
+    company: 'Pixelgesellen',
+    field: 'software',
+    location: { de: 'Berlin · Remote', en: 'Berlin · Remote' },
+    positions: [
+      {
+        role: { de: 'Technologie & Design', en: 'Technology & design' },
+        period: { de: 'Aug. 2026 — heute', en: 'Aug 2026 — present' },
+        expanded: true,
+        span: '2026—',
+        employment: {
+          de: 'Selbstständig · Boros & Sanwald GbR',
+          en: 'Self-employed · Boros & Sanwald GbR',
+        },
+        note: {
+          de: 'Websites und Tools für Gewerbe, Handwerk und Dienstleistungen',
+          en: 'Websites and tools for trades, small businesses and service providers',
+        },
+        bullets: {
+          de: [
+            'Websites zum Festpreis für Gewerbebetriebe, Handwerker und Dienstleister',
+            'Konzept, Gestaltung und Umsetzung, von der Seitenstruktur bis zum Livegang',
+            'Technische Grundlage: React, TypeScript, vorgerenderte Seiten und ein gemeinsames Designsystem',
+            'Auffindbarkeit: technisches SEO, strukturierte Daten und Google-Unternehmensprofil',
+            'Domain, Hosting, Sicherheitszertifikat und Pflege aus einer Hand',
+            'Gestaltung und Umsetzung von pixelgesellen.de',
+          ],
+          en: [
+            'Fixed-price websites for trades, small businesses and service providers',
+            'Concept, design and build, from the page structure to launch day',
+            'Technical foundation: React, TypeScript, prerendered pages and a shared design system',
+            'Findability: technical SEO, structured data and Google Business Profile',
+            'Domain, hosting, security certificate and maintenance from one source',
+            'Design and build of pixelgesellen.de',
+          ],
+        },
+        link: {
+          href: 'https://pixelgesellen.de/produkte',
+          label: { de: 'Tools der Pixelgesellen ansehen', en: 'See the Pixelgesellen tools' },
+        },
+      },
+    ],
+  },
+  {
     company: 'raumideenwerk',
-    field: 'architecture',
+    field: 'software',
     location: { de: 'Berlin · Hybrid', en: 'Berlin · Hybrid' },
     positions: [
       {
         role: {
-          de: 'Architekt, Interior Designer, Designer',
-          en: 'Architect, interior designer, designer',
+          de: 'Architekt, Interior Designer, Webentwickler',
+          en: 'Architect, interior designer, web developer',
         },
         period: { de: 'März 2025 — heute', en: 'March 2025 — present' },
         expanded: true,
@@ -71,6 +121,10 @@ export const stations: Station[] = [
             'Beratung privater Auftraggeber zu Innenraumgestaltung, Raumstruktur und Materialkonzepten',
             'Konzeption maßgefertigter Möbel und individueller Innenausbauten',
             'Ganzheitliche Gestaltungslösungen von der Raumidee bis zur Detailplanung',
+            'Eigene Website in zwei Versionen konzipiert, gebaut und betrieben, mit Next.js, React und TypeScript',
+            'Hosting, Domain, E-Mail und Kontaktformular in Eigenregie',
+            'Suchmaschinenoptimierung: vorgerenderte Seiten, strukturierte Daten, zweisprachige Inhalte',
+            'Online- und Offline-Werbung: Instagram, Visitenkarten, Briefpapier und eine durchgehende Corporate Identity',
           ],
           en: [
             'Functional and aesthetic solutions for compact living spaces',
@@ -78,6 +132,10 @@ export const stations: Station[] = [
             'Advising private clients on interior design, spatial structure and material concepts',
             'Designing custom furniture and bespoke interior fit-outs',
             'End-to-end design, from the initial spatial idea through to detailed planning',
+            'Designed, built and ran the business website in two versions, with Next.js, React and TypeScript',
+            'Hosting, domain, email and contact form handled in-house',
+            'Search engine optimisation: prerendered pages, structured data, bilingual content',
+            'Online and offline advertising: Instagram, business cards, letterhead and a consistent corporate identity',
           ],
         },
       },
