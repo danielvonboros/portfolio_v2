@@ -9,9 +9,9 @@ export const raumideenwerkV2: Localized<ProjectPage> = {
         'Case Study: Relaunch für raumideenwerk, Innenarchitektur für kleine Wohnungen in Berlin. Neue Struktur, eine Seite pro Projekt und Leistung, Next.js.',
     },
     heading: 'Website-Relaunch für raumideenwerk: Innenarchitektur für kleine Wohnungen in Berlin',
-    lead: 'raumideenwerk ist mein Büro für Raumplanung und Einbauten in Berliner Wohnungen. Die zweite Version der Website ist ein kompletter Relaunch: neue Struktur, neue Texte, ein modernes Design und eingebettet in eine durchgehende Corporate Identity von Logo bis Briefpapier.',
+    lead: 'raumideenwerk ist mein Büro für Raumplanung und Einbauten in Berliner Wohnungen. Die zweite Version der Website ist seit 2026 unter raumideenwerk.com online und ein kompletter Relaunch: neue Struktur, neue Texte, ein modernes Design und eingebettet in eine durchgehende Corporate Identity von Logo bis Briefpapier.',
     imageAlt:
-      'Startseite von raumideenwerk Version 2: gelbes Band mit der Zeile „mehr raum ohne umzug.“ zwischen zwei Fotos eingerichteter Berliner Wohnungen',
+      'Vorschaubild von raumideenwerk.com: links eine gelbe Fläche mit Logo und der Zeile „mehr raum ohne umzug.“, rechts ein Podestbett mit Schubladen als Stauraum in einem blauen Zimmer',
     keywords: [
       'Website-Relaunch',
       'Website für Innenarchitektur Berlin',
@@ -88,9 +88,9 @@ export const raumideenwerkV2: Localized<ProjectPage> = {
         'Case study: relaunching raumideenwerk, interior design for small flats in Berlin. A new structure, one page per project and per service, built on Next.js.',
     },
     heading: 'Website relaunch for raumideenwerk: interior design for small flats in Berlin',
-    lead: 'raumideenwerk is my practice for space planning and built-in furniture in Berlin flats. The second version of the website is a full relaunch: new structure, new copy, a modern design, and part of a consistent corporate identity from logo to letterhead.',
+    lead: 'raumideenwerk is my practice for space planning and built-in furniture in Berlin flats. The second version of the website has been live at raumideenwerk.com since 2026 and is a full relaunch: new structure, new copy, a modern design, and part of a consistent corporate identity from logo to letterhead.',
     imageAlt:
-      'Home page of raumideenwerk version 2: a yellow band reading “mehr raum ohne umzug.” between two photos of furnished Berlin flats',
+      'Preview image of raumideenwerk.com: on the left a yellow area with the logo and the line “mehr raum ohne umzug.”, on the right a platform bed with storage drawers in a blue room',
     keywords: [
       'website relaunch',
       'interior design website Berlin',

@@ -4,6 +4,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { ArrowLink } from "../../components/arrowLink/ArrowLink";
 import { DashList } from "../../components/dashList/DashList";
 import { PlusMinus } from "../../components/plusMinus/PlusMinus";
 import { useI18n } from "../../i18n/useI18n";
@@ -20,7 +21,7 @@ interface PositionBlockProps {
   onToggle: () => void;
 }
 
-/** Eine Position: Rolle und Zeitraum, darunter die Aufgaben, optional aufklappbar. */
+/** Eine Position: Rolle und Zeitraum, darunter die Aufgaben und ein optionaler Link, aufklappbar. */
 export function PositionBlock({
   position,
   id,
@@ -49,6 +50,19 @@ export function PositionBlock({
     </Box>
   );
 
+  const details = (
+    <Stack spacing={2}>
+      <DashList items={pick(position.bullets)} />
+      {position.link && (
+        <Box>
+          <ArrowLink href={position.link.href} external size="sm">
+            {pick(position.link.label)}
+          </ArrowLink>
+        </Box>
+      )}
+    </Stack>
+  );
+
   const rule = {
     pt: showRule ? 3 : 0,
     mt: showRule ? 3 : 0,
@@ -59,7 +73,7 @@ export function PositionBlock({
     return (
       <Stack spacing={1.5} sx={rule}>
         {header}
-        <DashList items={pick(position.bullets)} />
+        {details}
       </Stack>
     );
   }
@@ -113,9 +127,7 @@ export function PositionBlock({
         {header}
       </AccordionSummary>
 
-      <AccordionDetails sx={{ p: 0, pt: 2 }}>
-        <DashList items={pick(position.bullets)} />
-      </AccordionDetails>
+      <AccordionDetails sx={{ p: 0, pt: 2 }}>{details}</AccordionDetails>
     </Accordion>
   );
 }

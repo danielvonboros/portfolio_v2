@@ -2,6 +2,7 @@ import type { Localized } from '../../i18n/types';
 import type { LandingKey } from '../landing';
 import type { ProjectSlug } from '../projects';
 import type { ProjectPage } from './projectPageTypes';
+import { pixelgesellen } from './pixelgesellen';
 import { denisonSilva } from './denisonSilva';
 import { studioVonBoros } from './studioVonBoros';
 import { canaHallenbau } from './canaHallenbau';
@@ -12,6 +13,7 @@ export type { ProjectPage } from './projectPageTypes';
 
 /** Inhalt jeder Projektseite, eine Datei pro Projekt in diesem Ordner. */
 export const projectPages: Record<ProjectSlug, Localized<ProjectPage>> = {
+  pixelgesellen: pixelgesellen,
   'denison-silva': denisonSilva,
   'studio-von-boros': studioVonBoros,
   'cana-hallenbau': canaHallenbau,
@@ -24,6 +26,7 @@ export const projectPages: Record<ProjectSlug, Localized<ProjectPage>> = {
  * Projektseite als Links mit Suchbegriff im Ankertext.
  */
 export const projectServices: Record<ProjectSlug, LandingKey[]> = {
+  pixelgesellen: ['webdesign', 'frontend'],
   'denison-silva': ['webdesign', 'frontend'],
   'studio-von-boros': ['webdesign', 'fullstack'],
   'cana-hallenbau': ['fullstack', 'webdesign'],

@@ -84,10 +84,10 @@ export const unveil = keyframes`
 /** Bilder wandern beim Scrollen langsamer als die Seite (Parallaxe). */
 export const drift = keyframes`
   from {
-    translate: 0 -5%;
+    translate: 0 -2.5%;
   }
   to {
-    translate: 0 5%;
+    translate: 0 2.5%;
   }
 `;
 

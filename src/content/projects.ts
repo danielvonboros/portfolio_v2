@@ -1,6 +1,6 @@
 import type { Localized } from '../i18n/types';
 
-export type ProjectStatus = 'live' | 'inProgress' | 'concept' | 'offline';
+export type ProjectStatus = 'live' | 'inProgress' | 'concept' | 'archived' | 'offline';
 
 /**
  * Kurznamen der aktuellen Projekte. Jeder Slug ist zugleich der letzte Teil
@@ -8,6 +8,7 @@ export type ProjectStatus = 'live' | 'inProgress' | 'concept' | 'offline';
  * hier und in `projects` eintragen, die Seite selbst steht in `projectPages/`.
  */
 export const PROJECT_SLUGS = [
+  'pixelgesellen',
   'denison-silva',
   'studio-von-boros',
   'cana-hallenbau',
@@ -26,6 +27,7 @@ export interface Project {
   summary: Localized<string>;
   contribution: Localized<string[]>;
   stack: string[];
+  /** Vorschaubild im Open-Graph-Format 1200 × 630, liegt in `public/projects/`. */
   image?: string;
   /** Pixelmaße des Bilds: verhindern Layoutsprünge und stehen im Open-Graph-Tag. */
   imageSize?: { width: number; height: number };
@@ -36,6 +38,7 @@ export const statusLabel: Record<ProjectStatus, Localized<string>> = {
   live: { de: 'Online', en: 'Live' },
   inProgress: { de: 'In Arbeit', en: 'In progress' },
   concept: { de: 'Konzept', en: 'Concept' },
+  archived: { de: 'Archiviert', en: 'Archived' },
   offline: { de: 'Offline', en: 'Offline' },
 };
 
@@ -85,6 +88,40 @@ export const projectsIntro: Localized<{
 
 export const projects: Project[] = [
   {
+    slug: 'pixelgesellen',
+    title: 'Pixelgesellen',
+    client: {
+      de: 'Boros & Sanwald GbR — Websites und Tools für Gewerbe, Handwerk und Dienstleistungen',
+      en: 'Boros & Sanwald GbR — websites and tools for trades, small businesses and service providers',
+    },
+    year: '2026',
+    status: 'live',
+    image: '/projects/pixelgesellen.png',
+    imageSize: { width: 1200, height: 630 },
+    url: 'https://pixelgesellen.de',
+    summary: {
+      de: 'Viele Gewerbebetriebe, Handwerker und Dienstleister haben keine Website, eine, die nicht optimiert ist, oder eine veraltete mit alter Technik, alten Bildern und fehlendem Sicherheitszertifikat. Pixelgesellen baut ihnen Websites zum Festpreis, damit der Auftritt online zur Qualität der Arbeit offline passt: auffindbar, sichtbar und modern.',
+      en: 'Many trades, small businesses and service providers have no website, one that was never optimised, or an outdated one with old technology, old photos and no security certificate. Pixelgesellen builds them websites at a fixed price, so that how they look online matches the quality of their work offline: findable, visible and modern.',
+    },
+    contribution: {
+      de: [
+        'Technologie und Design der Boros & Sanwald GbR',
+        'Konzept, Gestaltung und Umsetzung von pixelgesellen.de',
+        'Designsystem mit Tokens und Komponenten, vorbereitet für eigene Seiten pro Branche',
+        'Vorgerenderte Seiten, strukturierte Daten und Sitemap für Google',
+        'Kontaktformular mit Captcha und Honeypot, Terminbuchung fürs Erstgespräch',
+      ],
+      en: [
+        'Technology and design for Boros & Sanwald GbR',
+        'Concept, design and build of pixelgesellen.de',
+        'Design system with tokens and components, ready for one page per industry',
+        'Prerendered pages, structured data and a sitemap for Google',
+        'Contact form with captcha and honeypot, booking for the first call',
+      ],
+    },
+    stack: ['React', 'TypeScript', 'Vite', 'MUI', 'Prerendering', 'PHP', 'SEO'],
+  },
+  {
     slug: 'denison-silva',
     title: 'Denison Silva',
     client: {
@@ -93,8 +130,8 @@ export const projects: Project[] = [
     },
     year: '2026',
     status: 'inProgress',
-    image: '/projects/denison-silva.webp',
-    imageSize: { width: 1600, height: 1060 },
+    image: '/projects/denison-silva.jpg',
+    imageSize: { width: 1200, height: 630 },
     url: 'https://denisonsilva.com',
     summary: {
       de: 'Eine Portfolioseite für einen Tänzer, dessen Arbeit sich schlecht in Standbildern erzählen lässt. Der Hero setzt den Namen als Schablone vor ein laufendes Bewegtbild — die Schrift wird zum Fenster auf die Choreografie. Der Rest der Seite bleibt bewusst ruhig, damit die Videos die Aufmerksamkeit bekommen.',
@@ -128,8 +165,8 @@ export const projects: Project[] = [
     year: '2026',
     status: 'live',
     url: 'https://studiovonboros.com',
-    image: '/projects/studio-von-boros.webp',
-    imageSize: { width: 1600, height: 1060 },
+    image: '/projects/studio-von-boros.jpg',
+    imageSize: { width: 1200, height: 630 },
     summary: {
       de: 'Das Premium-Pendant zu raumideenwerk: eine eigene Marke für maßgefertigte Innenausbauten und Möbel. Die Seite ist Referenzportfolio und Angebot in einem — Renderings und Fotos realisierter Projekte in großem Format, wenig Text, klare Preislage. Bewusst in Vue gebaut, um den Stack außerhalb von React sauber zu beherrschen.',
       en: 'The premium counterpart to raumideenwerk: a separate brand for bespoke interiors and furniture. The site is reference portfolio and pitch in one — renderings and photographs of finished projects at large scale, little text, a clear price bracket. Deliberately built in Vue to keep a second stack sharp.',
@@ -159,8 +196,8 @@ export const projects: Project[] = [
     },
     year: '2026',
     status: 'concept',
-    image: '/projects/cana-hallenbau.webp',
-    imageSize: { width: 1600, height: 1060 },
+    image: '/projects/cana-hallenbau.jpg',
+    imageSize: { width: 1200, height: 630 },
     // url: 'https://cana-hallenbau.de',
     summary: {
       de: 'Ein gewachsener WordPress-Auftritt, verteilt auf mehrere Domains, mit doppelten Inhalten und ohne lokales SEO. Ich habe den Bestand geprüft, die Probleme benannt und zwei Umbauwege gegenübergestellt: React beziehungsweise Next.js mit Headless CMS oder eine konsolidierte WordPress-Lösung. Die Zusammenarbeit lief gemeinsam mit einer SEO-Agentur.',
@@ -190,13 +227,13 @@ export const projects: Project[] = [
       en: 'Own business — interior design and space planning, Berlin',
     },
     year: '2026',
-    status: 'inProgress',
-    image: '/projects/raumideenwerk_v2.webp',
-    imageSize: { width: 1600, height: 1079 },
-    url: 'https://v2.raumideenwerk.com',
+    status: 'live',
+    image: '/projects/raumideenwerk-v2.jpg',
+    imageSize: { width: 1200, height: 630 },
+    url: 'https://raumideenwerk.com',
     summary: {
-      de: 'Version 2 zum eigenen Innenarchitekturbüro. Die Website hat eine klarere Struktur und ist nun Teil einer ganzen CI-Kette: Logo, Website, Social Media, Visitenkarten und Briefpapier. Eine umfangreiche Neuauflage der bestehenden Website, mit komplett neuer Struktur, neuen Inhalten und einem modernen Design.',
-      en: 'Version 2 of my own interior design practice. The site has a clearer structure and is now part of a whole CI chain: logo, website, social media, business cards and letterhead. A comprehensive new edition of the existing website, with a completely new structure, new content and a modern design.',
+      de: 'Version 2 zum eigenen Innenarchitekturbüro, seit 2026 die aktuelle Website unter raumideenwerk.com. Die Website hat eine klarere Struktur und ist nun Teil einer ganzen CI-Kette: Logo, Website, Social Media, Visitenkarten und Briefpapier. Eine umfangreiche Neuauflage der ersten Website, mit komplett neuer Struktur, neuen Inhalten und einem modernen Design.',
+      en: 'Version 2 of my own interior design practice, the current website at raumideenwerk.com since 2026. The site has a clearer structure and is now part of a whole CI chain: logo, website, social media, business cards and letterhead. A comprehensive new edition of the first website, with a completely new structure, new content and a modern design.',
     },
     contribution: {
       de: [
@@ -220,13 +257,14 @@ export const projects: Project[] = [
       en: 'Own business — interior design and space planning, Berlin',
     },
     year: '2025',
-    status: 'live',
-    image: '/projects/raumideenwerk.webp',
-    imageSize: { width: 1600, height: 1065 },
-    url: 'https://raumideenwerk.com',
+    status: 'archived',
+    image: '/projects/raumideenwerk.jpg',
+    imageSize: { width: 1200, height: 630 },
+    // Die erste Fassung ist abgeschaltet und liegt nur noch als Projekt auf Vercel.
+    url: 'https://raumideenwerk.vercel.app',
     summary: {
-      de: 'Mein eigenes Innenarchitekturbüro, seit 2025 selbstständig. Eine Website mit einem modernen Design, einer Auflistung von Modellentwürfen und fertigen Projekten, Kontakt zum Unternehmen und ein Google Booking-Kalender. Die Website war auf Vercel gehostet und wurde nach einem Jahr durch die Website v2 ersetzt.',
-      en: 'My own interior design practice, self-employed since 2025. Website with a modern design, model studies and finished projects, contact to the business and a Google Booking calendar . The site was hosted on Vercel and replaced by the v2 website after a year.',
+      de: 'Mein eigenes Innenarchitekturbüro, seit 2025 selbstständig. Eine Website mit einem modernen Design, einer Auflistung von Modellentwürfen und fertigen Projekten, Kontakt zum Unternehmen und ein Google Booking-Kalender. Nach einem Jahr wurde sie durch die Website v2 ersetzt und abgeschaltet, die erste Fassung liegt als Projekt weiter auf Vercel.',
+      en: 'My own interior design practice, self-employed since 2025. Website with a modern design, model studies and finished projects, contact to the business and a Google Booking calendar. After a year it was replaced by the v2 website and switched off; the first version is still available as a project on Vercel.',
     },
     contribution: {
       de: [
@@ -234,14 +272,14 @@ export const projects: Project[] = [
         'Zielgruppenschärfung und Textarbeit',
         'Begleitende Inhalte für Instagram',
         "Gmail und Google Booking-Kalender für Kundenkontakt",
-        'Hosting auf Vercel, Domain bei checkdomain',
+        'Hosting auf Vercel, heute archiviert unter raumideenwerk.vercel.app',
       ],
       en: [
         'Brand, website and content built in-house',
         'Sharpening the audience and rewriting the copy',
         'Supporting content for Instagram',
         'Gmail and Google Booking calendar for client contact',
-        'Hosting on Vercel, domain at checkdomain',
+        'Hosted on Vercel, now archived at raumideenwerk.vercel.app',
       ],
     },
     stack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel'],

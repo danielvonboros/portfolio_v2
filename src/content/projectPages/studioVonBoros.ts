@@ -11,7 +11,7 @@ export const studioVonBoros: Localized<ProjectPage> = {
     heading: 'Website für Studio von Boros: Innenarchitektur und Möbel nach Maß in Berlin',
     lead: 'Studio von Boros ist meine eigene Marke für gestaltende Eingriffe in Altbau- und Loftwohnungen: Innenausbau und maßgefertigte Möbel. Die Website ist Referenzportfolio und Angebot in einem. Große Bilder realisierter Projekte, wenig Text, klare Pakete. Gebaut mit Vue 3 und für Suchmaschinen vorgerendert.',
     imageAlt:
-      'Startseite von studiovonboros.com: dunkle Fläche mit der Serifenüberschrift „Räume mit Haltung.“ und der Zeile Innenarchitektur, Möbeldesign, Berlin',
+      'Vorschaubild von studiovonboros.com: Schlafzimmer in einer Berliner Altbauwohnung mit raumhohem, verspiegeltem Einbauschrank und offenem Regal, daneben hohe Sprossenfenster',
     keywords: [
       'Website für Innenarchitekten',
       'Webdesign Innenarchitektur Berlin',
@@ -92,7 +92,7 @@ export const studioVonBoros: Localized<ProjectPage> = {
     heading: 'A website for Studio von Boros: interior design and bespoke furniture in Berlin',
     lead: 'Studio von Boros is my own brand for design-led work in period and loft apartments: interior fit-outs and furniture made to measure. The website is reference portfolio and offer in one. Large images of finished projects, little text, clear packages. Built with Vue 3 and prerendered for search engines.',
     imageAlt:
-      'Home page of studiovonboros.com: a dark surface with the serif headline “Räume mit Haltung.” and the line interior design, furniture design, Berlin',
+      'Preview image of studiovonboros.com: a bedroom in a Berlin period flat with a floor-to-ceiling mirrored built-in wardrobe and open shelving, next to tall mullioned windows',
     keywords: [
       'website for interior designers',
       'interior design web design Berlin',

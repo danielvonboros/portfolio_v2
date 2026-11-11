@@ -77,10 +77,10 @@ Components read it through `pick()` from `useI18n()`. Because `Localized` is a `
 | `content/site.ts`     | identity, masthead tagline, nav, hero, title band, contact, meta |
 | `content/about.ts`    | about copy, grouped tech stack                                |
 | `content/services.ts` | three service blocks, their drawing (`shape`) and landing page |
-| `content/projects.ts` | current projects with their slugs, archived training projects |
+| `content/projects.ts` | current projects with their slugs and status (live, in progress, concept, archived, offline), archived training projects |
 | `content/projectPages/` | one file per project page: SEO title and description, H1, lead, case study blocks, keywords, contact copy; plus the overview page and fixed labels |
 | `content/contentBlock.ts` | the block type (text, list, pairs, stack) shared by landing and project pages |
-| `content/cv.ts`       | career stations, positions, education, `field` per station    |
+| `content/cv.ts`       | career stations, positions with optional `link`, education, `field` per station |
 | `content/legal.ts`    | imprint, § 5 DDG, privacy policy                              |
 | `content/landing.ts`  | service landing pages: copy, FAQ, references, drawing         |
 
@@ -120,7 +120,7 @@ Every animation tells the same story as the hero copy: structure first, facade s
 - **Scroll progress** (`components/scrollProgress`): a thin line of light along the top edge grows with the scroll position.
 - **Cursor light** (`components/cursorLight`): a soft violet light follows the mouse across the page, like a lamp over concrete. Mouse only, never on touch screens.
 - **Wordmark** (`components/wordmark`): the name in concrete grey across the footer; a streak of light sweeps over it as the page end comes into view and comes to rest on the surname.
-- **Résumé** (`components/timelineMarker`): each station has a line that fills while scrolling. Software stations glow violet, architecture stays concrete grey, so the line shows both professions honestly even though the list runs newest first.
+- **Résumé** (`components/timelineMarker`): each station has a line that fills while scrolling. Software stations glow violet, architecture stays concrete grey, so the line shows both professions honestly even though the list runs newest first. Every station from the 2021 switch on (CareerFoundry, Maltego, raumideenwerk, Pixelgesellen) counts as software.
 - **Contact** (`components/lightRing`, `components/magnetic`): a slowly turning ring of light in the violet room; the email address leans towards the mouse.
 
 Scroll-driven effects use CSS `animation-timeline: view()`, not timers: they follow the scroll position, and where a browser does not support them, the content simply stands complete. `prefers-reduced-motion` is respected everywhere: the tower renders one still frame, the band stands still, drawings, markers and headings are complete, and neither cursor light nor progress line appears.
@@ -272,7 +272,7 @@ Deploy as a static site, build command `yarn build`, publish directory `dist`. O
 
 <ul>
 <li><code>public/portrait.jpg</code>, portrait, 4:5</li>
-<li><code>public/projects/&lt;name&gt;.webp</code>, about 16:10, 1600 px wide, path and pixel size (<code>imageSize</code>) in <code>content/projects.ts</code>. The image is also the link preview of the project page.</li>
+<li><code>public/projects/&lt;slug&gt;.jpg</code> (or <code>.png</code>), 1200 x 630, path and pixel size (<code>imageSize</code>) in <code>content/projects.ts</code>. Take the project's own Open Graph image (the <code>og:image</code> of the live site); where a site has none, crop a screenshot to 1200 x 630. The image is also the link preview of the project page, so keep it JPG or PNG, not WebP. The card frame uses the same ratio (<code>layout.previewRatio</code> in <code>theme/tokens.ts</code>).</li>
 <li><code>public/og.jpg</code>, 1200 x 630</li>
 </ul>
 
@@ -285,6 +285,23 @@ Missing files degrade to placeholders, they do not break the build.
 <li>Verify the GitHub and LinkedIn URLs in <code>src/content/site.ts</code>.</li>
 <li>Add a privacy policy once analytics or a contact form are introduced.</li>
 </ul>
+
+### Changelog
+
+Every change gets a new version number in `package.json` and an entry here. Major = first digit, minor = second, fix = third.
+
+**2.0.0** (2026-11-11)
+
+<ul>
+<li>Résumé: new station Pixelgesellen (technology & design, Boros & Sanwald GbR, since August 2026) with a link to the Pixelgesellen tools. raumideenwerk now lists the website, hosting, SEO and advertising work and, like every station since CareerFoundry and Maltego, glows violet.</li>
+<li>New project Pixelgesellen with its own project page at <code>/projekte/pixelgesellen</code> and <code>/en/projects/pixelgesellen</code>, also a reference on the web design page.</li>
+<li>raumideenwerk: version 2 is live at raumideenwerk.com, the first version is archived at raumideenwerk.vercel.app (new status „Archiviert“).</li>
+<li>New preview images for all projects in Open Graph format 1200 x 630; the project image frame follows that ratio and drifts less, so text near the edges stays visible.</li>
+</ul>
+
+**1.0.0**
+
+State before this changelog was introduced.
 
 ### Contact me!
 

@@ -161,6 +161,8 @@ export const layout = {
   gutter: { xs: 20, sm: 32, md: 48, lg: 64 },
   /** Asymmetrischer Satzspiegel: schmale Labelspalte links, Inhalt rechts. */
   labelColumn: 'clamp(0px, 18vw, 240px)',
+  /** Seitenverhältnis der Projektbilder: das Open-Graph-Format 1200 × 630. */
+  previewRatio: '1200 / 630',
   sectionY: { xs: 72, md: 128, lg: 160 },
 } as const;
 

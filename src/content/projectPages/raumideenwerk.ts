@@ -52,7 +52,7 @@ export const raumideenwerk: Localized<ProjectPage> = {
           'Next.js und React mit TypeScript',
           'Tailwind CSS mit zugänglichen Bausteinen auf Basis von Radix UI',
           'Hosting auf Vercel, Speed Insights zur Messung der Ladezeiten',
-          'Domain bei checkdomain',
+          'Domain bei checkdomain, heute mit Version 2 belegt',
         ],
       },
       {
@@ -60,6 +60,7 @@ export const raumideenwerk: Localized<ProjectPage> = {
         heading: 'Was danach kam',
         paragraphs: [
           'Nach einem Jahr wurde die Website durch Version 2 ersetzt. Die Erfahrungen aus dem ersten Jahr sind dort eingeflossen: eine klarere Struktur mit eigenen Seiten für Projekte und Leistungen und eine schärfere Ansprache.',
+          'Die erste Fassung ist abgeschaltet und nicht mehr unter raumideenwerk.com erreichbar. Als Projekt liegt sie weiter auf raumideenwerk.vercel.app.',
         ],
       },
     ],
@@ -118,7 +119,7 @@ export const raumideenwerk: Localized<ProjectPage> = {
           'Next.js and React with TypeScript',
           'Tailwind CSS with accessible building blocks based on Radix UI',
           'Hosted on Vercel, with Speed Insights to measure load times',
-          'Domain registered at checkdomain',
+          'Domain registered at checkdomain, now home to version 2',
         ],
       },
       {
@@ -126,6 +127,7 @@ export const raumideenwerk: Localized<ProjectPage> = {
         heading: 'What came next',
         paragraphs: [
           'After a year the site was replaced by version 2. What the first year taught went straight into it: a clearer structure with pages of their own for projects and services, and a sharper tone of voice.',
+          'The first version has been switched off and is no longer at raumideenwerk.com. As a project it still lives at raumideenwerk.vercel.app.',
         ],
       },
     ],
